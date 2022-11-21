@@ -41,13 +41,7 @@
                     {% endfor %}
                 </select>
 
-                <label for="cars">Select the second Rule</label>
-
-                <select name="rules_2" id="rules_2" class = "selectors">
-                    {% for t in Titles_List %}
-                        <option value="{{t}}">{{t}}</option>
-                    {% endfor %}
-                </select>
+                
         </div>
         
         </article>
@@ -76,7 +70,7 @@
 
                 
                 
-                res_2 = await fetch(`/api?congress=${second_year.value}&title=${second_rule.value}`)
+                res_2 = await fetch(`/api?congress=${second_year.value}&title=${first_rule.value}`)
                 obj_2 = await res_2.json();
 
                 console.log(obj_1)
