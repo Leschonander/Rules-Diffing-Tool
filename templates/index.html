@@ -1,0 +1,110 @@
+<html>
+    <head>
+
+        <script type = "text/javascript" 
+         src = "{{ url_for('static', filename = 'diff.js') }}" ></script>
+         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    </head>
+    <body>
+        <h1>House Rules Differ</h1>
+        <article class="grid-container">
+            <div>
+                <h4>Congresses</h4>
+
+                <label for="cars">Select the first Congress</label>
+
+                <select name="congress_1" id="congress_1" class = "selectors">
+                    {% for c in Congress_List %}
+                        <option value={{c}}>{{c}}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="cars">Select the second Congress</label>
+
+                <select name="congress_2" id="congress_2" class = "selectors">
+                    {% for c in Congress_List %}
+                        <option value={{c}}>{{c}}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            <div>
+            <h4>Rules</h4>
+
+
+                <label for="cars">Select the first Rule</label>
+
+                <select name="rules_1" id="rules_1" class = "selectors">
+                    {% for t in Titles_List %}
+                        <option value="{{t}}">{{t}}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="cars">Select the second Rule</label>
+
+                <select name="rules_2" id="rules_2" class = "selectors">
+                    {% for t in Titles_List %}
+                        <option value="{{t}}">{{t}}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        
+        </article>
+
+        <div>
+            <button onclick="generateDiff()" class="button">Generate the diff</button>
+        </div>
+
+        <h3>The difference between the rules</h3>
+        <p id="diff_text">
+
+        </p>
+        </body>
+        <script>
+            
+    
+            async function generateDiff(){
+                first_year = document.getElementById('congress_1')
+                second_year = document.getElementById('congress_2')
+                
+                first_rule = document.getElementById('rules_1')
+                second_rule = document.getElementById('rules_2')
+                
+                res_1 = await fetch(`/api?congress=${first_year.value}&title=${first_rule.value}`)
+                obj_1 = await res_1.json();
+
+                
+                
+                res_2 = await fetch(`/api?congress=${second_year.value}&title=${second_rule.value}`)
+                obj_2 = await res_2.json();
+
+                console.log(obj_1)
+                console.log(obj_2)
+
+                const diff = JsDiff.diffChars(obj_1.Result, obj_2.Result)
+
+                const display = document.getElementById('diff_text');
+                display.innerHTML = '';
+                const fragment = document.createDocumentFragment();
+                diff.forEach((part) => {
+                    // green for additions, red for deletions
+                    // grey for common parts
+                    const color = part.added ? 'green' :
+                        part.removed ? 'red' : 'grey';
+                    span = document.createElement('span');
+                    span.style.color = color;
+                    span.appendChild(document
+                        .createTextNode(part.value));
+                    fragment.appendChild(span);
+                });
+
+                display.appendChild(fragment);
+
+            }
+                 
+                
+            
+
+        </script>
+</html>
