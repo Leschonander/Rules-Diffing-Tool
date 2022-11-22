@@ -32,3 +32,62 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
+
+.accordeon {
+    width: 460px;
+    height: auto;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    display: block;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .accordeon-header {
+    display: inline-block;
+    width: 450px;
+    border: solid 0.1vw black;
+    border-radius: 0.2vw;
+    background-color: white;
+    padding-left: 10px;
+    color: black;
+  }
+  
+  .accordeon-header:hover {
+    opacity: 0.7;
+  }
+  
+  .accordeon-body {
+    display: block;
+    position: absolute;
+  }
+  
+  .button-group {
+    display: block;
+    cursor: pointer;
+    width: 460px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .accordeon-group {
+    padding-left: 20px;
+  }
+  
+  .accordeon-group .button-group {
+    width: 100%;
+  }
+  
+  .button-group[depth="-1"] {
+    color: green;
+  }
+  
+  .hide {
+    display: none;
+  }

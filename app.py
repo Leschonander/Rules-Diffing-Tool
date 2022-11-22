@@ -5,6 +5,8 @@ app = Flask(__name__)
 
 
 RulesReformSheet = pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1.csv")
+rules = pd.read_csv("Rules Reform Scraping Freshsheet - OnlyRules.csv")
+nested_rules = dict(rules.groupby('Rule')['Title'].apply(list))
 
 ### Look up variables
 Rule = RulesReformSheet["Rule"].unique()
@@ -17,6 +19,9 @@ Congress = RulesReformSheet["Congress"].unique()
 Congress = [str(c).strip() for c in Congress]
 Congress = [c for c in Congress if c != 'nan']
 Congress = [c for c in Congress if c != '108th']
+
+
+
 
 @app.route('/')
 def hello_world():
