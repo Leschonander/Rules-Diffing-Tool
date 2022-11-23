@@ -32,7 +32,9 @@ def hello_world():
 def api_route():
     title = request.args.get('title')
     congress = request.args.get('congress')
-    RulesReformSheet = pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1.csv")
+    RulesReformSheet = pd.read_csv("Personal Rules Reform Scraping Freshsheet - Sheet1.csv")
+
+    RulesReformSheet["Rule"] = RulesReformSheet["Rule"].fillna(method="ffill")
     RulesReformSheet["Title"] = RulesReformSheet["Title"].str.strip() 
 
     RulesReformSheet = RulesReformSheet.query("Title == @title")
