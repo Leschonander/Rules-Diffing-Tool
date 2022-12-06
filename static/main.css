@@ -49,10 +49,6 @@ nav > button {
     border-radius: 8px;
 }
 
-.text_box_padding {
-    /* padding: 30px; */
-}
-
 .button {
     background: #CA5252;
     border-radius: 100px;
@@ -60,51 +56,39 @@ nav > button {
     padding: 10px 30px;
     border: none;
     font-weight: 700;
-    margin: 10px 0px;
+    margin: 60px 0px;
     font-size: 1.1rem;
     transition: .2s ease-in!important;
+
 }
 
-.grid-container {
+/*
+@media (min-width: 426px) {
+  .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
+*/
 
-.accordeon {
-    width: 460px;
-    height: auto;
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-    display: block;
-    position: relative;
-    z-index: 10;
+/* Default */
+
+.grid-container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+
+/* Screens 425 and smaller */
+@media all and (max-width: 425px){
+  .grid-container {
+    display: grid;
+    grid-gap: 20px;
   }
-  
-  .accordeon-header {
-    display: inline-block;
-    width: 450px;
-    border: solid 0.1vw black;
-    border-radius: 0.2vw; 
-    background-color: white;
-    padding-left: 10px;
-    color: black;
-  }
-  
-  .accordeon-header:hover {
-    opacity: 0.7;
-  }
-  
-  .accordeon-body {
-    display: block;
-    position: absolute;
-  }
-  
+} 
+
+
   .button-group {
     display: block;
     cursor: pointer;
