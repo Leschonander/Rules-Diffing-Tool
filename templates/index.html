@@ -7,14 +7,17 @@
          <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
-        <h1>House Rules Differ</h1>
+        <nav>
+            <h1>Capital Differ</h1>
+            <button onclick="location.href = 'https://house-rules-differ.onrender.com/about';" >
+                <strong>About</strong>
+            </button>
+        </nav>
         <article class="grid-container">
             <div class = "text_box_padding">
-                <h4>Congresses</h4>
+                <h3>Select congresses to compare</h3>
 
-                <p>Select congresses to compare</p>
-
-                <select name="congress_1" id="congress_1" class = "selectors">
+                <select name="congress_1" id="congress_1" class = "selectors" onchange="changeInCongress()">
                     {% for c in Congress_List %}
                         <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
@@ -30,12 +33,12 @@
             </div>
             <div id="statistics">
                 <div>
-                    <h4>Statistics </h4>
-                    <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now"></span></p>
-                    <p>Majority Party in the <span id="current_congress">117th</span> Congress: <span id="current_party"></span></p>
+                    <h3>Statistics </h3>
+                    <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now">Nancy Pelosi</span></p>
+                    <p>Majority Party in the <span id="current_congress_2">117th</span> Congress: <span id="current_party">Democratic</span></p>
                 </div>
                 <div>
-                    <h4>Statistics </h4>
+                    <h3>Statistics </h3>
                     <p>Speaker in the: <span id="previous_congress">117th</span> Congress: <span id="speaker_then"></span></p>
                     <p>Majority Party in the <span id="previous_congress_2">117th</span> Congress: <span id="previous_party"></span></p>
                     <p>Party Change: <span id="party_change"></span></p>
@@ -45,8 +48,7 @@
             </div>
 
             <div class = "text_box_padding rules_box">
-                <h4>Rules</h4>
-                <label for="cars">Select the first Rule</label>
+                <h3>Select the first Rule</h3>
 
             </div>
         
@@ -61,7 +63,7 @@
             <h3>The difference between the rules</h3>
             <p id="diff_text"></p>
 
-            <h4>Legend</h4>
+            <h3>Legend</h3>
             <p style="color: green; font-weight: 900;">This is text that was added.</p>
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
             </body>
@@ -98,10 +100,7 @@
             }
             
             document.querySelector(".rules_box").appendChild(select_nested)
-            
-            initAccordeon(nested_rules); 
-
-            
+                        
             
             function changeInCongress(){
 
@@ -115,6 +114,10 @@
                 {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
+                {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert"},
+                {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert"},
+                {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert"},
+                {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich"},
                     ]
 
                 first_year = document.getElementById('congress_1')
@@ -125,15 +128,31 @@
 
                 let congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
                 let congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
-
                 console.log(`${congress_first.Party} to ${congress_second.Party}` )
-                
-                if (congress_first.Party !== congress_second.Party){
+
+                let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
+                let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
+
+                if (congress_first_int > congress_second_int){
+                    
                     let party_change_element = document.getElementById("party_change")
-                    party_change_element.innerHTML = `Yes. ${congress_first.Party} to ${congress_second.Party}`;
+                    
+                    if(congress_second.Party === congress_first.Party){
+                        party_change_element.innerHTML = `No. ${congress_second.Party} to ${congress_first.Party}`;
+                    } else {
+                        party_change_element.innerHTML = `Yes. ${congress_second.Party} to ${congress_first.Party}`;
+                    }
+
+
                 } else {
                     let party_change_element = document.getElementById("party_change")
-                    party_change_element.innerHTML = 'No';
+
+                    if(congress_second.Party === congress_first.Party){ 
+                        party_change_element.innerHTML = `No. ${congress_first.Party} to ${congress_second.Party}`;
+                    } else {
+                        party_change_element.innerHTML = `Yes. ${congress_first.Party} to ${congress_second.Party}`;
+                    }
+
                 }
 
                 let speaker_now_element = document.getElementById("speaker_now")
@@ -142,16 +161,17 @@
                 speaker_now_element.innerHTML = congress_first.Speaker
                 speaker_then_element.innerHTML = congress_second.Speaker
 
-                let current_party_element = document.getElementById("current_party")
-                current_party_element.innerHTML = congress_first.Party
 
-                
+                // Updating the first cell
                 document.getElementById("current_congress").innerHTML = first_year.value
+                document.getElementById("current_congress_2").innerHTML = first_year.value
+                document.getElementById("current_party").innerHTML = congress_first.Party
+
+                // Updating the second cell
                 document.getElementById("previous_congress").innerHTML = second_year.value
                 document.getElementById("previous_congress_2").innerHTML = second_year.value
-
                 document.getElementById("previous_party").innerHTML = congress_second.Party
-
+                
 
             }
     

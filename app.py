@@ -31,6 +31,11 @@ def hello_world():
 
     return render_template('index.html', Congress_List = Congress, Titles_List = Titles)
 
+@app.route("/about")
+def about():
+
+    return render_template("about.html")
+
 @app.route('/api')
 def api_route():
     title = request.args.get('title')

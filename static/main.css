@@ -5,6 +5,24 @@ body {
   padding: 50px 120px;
 }
 
+nav {
+    display: inline-block; 
+    width: 100%;
+}
+
+nav > h1 {
+    float: left;
+}
+
+nav > button {
+    float: right;
+    border: 1px solid #CED4DA;
+    border-radius: 100px;
+    padding: 12px 24px;
+    margin: 0.67em 0;
+    background-color: white;
+}
+
 .selectors {
     border: 1px solid #c8c7d3;
     border-radius: 5px;
@@ -72,7 +90,7 @@ body {
     display: inline-block;
     width: 450px;
     border: solid 0.1vw black;
-    border-radius: 0.2vw;
+    border-radius: 0.2vw; 
     background-color: white;
     padding-left: 10px;
     color: black;
@@ -128,4 +146,8 @@ body {
     background: #F6F6F6;
     border-radius: 8px;
     padding: 30px;
+  }
+
+  #about_body {
+    
   }
