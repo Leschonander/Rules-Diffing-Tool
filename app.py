@@ -3,10 +3,13 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
+# dict(df.groupby('Column1')['Column3'].apply(list))
+# dict(df.groupby('Column1')['Column3'].apply(list))
 
 RulesReformSheet = pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1.csv")
 rules = pd.read_csv("Rules Reform Scraping Freshsheet - OnlyRules.csv")
 nested_rules = dict(rules.groupby('Rule')['Title'].apply(list))
+
 
 ### Look up variables
 Rule = RulesReformSheet["Rule"].unique()

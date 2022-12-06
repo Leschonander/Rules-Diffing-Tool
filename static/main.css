@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  padding: 0px 10px;
+  padding: 50px 120px;
 }
 
 .selectors {
@@ -12,17 +12,37 @@ body {
     background-color: #fff;
     color: #25204f;
     margin: 0 10px 0 0;
-    display: block;
+    padding: 10px 12px 10px 16px;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 215px;
+}
+
+#rule_selector {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px 12px 10px 16px;
+
+    width: 461px;
+
+    background: #FFFFFF;
+    border: 1px solid #CED4DA;
+    border-radius: 8px;
+}
+
+.text_box_padding {
+    /* padding: 30px; */
 }
 
 .button {
-    background-color: #ee7552;
+    background: #CA5252;
+    border-radius: 100px;
     color: #fff;
-    border-radius: 25px;
     padding: 10px 30px;
     border: none;
     font-weight: 700;
-    margin: 10px 5px;
+    margin: 10px 0px;
     font-size: 1.1rem;
     transition: .2s ease-in!important;
 }
@@ -90,4 +110,22 @@ body {
   
   .hide {
     display: none;
+  }
+
+  #diff_text,  #new_text, #old_text {
+    background: #F6F6F6;
+    border-radius: 8px;
+    padding: 30px;
+  }
+
+  #statistics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  #statistics > div {
+    background: #F6F6F6;
+    border-radius: 8px;
+    padding: 30px;
   }

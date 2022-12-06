@@ -4,90 +4,108 @@
         <script type = "text/javascript" 
          src = "{{ url_for('static', filename = 'diff.js') }}" ></script>
          <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
+         <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
         <h1>House Rules Differ</h1>
         <article class="grid-container">
-            <div>
+            <div class = "text_box_padding">
                 <h4>Congresses</h4>
 
-                <label for="cars">Select the first Congress</label>
+                <p>Select congresses to compare</p>
 
                 <select name="congress_1" id="congress_1" class = "selectors">
                     {% for c in Congress_List %}
-                        <option value={{c}}>{{c}}</option>
+                        <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
                 </select>
 
-                <label for="cars">Select the second Congress</label>
 
                 <select name="congress_2" id="congress_2" class = "selectors" onchange="changeInCongress()">
                     {% for c in Congress_List %}
-                        <option value={{c}}>{{c}}</option>
+                        <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
                 </select>
 
             </div>
-            <div>
-            <h4>Rules</h4>
+            <div id="statistics">
+                <div>
+                    <h4>Statistics </h4>
+                    <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now"></span></p>
+                    <p>Majority Party in the <span id="current_congress">117th</span> Congress: <span id="current_party"></span></p>
+                </div>
+                <div>
+                    <h4>Statistics </h4>
+                    <p>Speaker in the: <span id="previous_congress">117th</span> Congress: <span id="speaker_then"></span></p>
+                    <p>Majority Party in the <span id="previous_congress_2">117th</span> Congress: <span id="previous_party"></span></p>
+                    <p>Party Change: <span id="party_change"></span></p>
+                </div>
 
+        
+            </div>
 
+            <div class = "text_box_padding rules_box">
+                <h4>Rules</h4>
                 <label for="cars">Select the first Rule</label>
 
-                <!--
-                <select name="rules_1" id="rules_1" class = "selectors">
-                    {% for t in Titles_List %}
-                        <option value="{{t}}">{{t}}</option>
-                    {% endfor %}
-                </select>
-                -->
-
-                <div class="accordeon">
-                    <span class="accordeon-header" id="accordeon-value">Select something</span>
-                    <div class="accordeon-body hide">
-                        
-                    </div>
-                  </div>
-
-                
-        </div>
-
-        <div>
-            <h4>Statistics </h4>
-            <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now"></span></p>
-            <p>Speaker in the: <span id="previous_congress">117th</span> Congress: <span id="speaker_then"></span></p>
-            <p>Majority Party in the <span id="current_congress">117th</span> Congress: <span id="current_party"></span></p>
-            <p>Majority Party in the <span id="previous_congress_2">117th</span> Congress: <span id="previous_party"></span></p>
-            <p>Party Change: <span id="party_change"></span></p>
-        </div>
+            </div>
         
         </article>
 
-        <div>
-            <button onclick="generateDiff()" class="button">Generate the diff</button>
-        </div>
+        <article>
 
-        <h3>The difference between the rules</h3>
-        <p id="diff_text"></p>
+            <button onclick="generateDiff()" class="button">Compare</button>
 
-        <h4>Legend</h4>
-        <p style="color: green; font-weight: 900;">This is text that was added.</p>
-        <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
-        </body>
-        <h3>The original rule</h3>
-        <p id="new_text"></p>
+        </article>
+        <article>
+            <h3>The difference between the rules</h3>
+            <p id="diff_text"></p>
 
-        <h3>The older rule</h3>
-        <p id="old_text"></p>
+            <h4>Legend</h4>
+            <p style="color: green; font-weight: 900;">This is text that was added.</p>
+            <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
+            </body>
+            <h3>The original rule</h3>
+            <p id="new_text"></p>
+
+            <h3>The older rule</h3>
+            <p id="old_text"></p>
+        </article>
 
         <script>
 
             const nested_rules = {'BROADCASTING THE HOUSE': ['BROADCASTING THE HOUSE'], 'BUSINESS IN ORDER ON SPECIAL DAYS': ['Suspensions', 'Discharge motions', 'Adverse report by the Committee on Rules, second and fourth Mondays', 'Private Calendar', 'Calendar Call of Committees, Wednesdays', 'Consensus Calendar'], 'CALENDARS AND COMMITTEE REPORTS': ['Calendars', 'Filing and printing of reports', 'Content of reports', 'Availability of reports', 'Privileged reports, generally', 'Privileged reports by the Committee on Rules', 'Resolutions of inquiry'], 'CODE OF OFFICIAL CONDUCT': ['CODE OF OFFICIAL CONDUCT'], 'DECORUM AND DEBATE': ['Decorum', 'Recognition', 'Managing debate', 'Call to order', 'Comportment', 'Exhibits', 'Galleries', 'Congressional Record', 'Legislative Proceedings', 'Secret sessions'], 'DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS': ['DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS'], 'FINANCIAL DISCLOSURE': ['FINANCIAL DISCLOSURE'], 'GENERAL PROVISIONS\r': ['GENERAL PROVISIONS\r'], 'HOUSE AND SENATE RELATIONS': ['Senate amendments', 'Conference reports; amendments reported in disagreement'], 'LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS': ['Outside earned income; honoraria', 'Copyright royalties', 'Definitions', 'Gifts', 'Claims against the Government'], 'LIMITATIONS ON USE OF OFFICIAL FUNDS': ['Limitations on use of official and unofficial accounts', 'Limitations on use of the frank', 'Prohibition on use of funds by Members not elected to succeeding Congress'], 'MOTIONS AND AMENDMENTS': ['Motions', 'Withdrawal', 'Question of consideration', 'Precedence of motions', 'Divisibility', 'Amendments', 'Germaneness', 'Readings'], 'MOTIONS FOLLOWING THE AMENDMENT STAGE': ['Previous question', 'Recommit', 'Reconsideration'], 'OFFICIAL REPORTERS AND NEWS MEDIA\nGALLERIES': ['Official reporters ', 'News media galleries'], 'ORDER AND PRIORITY OF BUSINESS': ['ORDER AND PRIORITY OF BUSINESS'], 'ORGANIZATION OF COMMITTEES': ['Committees and their legislative\njurisdictions', 'Committee on Agriculture.', 'Committee on Appropriations', 'Committee on Armed Services.', 'Committee on the Budget.', 'Committee on Education and Labor', 'Committee on Energy and Commerce.', 'Committee on Ethics', 'Committee on Financial Services', 'Committee on Foreign Affairs', 'Committee on Homeland Security', 'Committee on House Administration. ', 'Committee on Natural Resources', 'Committee on Oversight and Reform', 'Committee on Rules', 'Committee on Science, Space,\nand Technology', 'Committee on Small Business.', 'Committee on Transportation\nand Infrastructure. ', 'Committee on Veterans’ Affairs', 'Committee on Ways and Means. ', 'General oversight responsibilities ', 'Special oversight functions', 'Additional functions of committees', 'Budget Act responsibilities', 'Election and membership of standing\ncommittees ', 'Expense resolutions ', 'Interim funding ', 'Travel', 'Committee staffs', 'Select and joint committees', 'Permanent Select Committee on\nIntelligence'], 'OTHER OFFICERS AND OFFICIALS': ['Elections ', 'Clerk ', 'Sergeant-at-Arms ', 'Chief Administrative Officer ', 'Chaplain', 'Office of Inspector General ', 'Office of the Historian ', 'Office of General Counsel', 'Office of Diversity and Inclusion', 'Office of the Whistleblower Ombuds '], 'PROCEDURES OF COMMITTEES AND\nUNFINISHED BUSINESS': ['In general', 'Adoption of written rules', 'Regular meeting days', 'Additional and special meetings ', 'Temporary absence of chair ', 'Committee records ', 'Prohibition against proxy voting', 'Open meetings and hearings', 'Quorum requirements ', 'Limitation on committee sittings', 'Calling and questioning of witnesses', 'Hearing procedures', 'Supplemental, minority, additional, or dissenting views', 'Power to sit and act; subpoena power', 'Committee on Ethics', 'Committee agendas', 'Committee staff', 'Meetings and hearings', 'Public disclosure', 'Requirements to constitute a complaint', 'Duties of chair and ranking minority member regarding properly filed complaints', 'Duties of chair and ranking minority member regarding information not constituting a complaint', 'Investigative and adjudicatory subcommittees', 'Standard of proof for adoption of statement of alleged violation', 'Subcommittee powers', 'Due process rights of respondents', 'Committee reporting requirements', 'Audio and visual coverage of committee proceedings', 'Pay of witnesses', 'Unfinished business of the session'], 'QUESTIONS OF PRIVILEGE': ['QUESTIONS OF PRIVILEGE'], 'RECEIPT AND REFERRAL OF MEASURES AND MATTERS': ['Messages', 'Referral', 'Petitions, memorials, and private bills', 'Prohibition on commemorations ', 'Excluded matters ', 'Sponsorship', 'Executive communications'], 'RECORDS OF THE HOUSe': ['Archiving', 'Public availability', 'Definition of record ', 'Withdrawal of papers '], 'RESPONSE TO SUBPOENAS': ['RESPONSE TO SUBPOENAS'], 'RESTRICTIONS ON CERTAIN BILLS': ['Reservation of certain points of order', 'General appropriation bills and amendments', 'Appropriations on legislative bills', 'Tax and tariff measures and amendments', 'Consideration of retroactive tax rate increases', 'Designation of public works'], 'STATUTORY LIMIT ON THE PUBLIC DEBT': ['STATUTORY LIMIT ON THE PUBLIC DEBT'], 'THE COMMITTEE OF THE WHOLE HOUSE\r\nON THE STATE OF THE UNION': ['Resolving into the Committee of the Whole', 'Measures requiring initial consideration in the Committee of the Whole', 'Order of business', 'Reading for amendment', 'Quorum and voting', 'Dispensing with the reading of an amendment', 'Closing debate', 'Striking the enacting clause', 'Concurrent resolution on the budget', 'Applicability of Rules of the House'], 'THE HALL OF THE HOUSE': ['Use and admittance ', 'Gallery', 'Prohibition on campaign contributions '], 'THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO': ['Voting', 'Delegates and the Resident\nCommissioner '], 'THE SPEAKER': ['Approval of the Journal', 'Preservation of order ', 'Control of Capitol facilities ', 'Signature of documents', 'Questions of order ', 'Form of a question ', 'Discretion to vote ', 'Speaker pro tempore ', 'Other responsibilities ', 'Designation of travel ', 'Committee appointment ', 'Recess and convening authorities'], 'VOTING AND QUORUM CALLS': ['VOTING AND QUORUM CALLS', 'Postponement of proceedings', 'Five-minute votes', 'Automatic yeas and nays', 'Ballot votes']}
+            const select_nested = document.createElement("select");
+            select_nested.setAttribute('id', 'rule_selector');
 
+
+            // loop through the optgroups and add them to the <select> element
+            for (var groupName in nested_rules) {
+            // create the optgroup
+            var optgroup = document.createElement("optgroup");
+            optgroup.label = groupName;
+
+            // loop through the options in the optgroup and add them to the optgroup
+            for (var i = 0; i < nested_rules[groupName].length; i++) {
+                var option = document.createElement("option");
+                option.value = nested_rules[groupName][i];
+                option.text = nested_rules[groupName][i];
+                optgroup.appendChild(option);
+            }
+
+            // add the optgroup to the <select> element
+                select_nested.appendChild(optgroup);
+            }
+            
+            document.querySelector(".rules_box").appendChild(select_nested)
+            
             initAccordeon(nested_rules); 
 
-            const congresses_with_party = [
+            
+            
+            function changeInCongress(){
+
+                const congresses_with_party = [
                 {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan"},
@@ -97,9 +115,8 @@
                 {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
                 {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
-            ]
-            
-            function changeInCongress(){
+                    ]
+
                 first_year = document.getElementById('congress_1')
                 second_year = document.getElementById('congress_2')
                 
@@ -143,7 +160,7 @@
                 second_year = document.getElementById('congress_2')
                 
                 first_rule = document.getElementById('rules_1')
-                first_rule_new = document.querySelector('.accordeon-header').textContent
+                first_rule_new = document.getElementById("rule_selector").value
 
                 if (first_year.value !== second_year.value){
                 
@@ -201,80 +218,7 @@
 
         }
 
-            function accordeonAddEvents() {
-  Array.from(document.getElementsByClassName("accordeon-header")).forEach(function(header) {
-    if (header.getAttribute("listener") !== "true") {
-      header.addEventListener("click", function() {
-        this.parentNode.getElementsByClassName("accordeon-body")[0].classList.toggle("hide");
-      });
-      header.setAttribute("listener", "true");
-    }
-  });
-
-  Array.from(document.getElementsByClassName("button-group")).forEach(function(but) {
-    if (but.getAttribute("listener") !== "true") {
-      but.addEventListener("click", function() {
-        if (this.getAttribute("depth") === "-1") {
-          let header = this;
-          while ((header = header.parentElement) && header.className !== "accordeon");
-          header.getElementsByClassName("accordeon-header")[0].innerHTML = this.innerHTML;
-          return;
-        }
-        const groups = Array.from(this.parentNode.getElementsByClassName("accordeon-group"));
-        groups.forEach(g => {
-          if (g.getAttribute("uuid") === this.getAttribute("uuid") &&
-            g.getAttribute("depth") === this.getAttribute("depth")) {
-            g.classList.toggle("hide");
-          }
-        });
-      });
-      but.setAttribute("listener", "true");
-    }
-  });
-}
-
-function initAccordeon(data) {
-  accordeons = Array.from(document.getElementsByClassName("accordeon-body"));
-  accordeons.forEach(acc => {
-    acc.innerHTML = "";
-    const route = (subObj, keyIndex = 0, parent = acc, depth = 0) => {
-      const keys = Object.keys(subObj);
-      if (typeof subObj === 'object' && !Array.isArray(subObj) && keys.length > 0) {
-        while (keyIndex < keys.length) {
-          var but = document.createElement("button");
-          but.className = "button-group";
-          but.setAttribute("uuid", keyIndex);
-          but.setAttribute("depth", depth);
-          but.innerHTML = keys[keyIndex];
-          var group = document.createElement("div");
-          group.className = "accordeon-group hide";
-          group.setAttribute("uuid", keyIndex);
-          group.setAttribute("depth", depth);
-          route(subObj[keys[keyIndex]], 0, group, depth + 1);
-          keyIndex++;
-          parent.append(but);
-          parent.append(group);
-        }
-      } else {
-        if (!Array.isArray(subObj)) subObj = [subObj];
-        subObj.forEach((e, i) => {
-          if (typeof e === 'object') {
-              route(e, 0, parent, depth);
-          } else {
-              var but = document.createElement("button");
-              but.className = "button-group";
-              but.setAttribute("uuid", i);
-              but.setAttribute("depth", "-1");
-              but.innerHTML = e;
-              parent.append(but);
-          }
-        });
-      }
-    };
-    route(data);
-  });
-  accordeonAddEvents();
-}
+            
                  
                 
             
