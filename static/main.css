@@ -5,6 +5,37 @@ body {
   padding: 50px 120px;
 }
 
+/* Displays for grids */
+
+@media all and (min-width: 426px){
+  .grid-container {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+  }
+} 
+
+/* Screens 425 and smaller */
+@media all and (max-width: 425px){
+  .grid-container {
+    display: grid;
+    grid-gap: 20px;
+  }
+  
+  .grid-container-other-article {
+    display: grid;
+    grid-gap: 20px;
+  }
+
+  .grid-container-other-article > p {
+    min-width: 320px;
+  }
+
+  nav {
+    min-width: 320px;
+}
+}
+
 nav {
     display: inline-block; 
     width: 100%;
@@ -61,37 +92,6 @@ nav > button {
     transition: .2s ease-in!important;
 
 }
-
-/* Displays for grids */
-
-@media all and (min-width: 426px){
-  .grid-container {
-    display: grid;
-    grid-gap: 20px;
-    grid-template-columns: 1fr 1fr;
-  }
-} 
-
-/* Screens 425 and smaller */
-@media all and (max-width: 425px){
-  .grid-container {
-    display: grid;
-    grid-gap: 20px;
-  }
-
-  /*
-  .grid-container-other-article {
-    display: grid;
-    grid-gap: 20px;
-  }
-
-  .grid-container-other-article > p {
-    min-width: 320px;
-  }
-  */
-}
-
-
 
 
   .button-group {
