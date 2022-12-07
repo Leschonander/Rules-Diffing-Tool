@@ -62,23 +62,15 @@ nav > button {
 
 }
 
-/*
-@media (min-width: 426px) {
+/* Displays for grids */
+
+@media all and (min-width: 426px){
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
-}
-*/
-
-/* Default */
-
-.grid-container {
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: 1fr 1fr;
-}
-
+    grid-template-columns: 1fr 1fr;
+  }
+} 
 
 /* Screens 425 and smaller */
 @media all and (max-width: 425px){
@@ -86,7 +78,20 @@ nav > button {
     display: grid;
     grid-gap: 20px;
   }
-} 
+
+  /*
+  .grid-container-other-article {
+    display: grid;
+    grid-gap: 20px;
+  }
+
+  .grid-container-other-article > p {
+    min-width: 320px;
+  }
+  */
+}
+
+
 
 
   .button-group {

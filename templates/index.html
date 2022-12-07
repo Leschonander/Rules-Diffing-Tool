@@ -5,6 +5,8 @@
          src = "{{ url_for('static', filename = 'diff.js') }}" ></script>
          <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
          <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+         <meta name="viewport" content="width=320, initial-scale=1" />
+
     </head>
     <body>
         <nav>
@@ -54,12 +56,12 @@
         
         </article>
 
-        <article>
+        <article class = "grid-container-other-article">
 
             <button onclick="generateDiff()" class="button">Compare</button>
 
         </article>
-        <article>
+        <article class = "grid-container-other-article">
             <h3>The difference between the rules</h3>
             <p id="diff_text"></p>
 
