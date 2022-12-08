@@ -50,6 +50,10 @@ body {
     min-width: 320px;
   }
 
+  .text_box_padding {
+    max-width: 340px;
+  }
+
   #statistics {
     max-width: 320px;
   }
