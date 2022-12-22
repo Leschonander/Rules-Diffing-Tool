@@ -13,12 +13,12 @@ Titles = RulesReformSheet["Title"].unique()
 Titles = [str(t).strip() for t in Titles]
 Titles = [t.replace("\n,", " ") for t in Titles]
 
+RulesReformSheet["Congress"] = RulesReformSheet["Congress"].apply(lambda x: x.strip())
 Congress = RulesReformSheet["Congress"].unique()
 Congress = [str(c).strip() for c in Congress]
 Congress = [c for c in Congress if c != 'nan']
 Congress = [c for c in Congress if c != '105th']
 Congress = [c for c in Congress if "https" not in c]
-
 
 
 
