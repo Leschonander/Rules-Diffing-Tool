@@ -18,7 +18,6 @@ Congress = [str(c).strip() for c in Congress]
 Congress = [c for c in Congress if c != 'nan']
 Congress = [c for c in Congress if c != '105th']
 Congress = [c for c in Congress if "https" not in c]
-# Congress = [c for c in Congress if c != '108th']
 
 
 
