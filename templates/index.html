@@ -35,15 +35,15 @@
             </div>
             <div id="statistics">
                 <div>
-                    <h3>Leadership and Party Control for <span id="speaker_now_header"> 117th</span> Congress </h3>
-                    <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now">Nancy Pelosi</span></p>
-                    <p>Majority Party in the <span id="current_congress_2">117th</span> Congress: <span id="current_party">Democratic</span></p>
+                    <h3><span id="speaker_now_header"> 117th</span> Congress</h3>
+                    <p>Speaker: <span id="speaker_now">Nancy Pelosi</span></p>
+                    <p>House Majority: <span id="current_party">Democratic</span></p>
                 </div>
                 <div>
-                    <h3>Leadership and Party Control for <span id="speaker_then_header"> 117th </span> Congress </h3>
-                    <p>Speaker in the: <span id="previous_congress">117th</span> Congress: <span id="speaker_then"></span></p>
-                    <p>Majority Party in the <span id="previous_congress_2">117th</span> Congress: <span id="previous_party"></span></p>
-                    <p>Party Change: <span id="party_change"></span></p>
+                    <h3><span id="speaker_then_header"> 117th </span> Congress</h3>
+                    <p>Speaker: <span id="speaker_then">Nancy Pelosi</span></p>
+                    <p>House Majority: <span id="previous_party">Democratic</span></p>
+
                 </div>
 
         
@@ -452,6 +452,7 @@
                 let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
                 let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
 
+                /*
                 if (congress_first_int > congress_second_int){
                     
                     let party_change_element = document.getElementById("party_change")
@@ -473,7 +474,7 @@
                     }
 
                 }
-
+                */
                 let speaker_now_element = document.getElementById("speaker_now")
                 let speaker_then_element = document.getElementById("speaker_then")
 
@@ -494,13 +495,12 @@
 
 
                 // Updating the first cell
-                document.getElementById("current_congress").innerHTML = first_year.value
-                document.getElementById("current_congress_2").innerHTML = first_year.value
+
                 document.getElementById("current_party").innerHTML = congress_first.Party
 
                 // Updating the second cell
-                document.getElementById("previous_congress").innerHTML = second_year.value
-                document.getElementById("previous_congress_2").innerHTML = second_year.value
+
+                console.log(congress_second)
                 document.getElementById("previous_party").innerHTML = congress_second.Party
 
 
