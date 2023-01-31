@@ -51,7 +51,7 @@
 
             <div class = "text_box_padding rules_box">
                 <h3>Select rule to compare</h3>
-
+                <button id="rule_flip" class="button_smaller" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
             </div>
         
         </article>
@@ -396,32 +396,85 @@
       "GENERAL PROVISIONS",
       "Full Rule for: GENERAL PROVISIONS"
    ]
-}
+}   
 
-            const select_nested = document.createElement("select");
-            select_nested.setAttribute('id', 'rule_selector');
+    const nested_rules_older = {
+        "RULE I. THE SPEAKER":[
+            "Approval of the Journal"
+        ]
+    }
+
+    // For post 105th rules
+    const select_nested = document.createElement("select");
+    select_nested.setAttribute('id', 'rule_selector');
 
 
-            // loop through the optgroups and add them to the <select> element
-            for (var groupName in nested_rules) {
-            // create the optgroup
-            var optgroup = document.createElement("optgroup");
-            optgroup.label = groupName;
+    // loop through the optgroups and add them to the <select> element
+    for (var groupName in nested_rules) {
+    // create the optgroup
+    var optgroup = document.createElement("optgroup");
+    optgroup.label = groupName;
 
-            // loop through the options in the optgroup and add them to the optgroup
-            for (var i = 0; i < nested_rules[groupName].length; i++) {
-                var option = document.createElement("option");
-                option.value = nested_rules[groupName][i];
-                option.text = nested_rules[groupName][i];
-                optgroup.appendChild(option);
-            }
+    // loop through the options in the optgroup and add them to the optgroup
+    for (var i = 0; i < nested_rules[groupName].length; i++) {
+        var option = document.createElement("option");
+        option.value = nested_rules[groupName][i];
+        option.text = nested_rules[groupName][i];
+        optgroup.appendChild(option);
+    }
 
-            // add the optgroup to the <select> element
-                select_nested.appendChild(optgroup);
-            }
-            
+    // add the optgroup to the <select> element
+        select_nested.appendChild(optgroup);
+    }
+    // for pre 105th rules
+    const select_nested_older = document.createElement("select");
+    select_nested_older.setAttribute('id', 'rule_selector');
+
+
+    // loop through the optgroups and add them to the <select> element
+    for (var groupName in nested_rules_older) {
+    // create the optgroup
+    var optgroup = document.createElement("optgroup");
+    optgroup.label = groupName;
+
+    // loop through the options in the optgroup and add them to the optgroup
+    for (var i = 0; i < nested_rules_older[groupName].length; i++) {
+        var option = document.createElement("option");
+        option.value = nested_rules_older[groupName][i];
+        option.text = nested_rules_older[groupName][i];
+        optgroup.appendChild(option);
+    }
+
+    // add the optgroup to the <select> element
+        select_nested_older.appendChild(optgroup);
+    }
+    
+    document.querySelector(".rules_box").appendChild(select_nested)
+    
+    // Flip between old and new ones    
+    function flip_rules(){
+        console.log("Flipping rules")
+        let rule_flip_button = document.getElementById("rule_flip")
+
+        console.log(rule_flip_button.innerHTML)
+        if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
+
+            // remove element here
+            document.getElementById("rule_selector").remove()
+
+            rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
+            document.querySelector(".rules_box").appendChild(select_nested_older)
+
+        } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
+
+            // remove element here
+            document.getElementById("rule_selector").remove()
+
+            rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
             document.querySelector(".rules_box").appendChild(select_nested)
-                        
+
+        }
+    }
             
             function changeInCongress(){
 
