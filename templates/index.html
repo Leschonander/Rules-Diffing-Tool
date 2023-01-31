@@ -35,15 +35,15 @@
             </div>
             <div id="statistics">
                 <div>
-                    <h3>Leadership and Party Control for <span id="speaker_now_header"> 117th</span> Congress </h3>
-                    <p>Speaker in the <span id="current_congress">117th</span> Congress: <span id="speaker_now">Nancy Pelosi</span></p>
-                    <p>Majority Party in the <span id="current_congress_2">117th</span> Congress: <span id="current_party">Democratic</span></p>
+                    <h3><span id="speaker_now_header"> 117th</span> Congress</h3>
+                    <p>Speaker: <span id="speaker_now">Nancy Pelosi</span></p>
+                    <p>House Majority: <span id="current_party">Democratic</span></p>
                 </div>
                 <div>
-                    <h3>Leadership and Party Control for <span id="speaker_then_header"> 117th </span> Congress </h3>
-                    <p>Speaker in the: <span id="previous_congress">117th</span> Congress: <span id="speaker_then"></span></p>
-                    <p>Majority Party in the <span id="previous_congress_2">117th</span> Congress: <span id="previous_party"></span></p>
-                    <p>Party Change: <span id="party_change"></span></p>
+                    <h3><span id="speaker_then_header"> 117th </span> Congress</h3>
+                    <p>Speaker: <span id="speaker_then">Nancy Pelosi</span></p>
+                    <p>House Majority: <span id="previous_party">Democratic</span></p>
+
                 </div>
 
         
@@ -476,88 +476,84 @@
         }
     }
             
-            function changeInCongress(){
+    function changeInCongress(){
 
-                const congresses_with_party = [
-                {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-                {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-                {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan"},
-                {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan"},
-                {Congress: "113th", Party: "Republican", Speaker: "John Boehner"},
-                {Congress: "112th", Party: "Republican", Speaker: "John Boehner"},
-                {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-                {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-                {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
-                {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert"},
-                {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert"},
-                {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert"},
-                {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich"},
-                    ]
+        const congresses_with_party = [
+        {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi"},
+        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi"},
+        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan"},
+        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan"},
+        {Congress: "113th", Party: "Republican", Speaker: "John Boehner"},
+        {Congress: "112th", Party: "Republican", Speaker: "John Boehner"},
+        {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
+        {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
+        {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
+        {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert"},
+        {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert"},
+        {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert"},
+        {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich"},
+            ]
 
-                first_year = document.getElementById('congress_1')
-                second_year = document.getElementById('congress_2')
-                
-
-                let congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
-                let congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
-                console.log(`${congress_first.Party} to ${congress_second.Party}` )
-
-                let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
-                let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
-
-                if (congress_first_int > congress_second_int){
-                    
-                    let party_change_element = document.getElementById("party_change")
-                    
-                    if(congress_second.Party === congress_first.Party){
-                        party_change_element.innerHTML = `No. ${congress_second.Party} to ${congress_first.Party}`;
-                    } else {
-                        party_change_element.innerHTML = `Yes. ${congress_second.Party} to ${congress_first.Party}`;
-                    }
+        first_year = document.getElementById('congress_1')
+        second_year = document.getElementById('congress_2')
 
 
-                } else {
-                    let party_change_element = document.getElementById("party_change")
+        let congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
+        let congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
+        console.log(`${congress_first.Party} to ${congress_second.Party}` )
 
-                    if(congress_second.Party === congress_first.Party){ 
-                        party_change_element.innerHTML = `No. ${congress_first.Party} to ${congress_second.Party}`;
-                    } else {
-                        party_change_element.innerHTML = `Yes. ${congress_first.Party} to ${congress_second.Party}`;
-                    }
+        let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
+        let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
 
-                }
-
-                let speaker_now_element = document.getElementById("speaker_now")
-                let speaker_then_element = document.getElementById("speaker_then")
-
-                speaker_now_element.innerHTML = congress_first.Speaker
-                speaker_then_element.innerHTML = congress_second.Speaker
-
-                let speaker_now_header_element = document.getElementById("speaker_now_header")
-                let speaker_then_header_element = document.getElementById("speaker_then_header")
-
-                speaker_now_header_element.innerHTML = congress_first.Congress
-                speaker_then_header_element.innerHTML = congress_second.Congress
-
-                let rule_change_first_congress_element = document.getElementById("rule_change_first_congress")
-                let rule_change_second_congress_element = document.getElementById("rule_change_second_congress")
-
-                rule_change_first_congress_element.innerHTML = congress_first.Congress
-                rule_change_second_congress_element.innerHTML = congress_second.Congress
-
-
-                // Updating the first cell
-                document.getElementById("current_congress").innerHTML = first_year.value
-                document.getElementById("current_congress_2").innerHTML = first_year.value
-                document.getElementById("current_party").innerHTML = congress_first.Party
-
-                // Updating the second cell
-                document.getElementById("previous_congress").innerHTML = second_year.value
-                document.getElementById("previous_congress_2").innerHTML = second_year.value
-                document.getElementById("previous_party").innerHTML = congress_second.Party
-
-
+        /*
+        if (congress_first_int > congress_second_int){
+            
+            let party_change_element = document.getElementById("party_change")
+            
+            if(congress_second.Party === congress_first.Party){
+                party_change_element.innerHTML = `No. ${congress_second.Party} to ${congress_first.Party}`;
+            } else {
+                party_change_element.innerHTML = `Yes. ${congress_second.Party} to ${congress_first.Party}`;
             }
+        } else {
+            let party_change_element = document.getElementById("party_change")
+            if(congress_second.Party === congress_first.Party){ 
+                party_change_element.innerHTML = `No. ${congress_first.Party} to ${congress_second.Party}`;
+            } else {
+                party_change_element.innerHTML = `Yes. ${congress_first.Party} to ${congress_second.Party}`;
+            }
+        }
+        */
+        let speaker_now_element = document.getElementById("speaker_now")
+        let speaker_then_element = document.getElementById("speaker_then")
+
+        speaker_now_element.innerHTML = congress_first.Speaker
+        speaker_then_element.innerHTML = congress_second.Speaker
+
+        let speaker_now_header_element = document.getElementById("speaker_now_header")
+        let speaker_then_header_element = document.getElementById("speaker_then_header")
+
+        speaker_now_header_element.innerHTML = congress_first.Congress
+        speaker_then_header_element.innerHTML = congress_second.Congress
+
+        let rule_change_first_congress_element = document.getElementById("rule_change_first_congress")
+        let rule_change_second_congress_element = document.getElementById("rule_change_second_congress")
+
+        rule_change_first_congress_element.innerHTML = congress_first.Congress
+        rule_change_second_congress_element.innerHTML = congress_second.Congress
+
+
+        // Updating the first cell
+
+        document.getElementById("current_party").innerHTML = congress_first.Party
+
+        // Updating the second cell
+
+        console.log(congress_second)
+        document.getElementById("previous_party").innerHTML = congress_second.Party
+
+
+    }
     
             async function generateDiff(){
                 first_year = document.getElementById('congress_2')
