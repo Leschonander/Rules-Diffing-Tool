@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
-RulesReformSheet = pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
+RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv") # pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
 
 
 ### Look up variables
@@ -17,7 +17,6 @@ RulesReformSheet["Congress"] = RulesReformSheet["Congress"].apply(lambda x: x.st
 Congress = RulesReformSheet["Congress"].unique()
 Congress = [str(c).strip() for c in Congress]
 Congress = [c for c in Congress if c != 'nan']
-Congress = [c for c in Congress if c != '105th']
 Congress = [c for c in Congress if "https" not in c]
 
 
@@ -36,13 +35,14 @@ def about():
 def api_route():
     title = request.args.get('title')
     congress = request.args.get('congress')
-    RulesReformSheet = pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
+    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv")
 
     RulesReformSheet["Rule"] = RulesReformSheet["Rule"].fillna(method="ffill")
     RulesReformSheet["Title"] = RulesReformSheet["Title"].str.strip() 
 
     RulesReformSheet = RulesReformSheet.query("Title == @title")
     RulesReformSheet = RulesReformSheet.query(f"Congress == @congress")
+
 
     result = {"Result": list(RulesReformSheet["Text"])[0]} 
     
