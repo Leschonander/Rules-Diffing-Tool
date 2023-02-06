@@ -116,6 +116,18 @@ nav > button {
 
 }
 
+.button_smaller {
+  background: #CA5252;
+  border-radius: 100px;
+  color: #fff;
+  padding: 10px 30px;
+  border: none;
+  font-weight: 700;
+  margin: 10px 0px;
+  font-size: 1.1rem;
+  transition: .2s ease-in!important;
+}
+
 
   .button-group {
     display: block;
