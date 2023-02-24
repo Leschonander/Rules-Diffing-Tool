@@ -57,6 +57,7 @@
                     Click the button above to change between the pre and post rules.
                 </i></p>
             </div>
+            
         
         </article>
 
@@ -407,7 +408,7 @@
     // For post 105th rules
     const select_nested = document.createElement("select");
     select_nested.setAttribute('id', 'rule_selector');
-
+    select_nested.setAttribute( "onchange", "checkDiff()" );
 
     // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules) {
@@ -429,6 +430,8 @@
     // for pre 105th rules
     const select_nested_older = document.createElement("select");
     select_nested_older.setAttribute('id', 'rule_selector');
+    select_nested_older.setAttribute( "onchange", "checkDiff()" );
+
 
 
     // loop through the optgroups and add them to the <select> element
@@ -450,6 +453,9 @@
     }
     
     document.querySelector(".rules_box").appendChild(select_nested)
+    const status_span = document.createElement("span");
+    status_span.setAttribute('id', 'status_span');
+    document.querySelector(".rules_box").appendChild(status_span)
     
     // Flip between old and new ones    
     function flip_rules(){
@@ -562,7 +568,7 @@
 
     }
     
-            async function generateDiff(){
+        async function generateDiff(){
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
                 
@@ -587,7 +593,7 @@
                     document.getElementById("old_text").innerHTML = obj_2.Result
 
                     const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
-
+                    console.log(diff)
                     const display = document.getElementById('diff_text');
                     display.innerHTML = '';
                     const fragment = document.createDocumentFragment();
@@ -623,6 +629,44 @@
                 alert("Congresses are the same years. Pick a different Congresses.")
             }
 
+        }
+
+        async function checkDiff() {
+                first_year = document.getElementById('congress_2')
+                second_year = document.getElementById('congress_1')
+                
+                first_rule = document.getElementById('rules_1')
+                first_rule_new = document.getElementById("rule_selector").value
+
+                if (first_year.value !== second_year.value){
+                
+                    res_1 = await fetch(`/api?congress=${first_year.value}&title=${first_rule_new}`)          
+                    res_2 = await fetch(`/api?congress=${second_year.value}&title=${first_rule_new}`)
+
+                    if (res_1.status === 200 && res_2.status === 200){
+
+                    obj_1 = await res_1.json();
+                    obj_2 = await res_2.json();
+                    
+                    const new_text = obj_1.Result;
+                    const old_text = obj_2.Result
+
+                    let status_span = document.getElementById("status_span")
+                    if(new_text === old_text){
+                        console.log("No change in text")
+                        status_span.innerHTML = "No change in text"
+                    } else {
+                        console.log("Change in text")
+                        status_span.innerHTML = "Change in text"
+                    }
+
+                    
+                } else {
+                    alert("Rule does not exist in both years. Try different years")
+                }
+            } else {
+                alert("Congresses are the same years. Pick a different Congresses.")
+            }
         }
 
             
