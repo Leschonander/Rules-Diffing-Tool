@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
-RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv") # pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
+RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n') # pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
 
 
 ### Look up variables
@@ -35,7 +35,7 @@ def about():
 def api_route():
     title = request.args.get('title')
     congress = request.args.get('congress')
-    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv")
+    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n')
 
     RulesReformSheet["Rule"] = RulesReformSheet["Rule"].fillna(method="ffill")
     RulesReformSheet["Title"] = RulesReformSheet["Title"].str.strip() 
