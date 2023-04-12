@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&display=swap');
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Serif', serif;
 }
 
 
@@ -16,7 +16,7 @@ body {
   }
 
   body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'IBM Plex Serif', serif;
     padding: 50px 120px;
   }
 
