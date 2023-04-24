@@ -16,3 +16,4 @@ pytz==2021.3
 PyYAML==6.0
 six==1.16.0
 Werkzeug==2.0.2
+openai==0.27.4

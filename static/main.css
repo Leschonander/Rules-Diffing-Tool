@@ -154,7 +154,7 @@ nav > button {
     display: none;
   }
 
-  #diff_text,  #new_text, #old_text {
+  #diff_text,  #new_text, #old_text, #gpt_text {
     background: #F6F6F6;
     border-radius: 8px;
     padding: 30px;
