@@ -15,6 +15,7 @@ Titles = RulesReformSheet["Title"].unique()
 Titles = [str(t).strip() for t in Titles]
 Titles = [t.replace("\n,", " ") for t in Titles]
 
+RulesReformSheet["Congress"] = RulesReformSheet["Congress"].astype(str)
 RulesReformSheet["Congress"] = RulesReformSheet["Congress"].apply(lambda x: x.strip())
 Congress = RulesReformSheet["Congress"].unique()
 Congress = [str(c).strip() for c in Congress]
@@ -71,11 +72,11 @@ def openapi_api_route():
     '''
 
     completion = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
+        model = "gpt-4",
         temperature = 0.8,
         max_tokens = 2000,
         messages = [
-        {"role": "system", "content": f"Explain the differences between the two following sets of rules for the {rule_title}. The first is from the {congress_1} congress , the second is from the {congress_2} Congress. Do not note changes in formatting."},
+        {"role": "system", "content": f"Explain the differences between the two following sets of rules for the {rule_title}. The first is from the {congress_1} congress , the second is from the {congress_2} Congress. Do not note changes in formatting. If the rules are the same, just note that they are unchanged."},
         {"role": "system", "content": old_rule},
         {"role": "system", "content": new_rule},
         ]
