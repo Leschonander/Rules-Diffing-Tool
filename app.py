@@ -15,14 +15,7 @@ Titles = RulesReformSheet["Title"].unique()
 Titles = [str(t).strip() for t in Titles]
 Titles = [t.replace("\n,", " ") for t in Titles]
 
-RulesReformSheet["Congress"] = RulesReformSheet["Congress"].astype(str)
-RulesReformSheet["Congress"] = RulesReformSheet["Congress"].apply(lambda x: x.strip())
-Congress = RulesReformSheet["Congress"].unique()
-Congress = [str(c).strip() for c in Congress]
-Congress = [c for c in Congress if c != 'nan']
-Congress = [c for c in Congress if "https" not in c]
-
-
+Congress = ['118th', '117th', '116th', '115th', '114th', '113th', '112th', '111th', '110th', '109th', '108th', '107th', '106th', '105th', '104th', '103rd', '102nd', '101st', '100th', '99th', '98th', '97th', '96th', '95th', '94th', '93rd', '92nd', '91st', '90th', '89th', '88th', '87th', '86th', '85th', '84th', '83rd', '82nd', '81st', '80th', '79th', '78th']
 
 @app.route('/')
 def hello_world():
