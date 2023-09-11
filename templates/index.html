@@ -54,7 +54,7 @@
                 <div id = "explain_box">
                     <strong>Capitol Differ</strong> is a tool to cross-compare the text of specific rules
                     across House rules packages. One selects a given title of a rule, and then the specific rule text that one want's to compare.
-                    A diff (check of words added/removed) is done, along with a use GPT-4 to analyze the changes is done.
+                    A diff (check of words added/removed) is done, along with a use GPT-3.5-turbo-16k-0613 to analyze the changes is done.
 
                 </br>
             </br>
@@ -88,14 +88,21 @@
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
             </body>
 
-            <h3>GPT 4 Generated Explanation of Changes</h3>
-            <p id="gpt_text"></p>
+            <h3>GPT 3 Generated Explanation of Changes</h3>
+            <p id="gpt_text">
+
+                <span id="loading" class="loading"></span>
+            </p>
 
             <h3>The rule for the <span id="rule_change_first_congress"></span> Congress</h3>
-            <p id="old_text"></p>
+            <p id="old_text">
+                <span id="loading" class="loading"></span>
+            </p>
 
             <h3>The rule for the <span id="rule_change_second_congress"></span> Congress</h3>
-            <p id="new_text"></p>
+            <p id="new_text">
+                <span id="loading" class="loading"></span>
+            </p>
 
         </article>
 
@@ -593,6 +600,9 @@ const nested_rules = {
     
         async function generateDiff(){
                 window.scrollBy(0, 400);
+                const loadingDiv = document.getElementById('loading');
+                loadingDiv.style.display = 'block';
+
 
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
@@ -621,6 +631,8 @@ const nested_rules = {
                         // gpt_text
                         gpt_comparer = await gpt_comparer_res.json()
                         document.getElementById("gpt_text").innerHTML = gpt_comparer.Result
+
+                        loadingDiv.style.display = 'none';
 
 
                         const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)

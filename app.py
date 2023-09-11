@@ -65,7 +65,7 @@ def openapi_api_route():
     '''
 
     completion = openai.ChatCompletion.create(
-        model = "gpt-4",
+        model = "gpt-3.5-turbo-16k-0613",
         temperature = 0.8,
         max_tokens = 2000,
         messages = [
