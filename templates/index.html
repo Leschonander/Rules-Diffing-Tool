@@ -25,7 +25,6 @@
                     {% endfor %}
                 </select>
 
-
                 <select name="congress_2" id="congress_2" class = "selectors" onchange="changeInCongress()">
                     {% for c in Congress_List %}
                         <option value={{c}}>{{c + " Congress"}}</option>
@@ -51,6 +50,19 @@
 
             <div class = "text_box_padding rules_box">
                 <h3>Select rule to compare</h3>
+
+                <div id = "explain_box">
+                    <strong>Capitol Differ</strong> is a tool to cross-compare the text of specific rules
+                    across House rules packages. One selects a given title of a rule, and then the specific rule text that one want's to compare.
+                    A diff (check of words added/removed) is done, along with a use GPT-4 to analyze the changes is done.
+
+                </br>
+            </br>
+
+                    To use the tool, do the following. Select the Congresses you want to compare, and then in the drop-down,
+                    select the specific rule you want to compare. Click the Compare button and wait a little bit and the comparison will appear below.
+                </div>
+
                 <button id="rule_flip" class="button_smaller" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
                 <p><i>
                     “Because of the rules consolidation between the 105th and 106th Congresses, 
@@ -472,6 +484,8 @@ const nested_rules = {
 
             // remove element here
             document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "teal"
+
 
             rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
             document.querySelector(".rules_box").appendChild(select_nested_older)
@@ -480,6 +494,7 @@ const nested_rules = {
 
             // remove element here
             document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "#CA5252"
 
             rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
             document.querySelector(".rules_box").appendChild(select_nested)
@@ -577,6 +592,8 @@ const nested_rules = {
     }
     
         async function generateDiff(){
+                window.scrollBy(0, 400);
+
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
                 
