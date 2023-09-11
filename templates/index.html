@@ -68,6 +68,7 @@
                     “Because of the rules consolidation between the 105th and 106th Congresses, 
                     it is impossible to compare pre- and post-105th rules. Click the button above to switch between the pre- and post-105th Congress rules.
                 </i></p>
+                
             </div>
             
         
@@ -75,8 +76,8 @@
 
         <article class = "grid-container-other-article">
 
-            <button onclick="generateDiff()" class="button">Compare</button>
-
+            <button class="button" id="compare_button">Compare</button>
+            <div id="loading" class="loading"></div>
         </article>
         <article class = "grid-container-other-article">
             <h3>The difference between the rules</h3>
@@ -91,17 +92,15 @@
             <h3>GPT 3 Generated Explanation of Changes</h3>
             <p id="gpt_text">
 
-                <span id="loading" class="loading"></span>
             </p>
 
             <h3>The rule for the <span id="rule_change_first_congress"></span> Congress</h3>
             <p id="old_text">
-                <span id="loading" class="loading"></span>
+               
             </p>
 
             <h3>The rule for the <span id="rule_change_second_congress"></span> Congress</h3>
             <p id="new_text">
-                <span id="loading" class="loading"></span>
             </p>
 
         </article>
@@ -599,10 +598,14 @@ const nested_rules = {
     }
     
         async function generateDiff(){
-                window.scrollBy(0, 400);
+                
+
+                // document.getElementById("new_text").innerHTML = ""
+                // document.getElementById("old_text").innerHTML = ""
+                // document.getElementById("gpt_text").innerHTML = ""
+
                 const loadingDiv = document.getElementById('loading');
                 loadingDiv.style.display = 'block';
-
 
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
@@ -711,6 +714,9 @@ const nested_rules = {
                 alert("Congresses are the same years. Pick a different Congresses.")
             }
         }
+        compare_button_id = document.getElementById('compare_button')
+        compare_button_id.addEventListener("click", generateDiff);
+
 
             
                  
