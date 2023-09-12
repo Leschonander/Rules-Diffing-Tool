@@ -1050,6 +1050,12 @@
     select_nested.setAttribute('id', 'rule_selector');
     select_nested.setAttribute( "onchange", "checkDiff()" );
 
+    let default_option = document.createElement("option");
+    default_option.setAttribute("disabled", "")
+    default_option.setAttribute("selected", "")
+    default_option.innerHTML = "-- select an option --"
+    select_nested.appendChild(default_option)
+
     // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules) {
     // create the optgroup
@@ -1080,7 +1086,7 @@
     select_nested_older.setAttribute('id', 'rule_selector');
     select_nested_older.setAttribute( "onchange", "checkDiff()" );
 
-
+    
 
     // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules_older) {
