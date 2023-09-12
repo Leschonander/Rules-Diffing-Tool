@@ -39,11 +39,24 @@
                     <h3><span id="speaker_now_header"> 118th</span> Congress</h3>
                     <p>Speaker: <span id="speaker_now">Kevin McCarthy</span></p>
                     <p>House Majority: <span id="current_party">Republican</span></p>
+
+                    
+                    <p>House Minority: <span id="minority_leader_current">Hakeem Jeffries</span></p>
+                    <p>Years: <span id="current_years">(2023-2025)</span></p>
+
+                    <p>Democratic Seats: <span id="current_seats_d">216</span></p>
+                    <p>Republican Seats: <span id="current_seats_r">222</span></p>
                 </div>
                 <div>
                     <h3><span id="speaker_then_header"> 117th </span> Congress</h3>
                     <p>Speaker: <span id="speaker_then">Nancy Pelosi</span></p>
                     <p>House Majority: <span id="previous_party">Democratic</span></p>
+
+                    <p>House Minority: <span id="minority_leader_previous">Kevin McCarthy</span></p>
+                    <p>Years: <span id="previous_years">(2021-2023)</span></p>
+
+                    <p>Democratic Seats: <span id="previous_seats_d">222</span></p>
+                    <p>Republican Seats: <span id="previous_seats_r">211</span></p>
 
                 </div>
 
@@ -1179,62 +1192,67 @@
     function changeInCongress(){
 
         const congresses_with_party = [
-        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy"},
-        {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan"},
-        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan"},
-        {Congress: "113th", Party: "Republican", Speaker: "John Boehner"},
-        {Congress: "112th", Party: "Republican", Speaker: "John Boehner"},
-        {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich"},
-        {Congress: "104th", Party: "Republican", Speaker: "Newt Gingrich"},
-        {Congress: "103rd", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "102nd", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "101st", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "100th", Party: "Democratic", Speaker: "Jim Wright"},
-        {Congress: "99th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "98th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "97th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "96th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "95th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "94th", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "93rd", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "92nd", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "91st", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "90th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "89th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "88th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "87th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "86th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "85th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "84th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "83rd", Party: "Republican", Speaker: "Joseph W. Martin Jr"},
-        {Congress: "82nd", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "81st", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "80th", Party: "Republican", Speaker: "Joseph W. Martin Jr"},
-        {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn"},
+        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy", Minority_Leader: "Hakeem Jeffries", Years: "(2023–2025)", Democratic_Seats: "212", Republican_Seats: "222"},
+        {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "(2021–2023)", Democratic_Seats: "222", Republican_Seats: "211"},
+        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "(2017–2019)", Democratic_Seats: "235", Republican_Seats: "199"},
+        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2015–2017)", Democratic_Seats: "194", Republican_Seats: "241"},
+        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2013–2015)", Democratic_Seats: "188", Republican_Seats: "247"},
+        {Congress: "113th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "(2011–2013)", Democratic_Seats: "200", Republican_Seats: "233"},
+        {Congress: "112th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "(2009-2011)", Democratic_Seats: "193", Republican_Seats: "242"},
+        {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "(2009–2011)", Democratic_Seats: "235", Republican_Seats: "198"},
+        {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "(2007–2009)", Democratic_Seats: "233", Republican_Seats: "202"},
+        {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Nancy Pelosi", Years: "(2005–2007)", Democratic_Seats: "201", Republican_Seats: "232"},
+        {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Nancy Pelosi", Years: "(2003–2005)", Democratic_Seats: "204", Republican_Seats: "223"},
+        {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Richard Andrew Gephardt", Years: "(2001–2003)", Democratic_Seats: "211", Republican_Seats: "221"},
+        {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Richard Andrew Gephardt", Years: "(1999–2001)", Democratic_Seats: "211", Republican_Seats: "223"},
+        {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich", Minority_Leader: "Richard Andrew Gephardt", Years: "(1997–1999)", Democratic_Seats: "207", Republican_Seats: "226"},
+        {Congress: "104th", Party: "Republican", Speaker: "Newt Gingrich", Minority_Leader: "Richard Andrew Gephardt", Years: "(1995–1997)", Democratic_Seats: "204", Republican_Seats: "230"},
+        {Congress: "103rd", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "(1993–1995)", Democratic_Seats: "258", Republican_Seats: "176"},
+        {Congress: "102nd", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "(1991–1993)", Democratic_Seats: "267", Republican_Seats: "167"},
+        {Congress: "101st", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "(1989–1991)", Democratic_Seats: "259", Republican_Seats: "174"},
+        {Congress: "100th", Party: "Democratic", Speaker: "Jim Wright", Minority_Leader: "Robert Henry Michel", Years: "(1987–1989)", Democratic_Seats: "258", Republican_Seats: "177"},
+        {Congress: "99th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "(1985–1987)", Democratic_Seats: "252", Republican_Seats: "181"},
+        {Congress: "98th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "(1983–1985)", Democratic_Seats: "269", Republican_Seats: "164"},
+        {Congress: "97th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "(1981–1983)", Democratic_Seats: "243", Republican_Seats: "191"},
+        {Congress: "96th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "John Jacob Rhodes", Years: "(1979–1981)", Democratic_Seats: "276", Republican_Seats: "156"},
+        {Congress: "95th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "John Jacob Rhodes", Years: "(1977–1979)", Democratic_Seats: "292", Republican_Seats: "143"},
+        {Congress: "94th", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "John Jacob Rhodes", Years: "(1975–1977)", Democratic_Seats: "291", Republican_Seats: "144"},
+        {Congress: "93rd", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "Gerald Ford", Years: "(1973–1975)", Democratic_Seats: "241", Republican_Seats: "192"},
+        {Congress: "92nd", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "Gerald Ford", Years: "(1971–1973)", Democratic_Seats: "254", Republican_Seats: "180"},
+        {Congress: "91st", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "(1969–1971)", Democratic_Seats: "243", Republican_Seats: "192"},
+        {Congress: "90th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "(1967–1969)", Democratic_Seats: "248", Republican_Seats: "187"},
+        {Congress: "89th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "(1965–1967)", Democratic_Seats: "295", Republican_Seats: "140"},
+        {Congress: "88th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Charles Abraham Halleck", Years: "(1963–1965)", Democratic_Seats: "258", Republican_Seats: "176"},
+        {Congress: "87th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Charles Abraham Halleck", Years: "(1961–1963)", Democratic_Seats: "263", Republican_Seats: "174"},
+        {Congress: "86th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Charles Abraham Halleck", Years: "(1959–1961)", Democratic_Seats: "282", Republican_Seats: "153"},
+        {Congress: "85th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1957–1959)", Democratic_Seats: "233", Republican_Seats: "200"},
+        {Congress: "84th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1955–1957)", Democratic_Seats: "231", Republican_Seats: "203"},
+        {Congress: "83rd", Party: "Republican", Speaker: "Joseph W. Martin Jr", Minority_Leader: "Sam Rayburn", Years: "(1953–1955)	", Democratic_Seats: "211", Republican_Seats: "221"},
+        {Congress: "82nd", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1951–1953)", Democratic_Seats: "235", Republican_Seats: "168"},
+        {Congress: "81st", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1949–1951)", Democratic_Seats: "262", Republican_Seats: "171"},
+        {Congress: "80th", Party: "Republican", Speaker: "Joseph W. Martin Jr", Minority_Leader: "Sam Rayburn", Years: "(1947–1949)", Democratic_Seats: "245", Republican_Seats: "187"},
+        {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1945–1947)", Democratic_Seats: "242", Republican_Seats: "190"},
+        {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "(1943–1945)", Democratic_Seats: "254", Republican_Seats: "165"},
             ]
 
         first_year = document.getElementById('congress_1')
         second_year = document.getElementById('congress_2')
+        let congress_first = {}
+        let congress_second = {}
+        if(first_year.value === ''){
+            congress_first = congresses_with_party[0]
+        } else {
+            congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
+        }
 
 
-        let congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
-        let congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
+        if(second_year.value === ''){
+            congress_second = congresses_with_party[1]
+        } else {
+            congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
+        }
         
-        // console.log(`${congress_first.Party} to ${congress_second.Party}` )
 
-        let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
-        let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
-
-        
         let speaker_now_element = document.getElementById("speaker_now")
         let speaker_then_element = document.getElementById("speaker_then")
 
@@ -1257,12 +1275,38 @@
         // Updating the first cell
 
         document.getElementById("current_party").innerHTML = congress_first.Party
-
         // Updating the second cell
-
-        console.log(congress_second)
         document.getElementById("previous_party").innerHTML = congress_second.Party
 
+        // Minority
+        let house_minority_now = document.getElementById("minority_leader_current")
+        let house_minority_then = document.getElementById("minority_leader_previous")
+
+        house_minority_now.innerHTML = congress_first.Minority_Leader
+        house_minority_then.innerHTML = congress_second.Minority_Leader
+
+        // Years
+
+        let house_year_now = document.getElementById("current_years")
+        let house_year_then = document.getElementById("previous_years")
+
+        house_year_now.innerHTML = congress_first.Years
+        house_minority_then.innerHTML = congress_second.Years
+
+        // Democratic Seats
+        let dem_seats_now = document.getElementById("current_seats_d")
+        let dem_seats_then = document.getElementById("previous_seats_d")
+
+        dem_seats_now.innerHTML = congress_first.Democratic_Seats
+        dem_seats_then.innerHTML = congress_second.Democratic_Seats
+
+        // Republican Seats
+
+        let rep_seats_now = document.getElementById("current_seats_r")
+        let rep_seats_then = document.getElementById("previous_seats_r")
+
+        rep_seats_now.innerHTML = congress_first.Republican_Seats
+        rep_seats_then.innerHTML = congress_second.Republican_Seats
 
     }
     
