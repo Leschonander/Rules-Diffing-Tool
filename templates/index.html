@@ -20,12 +20,14 @@
                 <h3>Select Congresses to compare</h3>
 
                 <select name="congress_1" id="congress_1" class = "selectors" onchange="changeInCongress()">
+                    <option disabled selected value> -- select an option -- </option>
                     {% for c in Congress_List %}
                         <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
                 </select>
 
                 <select name="congress_2" id="congress_2" class = "selectors" onchange="changeInCongress()">
+                    <option disabled selected value> -- select an option -- </option>
                     {% for c in Congress_List %}
                         <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
@@ -106,8 +108,37 @@
         </article>
 
         <script>
+        
+        /* for the selects */
+        document.addEventListener("DOMContentLoaded", function() {
+            let select1 = document.getElementById('congress_1');
+            let select2 = document.getElementById('congress_2');
 
-const nested_rules = {
+            select1.addEventListener('change', function() {
+                adjustSelectOptions(select1, select2);
+            });
+
+            select2.addEventListener('change', function() {
+                adjustSelectOptions(select2, select1);
+            });
+        });
+
+        function adjustSelectOptions(changedSelect, otherSelect) {
+            // Reset disabled options first
+            let otherOptions = otherSelect.options;
+            for(let i = 0; i < otherOptions.length; i++) {
+                otherOptions[i].disabled = false;
+            }
+
+            // Disable the selected option in the other dropdown
+            let selectedIndex = changedSelect.selectedIndex;
+            if (selectedIndex > 0) {  // Avoid the default "Choose..." option
+                otherSelect.options[selectedIndex].disabled = true;
+            }
+        }
+        
+        /* rules */
+        const nested_rules = {
                 "RULE I. THE SPEAKER":[
       "Approval of the Journal",
       "Preservation of order",
