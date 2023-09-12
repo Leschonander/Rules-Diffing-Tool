@@ -1342,7 +1342,7 @@
     }
     
         async function generateDiff(){
-                
+                const gpt_button = document.getElementById("gpt_button")                
 
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
@@ -1396,6 +1396,19 @@
                         });
 
                         display.appendChild(fragment);
+                        console.log(gpt_button.innerHTML)
+
+                        if(gpt_button.innerHTML === "Disable GPT"){
+                            const loadingDiv = document.getElementById('loading');
+                            loadingDiv.style.display = 'block';
+
+                            gpt_comparer_res = await fetch(`/api/openai?rule_1=${obj_1.Result}&rule_2=${obj_2.Result}&congress_1=${first_year.value}&congress_2=${second_year.value}&rule_title=${first_rule_new}`)
+                            gpt_comparer = await gpt_comparer_res.json()
+                            document.getElementById("gpt_text").innerHTML = gpt_comparer.Result
+
+                            loadingDiv.style.display = 'none';
+                        }
+                        
                 } else {
                     alert("Rule does not exist in both years. Try different years")
                 }
