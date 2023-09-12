@@ -90,6 +90,7 @@
 
                 <button id="rule_flip" class="button_smaller" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
                 <button id="title_button" class="button_smaller" >Enable selecting specific titles</button>
+                <button id="gpt_button" class="button_smaller" >Enable GPT</button>
                 
             </div>
             
@@ -111,7 +112,10 @@
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
             </body>
 
-            
+            <h3 class="gpt-exp gpt-hide">GPT 3 Generated Explanation of Changes</h3>
+            <p class="gpt-exp gpt-hide" id="gpt_text">
+
+            </p>            
 
             </p>
 
@@ -1169,7 +1173,7 @@
       
         toggleButton.addEventListener('click', function() {
             const hiddenOptions = document.querySelectorAll('.hidden-option');
-            console.log(toggleButton)
+            
             if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
                 toggleButton.innerHTML = "Disable selecting specific titles"
                 toggleButton.style.background = "teal"
@@ -1187,7 +1191,34 @@
                 }
             });
         });
+
+        const gpt_button = document.getElementById('gpt_button');
+        gpt_button.addEventListener('click', function() {
+            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
+            console.log(gpt_hidden_elements)
+            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
+                gpt_button.innerHTML = "Disable GPT"
+                gpt_button.style.background = "teal"
+            } else {
+                gpt_button.innerHTML = "Enable GPT"
+                gpt_button.style.background = "#CA5252"
+                
+            }
+
+            gpt_hidden_elements.forEach(option => {
+                if (option.classList.contains('gpt-hide')) {
+                    option.classList.remove('gpt-hide');
+                } else {
+                    option.classList.add('gpt-hide');
+                }
+            });
+
+        });
+
     });
+
+    // GPT button
+
             
     function changeInCongress(){
 
