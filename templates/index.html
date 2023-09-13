@@ -10,7 +10,7 @@
     </head>
     <body>
         <nav>
-            <h1>Capitol Differ</h1>
+            <h1 style=font-size:48px>Capitol Differ</h1>
             <button onclick="location.href = 'https://capitoldiffer.com//about';" >
                 <strong>About</strong>
             </button>
@@ -37,13 +37,25 @@
             <div id="statistics">
                 <div>
                     <h3><span id="speaker_now_header"> 118th</span> Congress</h3>
-                    <p>Speaker: <span id="speaker_now">Kevin McCarthy</span></p>
-                    <p>House Majority: <span id="current_party">Republican</span></p>
+                    <p>Speaker: <span id="speaker_now">Kevin McCarthy (R)</span></p>
+
+                    
+                    <p>Minority Leader: <span id="minority_leader_current">Hakeem Jeffries (D)</span></p>
+                    <p>Years: <span id="current_years">2023-2025</span></p>
+
+                    <p>Democratic Seats: <span id="current_seats_d">216</span></p>
+                    <p>Republican Seats: <span id="current_seats_r">222</span></p>
                 </div>
                 <div>
                     <h3><span id="speaker_then_header"> 117th </span> Congress</h3>
-                    <p>Speaker: <span id="speaker_then">Nancy Pelosi</span></p>
+                    <p>Speaker: <span id="speaker_then">Nancy Pelosi (D)</span></p>
                     <p>House Majority: <span id="previous_party">Democratic</span></p>
+
+                    <p>Minority Leader: <span id="minority_leader_previous">Kevin McCarthy (R)</span></p>
+                    <p>Years: <span id="previous_years">2021-2023</span></p>
+
+                    <p>Democratic Seats: <span id="previous_seats_d">222</span></p>
+                    <p>Republican Seats: <span id="previous_seats_r">211</span></p>
 
                 </div>
 
@@ -54,22 +66,24 @@
                 <h3>Select rule to compare</h3>
 
                 <div id = "explain_box">
-                    <strong>Capitol Differ</strong> is a tool to cross-compare the text of specific rules
-                    across House rules packages. One selects a given title of a rule, and then the specific rule text that one want's to compare.
-                    A diff (check of words added/removed) is done, along with a use GPT-3.5-turbo-16k-0613 to analyze the changes is done.
+                    <strong>Capitol Differ</strong> allows you to cross-compare the text of specific rules across House rules packages.  To use the tool, select the Congresses you’d like to compare. Then, in the drop-down menu, select the specific rule you’d like to  study. Click “Compare,” and the comparison will appear below.
 
+
+             
                 </br>
-            </br>
+                </br>
 
-                    To use the tool, do the following. Select the Congresses you want to compare, and then in the drop-down,
-                    select the specific rule you want to compare. Click the Compare button and wait a little bit and the comparison will appear below.
+                <i>
+                    *Because of the rules consolidation between the 105th and 106th Congresses, 
+                    it is impossible to compare pre- and post-105th rules. Click the button above to switch between the pre- and post-105th Congress rules.
+                </i>
+
                 </div>
+                <p>Experimental Features</p>
 
                 <button id="rule_flip" class="button_smaller" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
-                <p><i>
-                    “Because of the rules consolidation between the 105th and 106th Congresses, 
-                    it is impossible to compare pre- and post-105th rules. Click the button above to switch between the pre- and post-105th Congress rules.
-                </i></p>
+                <button id="title_button" class="button_smaller" >Enable selecting specific titles</button>
+                <button id="gpt_button" class="button_smaller" >Enable GPT</button>
                 
             </div>
             
@@ -91,8 +105,10 @@
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
             </body>
 
-            <h3>GPT 3 Generated Explanation of Changes</h3>
-            <p id="gpt_text">
+            <h3 class="gpt-exp gpt-hide">GPT 3 Generated Explanation of Changes</h3>
+            <p class="gpt-exp gpt-hide" id="gpt_text">
+
+            </p>            
 
             </p>
 
@@ -456,13 +472,599 @@
    ]
 }   
 
-    const nested_rules_older = {'I. DUTIES OF THE SPEAKER': ["Journal; speaker's approval", "Speaker's control of the hall, corridors, and rooms", "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions order subject to appeal", 'Putting of the question by the speaker', 'Postponing rollcall votes on passage', 'Speaker pro tempore', 'Four-term limit', 'Travel authority', 'Broadcasting of house proceedings', 'Office of the historian', 'Office of general counsel', 'Authority to declare recesses', 'Drug testing in the house', 'Speaker preserves order on floor and in galleries and lobby', "Journal speaker's approval", "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions of order subject to appeal", "The speaker's vote. tie vote", 'Speakers signature to acts,warrants, subpoenas, etc.; and decisions of questions of order subject to appeal', 'The speakers vote. tie vote', 'Journal speakers approval', 'Speaker preserves order on floor and  in galleries and lobby', 'Speakers control over the hall, corridors and rooms', 'Speakers signature to acts, warrants, subpoenas, etc.. and decision of questions of order subject to appeal', 'Putting off the question by the speaker'], 'II. ELECTION OF OFFICERS': ['Election, oath, and removal of officers', 'Election of officers'], 'III. DUTIES OF THE CLERK': ['Clerks duties at organization', 'Clerk furnishes a list of reports', 'Clerks duty as to Journal and documents', 'Official to act as Clerk upon designation', 'Authority to receive messages', "Administration of vacant Member's office", 'Semi-annual reports', 'Cooperation with others', 'Clerk', "Administration of vacant member's office", 'Clerk furnished a list of reports', "Clerk's duty as to journal and documents. "], 'IV. DUTIES OF THE SERGEANT-AT-ARMS': ['Sergeant-at-Arms enforces authority of House', "The mace the symbol of the Sergeant-at-Arms' office", 'Doorkeeping', 'Semi-annual reports', 'Cooperation with others'], 'IX. QUESTIONS OF PRIVILEGE': ['Definition of questions of privilege', 'Precedence of questions of privilege', 'Definition and Precedence of Questions of Privilege'], 'L. PROCEDURE FOR RESPONSE TO SUBPOENAS': ['Response to Subpoenas'], 'LI. EMPLOYMENT PRACTICES': ['Gift rule', 'Employment Practices', '"Ramseyer Rule."'], 'LII. APPLICATION OF CERTAIN LAWS': ['Office of Compliance'], 'OFFICE OF INSPECTOR GENERAL': ['Inspector General'], 'V. DUTIES OF THE DOORKEEPER': ['Duties', 'Semi-annual reports', 'Cooperation with others', 'General duties of the Doorkeeper', 'The Doorkeeper clears the floor of unauthorized persons'], 'VI. ADMINISTRATIVE OFFICIALS': ['Inspector General', 'Duties', 'Semi-annual reports', 'Cooperation with others', 'Administrative Officials'], 'VI. DUTIES OF THE POSTMASTER': ['The Postmaster superintends the House post office'], 'VII. DUTIES OF THE CHAPLAIN': ['Duties of the Chaplain'], 'VIII. DUTIES OF THE MEMBERS': ['Members required to be present and vote', 'Pairs', 'Voting', 'Members Required to be present and vote'], 'X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES': ['Number and jurisdiction of standing committees', 'Agriculture', 'Appropriations', 'Banking and Financial Services', 'Budget Composition of', 'Jurisdiction and duties', 'Commerce', 'Education and Labor', 'Government Reform and Oversight', 'House Oversight', 'International Relations', 'Judiciary', 'Internal Security', 'National Security', 'Resources', 'Rules', 'Science, Space, and Technology', 'Small Business', 'Standards of Official Conduct', 'Transportation and Infrastructure', "Veteran's Affairs", 'Ways and Means', 'Committee on Appropriations; budget hearings', 'Procedure for budget hearings', 'Budget Act; 15-day referral to Appropriations', 'Budget', 'Enrolled bills', 'Direction of officers', 'Acceptance of gifts', 'Approval of certain settlements', 'Standard Official Conduct; additional duties', 'Annual appropriations', 'Concurrent resolution on Budget', 'Reconciliation process', 'Referral procedures', 'Electing committees', 'Party membership as basis for election', 'Committee chairmen', 'Requirement for subcommittees', 'Select and conference committees', 'Party membership as basis for appointment', 'Delegates and Resident Commissioner', 'General oversight', 'Special oversight', 'Appropriations Committee; Budget Hearings', 'Procedure for Budget Hearings', 'Budget Act; 15-day Referral to Appropriations', 'Direction of Officers', 'Standards of Official Conduct; additional duties', 'Armed Services', 'Budget, Composition of', 'District of Columbia', 'Government Operations', 'House Administration', 'Merchant Marine and Fisheries', 'Natural Resources', 'Post Office and Civil Service', 'Public Works and Transportation', "Veterans' Affairs", 'Number and jurisdiction of Standing Committees', 'Interior and Insular Affairs', 'General Oversight', 'Special Oversight', 'Appropriations Committee, Budget Hearings', 'Procedure for Budget Hearing', 'Budget Act; 15-Day Refferal to Appropriation', 'Enrolled Bills', 'Travel of Members', 'Scheduling Service', 'Standards of Official Conduct; Additional Duties', 'Annual Appropriations', 'Concurrent Resolution on Budget', 'Reconciliation Process', 'Referral Procedures', 'Electing Committees', 'Party Membership as Basis for Election', 'Committee Chariman', 'Requirement for Subcommittees', 'Select and Conference Committees', 'Party Membership as Basis for Appointment', 'Deligates and Resident Commissioner', 'Aging', 'Budget, composition of', 'Jurisdiction and Duties', 'Government Operation', 'Merchant, Marine and Fisheries. ', 'Post Office and Civi Service', "Veteran's Affair", 'Budget Hearings', 'Budget Act procedures', 'Referral Procedures. ', 'Committee Chairmen', 'Requirement for subcommittees\\'], 'XI. RULES OF PROCEDURES FOR COMMITTEES': ['Committee procedure', 'Investigative authority', 'Printing and binding', 'Activity reports', 'Committee rules', 'Commitee meetings', 'Required records', 'Public availability', 'Committee files', 'Ban on proxies', 'Quorum of two; of one-third', 'Committees not to sit', "Chairman's duty", 'Filing by majority of committee', 'Requirement of quorum', 'Vote on reporting', 'Content of reports', 'Constitutional authority', 'Minority views', 'Three-day layover', 'Administration of oaths to witnesses', 'Committee travel', 'Travel reports', 'Media coverage', 'When permitted', 'Press photographers', 'Accreditation', 'Reports from committee on rules', 'Filing reports', 'Comparative print', 'Specifying waivers', 'Primary expense solution', 'Additional expense resolution', 'Exception for certain initial funding', 'Funds for committee staffs; expense resolutions', 'Travel by members not reelected', 'Interim funding', 'Thirty professional staff', 'Minority', 'Staff duties', '"associate" or "shared" staff', 'Pay', 'Staff, committees on appropriations', 'Non-partisan staff', 'Inflationary impact', 'Primary expense resolution', 'Availability of report', 'Exception for cetain initial funding', 'Votes in committees', 'Use of proxies', 'Eighteen professional staff', 'Clerical staff', 'Staff committees on appropriations, and budget', 'Committees permited to sit without leave', 'Funds for committee staffs; expense resolution', 'Investigative authorithy', 'Filing reports. ', 'Travel by members not relected', 'Professional staff'], 'XII. RESIDENT COMMISSIONER AND DELEGATES.': ['Delegates and the Resident Commissioner', 'Powers and Privileges of Resident Commissioner and Delegates as to committee service'], 'XIII. CALENDARS AND COMMITTEE REPORTS': ['Calendar for reports of committees', 'Nonprivileged reports filed with the clerk', 'Ramseyer rule', 'Corrections calendar', 'Motion to discharge', 'Calendars printed', 'Estimate of cost', 'Consent calendar'], 'XIV. OF DECORUM AND DEBATE': ['Obtaining the floor for debate; and relevancy and decorum therein', "Speaker's power of recognition", 'The hour rule in debate', 'The opening and closing of general debate', 'The call to order', 'Words taken down', 'Member to speak but once to the same question; right to close controlled debate', 'Decorum of members in the hall', 'Gallery occupants not to be introduced', 'Revisions of remarks in debate', 'Standard of conduct', 'The opening and closing of debate', 'Member to speak but once to the same question'], 'XIX. OF AMENDMENTS': ['Amendments to Text and Title'], 'XL. EXECUTIVE COMMUNICATIONS': ['Reception and reference of executive communications, including estimates', 'Reception and reference of executive communications including estimates'], 'XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES': ['Officers and employees not to be agents of claims'], 'XLII. GENERAL PROVISIONS': ["Relations of Jefferson's Manual and Legislative Reorganization Act of 1946 to the rules of the House"], 'XLIII. CODE OF OFFICIAL CONDUCT': ['Official Conduct of Members, Officers or Employees of the House'], 'XLIV. FINANCIAL DISCLOSURE': ['Financial report disclosing certain financial interests'], 'XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT': ['Public Debt Limit'], 'XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME': ['Income limitations'], 'XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE': ['Permanent Select Committee on Intelligence'], 'XV. ON CALLS OF THE ROLL AND HOUSE': ['Call of the roll for the yea-and-nay vote', 'The call of the house', 'Quorum call by clerks', 'Count of those not voting to make a quorum of record on a roll call', 'The call of the house in the new form', 'Use of electronic equipment in recording roll calls', '"15-and-5" voting', 'Quorum; when not required', "Speaker's discretion to recognize for motion for call of house", 'Yeas and nays ordered on certain questions', 'Call of the roll for the "yea-and-nay"  vote', 'Quorum calls by clerk'], 'XVI. ON MOTIONS, THEIR PRECEDENCE, ETC': ['Motions reduced to writing and entered on the journal', 'Stating and withdrawing of motions', 'The question of consideration', 'Precedence of priveleged motions', 'Entry of hour of adjournment on the journal', 'Division of the question', 'Motion to strike out and insert not divisible', 'Germane amendments', 'Dilatory motions pending motions to suspend rules', 'Privileged motion for consideration of revenue and appropriation bills', 'Dilatory motions', 'Precedence of privileged motions', 'Motion reduced to writing and entered on the journal'], 'XVII. DECORUM AND DEBATE': ['Obtaining the floor for debate; and relevancy and decorum therein', "Speaker's power of recognition", 'The hour rule in debate', 'The opening and closing of general debate', 'The call to order for words spoken in debate', 'Member to speak but once to the same question; right to close controlled debate', 'Decorum of Members in the Hall', 'Gallery occupants not to be introduced', 'Revisions of remark in debate', 'Standard of conduct'], 'XVII. PREVIOUS QUESTION': ['The previous question', 'Relation of previous question to failure of a quorum', 'Questions of order pending the motion for the previous question'], 'XVIII. RECONSIDERATION': ['The motion to reconsider', 'Application of motion to reconsider to bills in committees', 'Requirement that reports of committee be in writing and be printed'], 'XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION': ['Selection of Chairman Committee of the Whole; and his power to preserve order', "Speaker's declaration into Committee of the Whole pursuant to special order", 'Failure of a quorum in Committee of the Whole', 'Five-minute votes on amendments in sequence', 'Subjects requiring consideration in Committee to the Whole', 'Order of business in Committee of the Whole', 'General debate and amendment under the five-minute rule in Committee of the Whole', 'Motion to dispense with reading', 'Unfunded mandates', 'Closing the five-minute debate in Committee of the Whole', 'The motion to strike out the enacting words of a bill', 'Reading concurrent resolution on budget for amendment', 'Selection of Chairman of Committee of the Whole; and his power to preserve order', 'Subjects requiring consideration in Committee of the Whole', 'Application of rules of the House to the Committee of the Whole'], 'XX.OF AMENDMENTS OF THE SENATE': ['Consideration of senate amendments in committee of the whole; motion for conference', 'Conferees may not agree to certain senate amendments', 'Consideration of senate amendments in committee of the whole'], 'XXI. ON BILLS': ['Reading, engrossment, and passage of bills', 'Unauthorized appropriations in reported general appropriation bills or amendments thereto', 'Legislation in reported general appropriation bills; exceptions', 'Legislation or limitations in amendments to general appropriation bills', 'Motion to rise and report as preferential to limitation or retrenchment amendments', 'Designated emergencies in reported appropriation bills', 'Offsetting amendments en bloc to appropriation bills', 'Content of reports on appropriation bills', 'Restriction on the reference of claims', 'Restriction of power to report appropriations', 'Restriction on bills and amendments carrying taxes or tariffs', 'Three-fifths vote to increase income tax rates', 'Prohibition against retroactive income tax rate increase', 'Reappropriations prohibited', 'Printed hearings and reports on appropriation bills', 'Reservation of points of order', 'Unauthorized appropriation in reported general appropriation bills or amendments thereto', ' motion to rise and report as preferential to limitation or retrenchment amendments', 'Restriction of power to report appropriation', 'Unauthorized appropriations and legislation on general appropriation bills', 'Reading,engrossment and passage of bills', 'Unauthorized appropriations and legislation on general appropriation bills ', 'Restriction of the reference of claims', 'Restriction on bills and amendments carrying taxes ans tariffs', 'Reappropiations prohibited', 'Printed hearings and reports on appropriatioin bills', 'Reading, engrossment, and passage of bills. '], 'XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS': ['Introduction and reference of petitions, memorials, and private bills', 'Certain private and commemorative bills prohibited', 'Correction of errors in reference; and relation to jurisdiction', 'Introduction, reference, and change of reference of public bills, memorials, and resolutions', 'Resolution of inquiry', 'Introduction of bills, resolutions, or memorials by request', 'Certain private bills prohibited'], 'XXIII. OF COMMITTEES OF THE WHOLE HOUSE': ['Selection of chairman of committee of the whole; and his power to preserve order', "Speaker's declaration into committee of the whole pursuant to special order", 'Failure of a quorum in committee of the whole', 'Five-minute votes on amendments in sequence', 'De novo votes where delegates decisive', 'Subjects requiring consideration in committee of the whole', 'Order of business in committee of the whole', 'General debate and amendment under the five-minute rule in committee of the whole', 'Motion to dispense with reading', 'Closing the five-minute debate in committee of the whole', 'Reading concurrent resolution on budget for amendment', 'Application of rules of the house to the committee of the whole', 'Speakers declaration into committee of the whole persuant to special order', 'The motion to strike out the enacting words of the bill', 'Failure of a quorum in the committee of the whole'], 'XXIV. ORDER OF BUSINESS': ['The rule for the order of business in the house', "Disposal of business on the speaker's table", 'Unfinished business', 'The morning hour for the call of committees', 'Interruption of the call of committees by motion to go into committee of the whole house on the state of the union', 'Interruption of the regular order on tuesdays for consideration of the private calendar', 'Calendar wednesday business', 'District of columbia', 'The rule for the order of business in the house. '], 'XXIX. SECRET SESSION': ['Secret session of the House'], 'XXV. PRIORITY OF BUSINESS': ['Decision of questions as to priority of business without debate'], 'XXV.PRIORITY OF BUSINESS': ['Decision  of Questions as to Priority of Business Without Debate'], 'XXVI. UNFINISHED BUSINESS OF THE SESSION': ['Resumption of business of a preceding session'], 'XXVII. CHANGE OR SUSPENSION OF RULES': ['Motions to suspend the rules', 'The forty minutes of debate on motion to suspend the rules', 'Motion to discharge a committee', 'The second of the motion to suspend the rules'], 'XXVIII. CONFERENCE REPORTS': ['High privilege of conference reports; and form of accompanying statement', 'Time for debate on motions to instruct', 'Motions privileged after 20 calendar days of conference', 'The statement accompanying a conference report', 'Consideration of conference reports', 'Consideration of amendments in disagreement', 'Certain motions to insist as preferential', 'Certain conference reports considered as read', 'Conferees may report germane modification of amendment in nature of substitute', 'Nongermane matter in conference agreements', 'Nongermane matter in amendments in disagreement', 'Open conference meetings', 'Time for debate', 'Printing of conference reports and statements in the record', 'Open conference meeting', 'Printing of conference reports and statement in the record'], 'XXX. READING OF PAPERS': ['Objection to Reading of Papers'], 'XXX. USE OF EXHIBITS': ['Objections to use of exhibits'], 'XXXI. HALL OF THE HOUSE': ['Use of the Hall of the House'], 'XXXII. OF ADMISSION TO THE FLOOR': ['Persons and officials admitted to the floor during sessions of the House', 'Admission to the floor when the House is not sitting', 'Former Members and officers', "Members' staff", 'Prohibition on distribution of campaign contributions'], 'XXXIII. OF ADMISSION TO THE GALLERIES': ['The various galleries and admission thereto'], 'XXXIV. OFFICIAL AND OTHER REPORTERS': ['Reporters of debates and committee stenographers', 'Unofficial reporters in the press gallery and on the floor', 'Unofficial reporters in the radio gallery and on the floor'], 'XXXIX. MESSAGES': ['Entry of messages in the Journal and Record'], 'XXXV. PAY OF WITNESSES': ['Fees of witnesses before the House or committees'], 'XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE': ['Duties of Clerk and committees as to custody of papers before committees'], 'XXXVII. WITHDRAWAL OF PAPERS': ['Custody of papers in the files of the House'], 'XXXVIII. BALLOT': ['Elections by ballot']}
+    const nested_rules_older = {
+   "I. DUTIES OF THE SPEAKER":[
+      "Journal; speaker's approval",
+      "Speaker's control of the hall, corridors, and rooms",
+      "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions order subject to appeal",
+      "Putting of the question by the speaker",
+      "Postponing rollcall votes on passage",
+      "Speaker pro tempore",
+      "Four-term limit",
+      "Travel authority",
+      "Broadcasting of house proceedings",
+      "Office of the historian",
+      "Office of general counsel",
+      "Authority to declare recesses",
+      "Drug testing in the house",
+      "Speaker preserves order on floor and in galleries and lobby",
+      "Journal speaker's approval",
+      "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions of order subject to appeal",
+      "The speaker's vote. tie vote",
+      "Speakers signature to acts,warrants, subpoenas, etc.; and decisions of questions of order subject to appeal",
+      "The speakers vote. tie vote",
+      "Journal speakers approval",
+      "Speaker preserves order on floor and  in galleries and lobby",
+      "Speakers control over the hall, corridors and rooms",
+      "Speakers signature to acts, warrants, subpoenas, etc.. and decision of questions of order subject to appeal",
+      "Putting off the question by the speaker",
+      "Full Rule for: I. DUTIES OF THE SPEAKER"
+   ],
+   "II. ELECTION OF OFFICERS":[
+      "Election, oath, and removal of officers",
+      "Election of officers",
+      "Full Rule for: II. ELECTION OF OFFICERS"
+   ],
+   "III. DUTIES OF THE CLERK":[
+      "Clerks duties at organization",
+      "Clerk furnishes a list of reports",
+      "Clerks duty as to Journal and documents",
+      "Official to act as Clerk upon designation",
+      "Authority to receive messages",
+      "Administration of vacant Member's office",
+      "Semi-annual reports",
+      "Cooperation with others",
+      "Clerk",
+      "Administration of vacant member's office",
+      "Clerk furnished a list of reports",
+      "Clerk's duty as to journal and documents. ",
+      "Full Rule for: III. DUTIES OF THE CLERK"
+   ],
+   "IV. DUTIES OF THE SERGEANT-AT-ARMS":[
+      "Sergeant-at-Arms enforces authority of House",
+      "The mace the symbol of the Sergeant-at-Arms' office",
+      "Doorkeeping",
+      "Semi-annual reports",
+      "Cooperation with others",
+      "Full Rule for: IV. DUTIES OF THE SERGEANT-AT-ARMS"
+   ],
+   "IX. QUESTIONS OF PRIVILEGE":[
+      "Definition of questions of privilege",
+      "Precedence of questions of privilege",
+      "Definition and Precedence of Questions of Privilege",
+      "Full Rule for: IX. QUESTIONS OF PRIVILEGE"
+   ],
+   "L. PROCEDURE FOR RESPONSE TO SUBPOENAS":[
+      "Response to Subpoenas",
+      "Full Rule for: L. PROCEDURE FOR RESPONSE TO SUBPOENAS"
+   ],
+   "LI. EMPLOYMENT PRACTICES":[
+      "Gift rule",
+      "Employment Practices",
+      "\"Ramseyer Rule.\"",
+      "Full Rule for: LI. EMPLOYMENT PRACTICES"
+   ],
+   "LII. APPLICATION OF CERTAIN LAWS":[
+      "Office of Compliance",
+      "Full Rule for: LII. APPLICATION OF CERTAIN LAWS"
+   ],
+   "OFFICE OF INSPECTOR GENERAL":[
+      "Inspector General",
+      "Full Rule for: OFFICE OF INSPECTOR GENERAL"
+   ],
+   "V. DUTIES OF THE DOORKEEPER":[
+      "Duties",
+      "Semi-annual reports",
+      "Cooperation with others",
+      "General duties of the Doorkeeper",
+      "The Doorkeeper clears the floor of unauthorized persons",
+      "Full Rule for: V. DUTIES OF THE DOORKEEPER"
+   ],
+   "VI. ADMINISTRATIVE OFFICIALS":[
+      "Inspector General",
+      "Duties",
+      "Semi-annual reports",
+      "Cooperation with others",
+      "Administrative Officials",
+      "Full Rule for: VI. ADMINISTRATIVE OFFICIALS"
+   ],
+   "VI. DUTIES OF THE POSTMASTER":[
+      "The Postmaster superintends the House post office",
+      "Full Rule for: VI. DUTIES OF THE POSTMASTER"
+   ],
+   "VII. DUTIES OF THE CHAPLAIN":[
+      "Duties of the Chaplain",
+      "Full Rule for: VII. DUTIES OF THE CHAPLAIN"
+   ],
+   "VIII. DUTIES OF THE MEMBERS":[
+      "Members required to be present and vote",
+      "Pairs",
+      "Voting",
+      "Members Required to be present and vote",
+      "Full Rule for: VIII. DUTIES OF THE MEMBERS"
+   ],
+   "X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES":[
+      "Number and jurisdiction of standing committees",
+      "Agriculture",
+      "Appropriations",
+      "Banking and Financial Services",
+      "Budget Composition of",
+      "Jurisdiction and duties",
+      "Commerce",
+      "Education and Labor",
+      "Government Reform and Oversight",
+      "House Oversight",
+      "International Relations",
+      "Judiciary",
+      "Internal Security",
+      "National Security",
+      "Resources",
+      "Rules",
+      "Science, Space, and Technology",
+      "Small Business",
+      "Standards of Official Conduct",
+      "Transportation and Infrastructure",
+      "Veteran's Affairs",
+      "Ways and Means",
+      "Committee on Appropriations; budget hearings",
+      "Procedure for budget hearings",
+      "Budget Act; 15-day referral to Appropriations",
+      "Budget",
+      "Enrolled bills",
+      "Direction of officers",
+      "Acceptance of gifts",
+      "Approval of certain settlements",
+      "Standard Official Conduct; additional duties",
+      "Annual appropriations",
+      "Concurrent resolution on Budget",
+      "Reconciliation process",
+      "Referral procedures",
+      "Electing committees",
+      "Party membership as basis for election",
+      "Committee chairmen",
+      "Requirement for subcommittees",
+      "Select and conference committees",
+      "Party membership as basis for appointment",
+      "Delegates and Resident Commissioner",
+      "General oversight",
+      "Special oversight",
+      "Appropriations Committee; Budget Hearings",
+      "Procedure for Budget Hearings",
+      "Budget Act; 15-day Referral to Appropriations",
+      "Direction of Officers",
+      "Standards of Official Conduct; additional duties",
+      "Armed Services",
+      "Budget, Composition of",
+      "District of Columbia",
+      "Government Operations",
+      "House Administration",
+      "Merchant Marine and Fisheries",
+      "Natural Resources",
+      "Post Office and Civil Service",
+      "Public Works and Transportation",
+      "Veterans' Affairs",
+      "Number and jurisdiction of Standing Committees",
+      "Interior and Insular Affairs",
+      "General Oversight",
+      "Special Oversight",
+      "Appropriations Committee, Budget Hearings",
+      "Procedure for Budget Hearing",
+      "Budget Act; 15-Day Refferal to Appropriation",
+      "Enrolled Bills",
+      "Travel of Members",
+      "Scheduling Service",
+      "Standards of Official Conduct; Additional Duties",
+      "Annual Appropriations",
+      "Concurrent Resolution on Budget",
+      "Reconciliation Process",
+      "Referral Procedures",
+      "Electing Committees",
+      "Party Membership as Basis for Election",
+      "Committee Chariman",
+      "Requirement for Subcommittees",
+      "Select and Conference Committees",
+      "Party Membership as Basis for Appointment",
+      "Deligates and Resident Commissioner",
+      "Aging",
+      "Budget, composition of",
+      "Jurisdiction and Duties",
+      "Government Operation",
+      "Merchant, Marine and Fisheries. ",
+      "Post Office and Civi Service",
+      "Veteran's Affair",
+      "Budget Hearings",
+      "Budget Act procedures",
+      "Referral Procedures. ",
+      "Committee Chairmen",
+      "Requirement for subcommittees\\",
+      "Full Rule for: X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES"
+   ],
+   "XI. RULES OF PROCEDURES FOR COMMITTEES":[
+      "Committee procedure",
+      "Investigative authority",
+      "Printing and binding",
+      "Activity reports",
+      "Committee rules",
+      "Commitee meetings",
+      "Required records",
+      "Public availability",
+      "Committee files",
+      "Ban on proxies",
+      "Quorum of two; of one-third",
+      "Committees not to sit",
+      "Chairman's duty",
+      "Filing by majority of committee",
+      "Requirement of quorum",
+      "Vote on reporting",
+      "Content of reports",
+      "Constitutional authority",
+      "Minority views",
+      "Three-day layover",
+      "Administration of oaths to witnesses",
+      "Committee travel",
+      "Travel reports",
+      "Media coverage",
+      "When permitted",
+      "Press photographers",
+      "Accreditation",
+      "Reports from committee on rules",
+      "Filing reports",
+      "Comparative print",
+      "Specifying waivers",
+      "Primary expense solution",
+      "Additional expense resolution",
+      "Exception for certain initial funding",
+      "Funds for committee staffs; expense resolutions",
+      "Travel by members not reelected",
+      "Interim funding",
+      "Thirty professional staff",
+      "Minority",
+      "Staff duties",
+      "\"associate\" or \"shared\" staff",
+      "Pay",
+      "Staff, committees on appropriations",
+      "Non-partisan staff",
+      "Inflationary impact",
+      "Primary expense resolution",
+      "Availability of report",
+      "Exception for cetain initial funding",
+      "Votes in committees",
+      "Use of proxies",
+      "Eighteen professional staff",
+      "Clerical staff",
+      "Staff committees on appropriations, and budget",
+      "Committees permited to sit without leave",
+      "Funds for committee staffs; expense resolution",
+      "Investigative authorithy",
+      "Filing reports. ",
+      "Travel by members not relected",
+      "Professional staff",
+      "Full Rule for: XI. RULES OF PROCEDURES FOR COMMITTEES"
+   ],
+   "XII. RESIDENT COMMISSIONER AND DELEGATES.":[
+      "Delegates and the Resident Commissioner",
+      "Powers and Privileges of Resident Commissioner and Delegates as to committee service",
+      "Full Rule for: XII. RESIDENT COMMISSIONER AND DELEGATES."
+   ],
+   "XIII. CALENDARS AND COMMITTEE REPORTS":[
+      "Calendar for reports of committees",
+      "Nonprivileged reports filed with the clerk",
+      "Ramseyer rule",
+      "Corrections calendar",
+      "Motion to discharge",
+      "Calendars printed",
+      "Estimate of cost",
+      "Consent calendar",
+      "Full Rule for: XIII. CALENDARS AND COMMITTEE REPORTS"
+   ],
+   "XIV. OF DECORUM AND DEBATE":[
+      "Obtaining the floor for debate; and relevancy and decorum therein",
+      "Speaker's power of recognition",
+      "The hour rule in debate",
+      "The opening and closing of general debate",
+      "The call to order",
+      "Words taken down",
+      "Member to speak but once to the same question; right to close controlled debate",
+      "Decorum of members in the hall",
+      "Gallery occupants not to be introduced",
+      "Revisions of remarks in debate",
+      "Standard of conduct",
+      "The opening and closing of debate",
+      "Member to speak but once to the same question",
+      "Full Rule for: XIV. OF DECORUM AND DEBATE"
+   ],
+   "XIX. OF AMENDMENTS":[
+      "Amendments to Text and Title",
+      "Full Rule for: XIX. OF AMENDMENTS"
+   ],
+   "XL. EXECUTIVE COMMUNICATIONS":[
+      "Reception and reference of executive communications, including estimates",
+      "Reception and reference of executive communications including estimates",
+      "Full Rule for: XL. EXECUTIVE COMMUNICATIONS"
+   ],
+   "XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES":[
+      "Officers and employees not to be agents of claims",
+      "Full Rule for: XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES"
+   ],
+   "XLII. GENERAL PROVISIONS":[
+      "Relations of Jefferson's Manual and Legislative Reorganization Act of 1946 to the rules of the House",
+      "Full Rule for: XLII. GENERAL PROVISIONS"
+   ],
+   "XLIII. CODE OF OFFICIAL CONDUCT":[
+      "Official Conduct of Members, Officers or Employees of the House",
+      "Full Rule for: XLIII. CODE OF OFFICIAL CONDUCT"
+   ],
+   "XLIV. FINANCIAL DISCLOSURE":[
+      "Financial report disclosing certain financial interests",
+      "Full Rule for: XLIV. FINANCIAL DISCLOSURE"
+   ],
+   "XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT":[
+      "Public Debt Limit",
+      "Full Rule for: XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT"
+   ],
+   "XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME":[
+      "Income limitations",
+      "Full Rule for: XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME"
+   ],
+   "XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE":[
+      "Permanent Select Committee on Intelligence",
+      "Full Rule for: XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE"
+   ],
+   "XV. ON CALLS OF THE ROLL AND HOUSE":[
+      "Call of the roll for the yea-and-nay vote",
+      "The call of the house",
+      "Quorum call by clerks",
+      "Count of those not voting to make a quorum of record on a roll call",
+      "The call of the house in the new form",
+      "Use of electronic equipment in recording roll calls",
+      "\"15-and-5\" voting",
+      "Quorum; when not required",
+      "Speaker's discretion to recognize for motion for call of house",
+      "Yeas and nays ordered on certain questions",
+      "Call of the roll for the \"yea-and-nay\"  vote",
+      "Quorum calls by clerk",
+      "Full Rule for: XV. ON CALLS OF THE ROLL AND HOUSE"
+   ],
+   "XVI. ON MOTIONS, THEIR PRECEDENCE, ETC":[
+      "Motions reduced to writing and entered on the journal",
+      "Stating and withdrawing of motions",
+      "The question of consideration",
+      "Precedence of priveleged motions",
+      "Entry of hour of adjournment on the journal",
+      "Division of the question",
+      "Motion to strike out and insert not divisible",
+      "Germane amendments",
+      "Dilatory motions pending motions to suspend rules",
+      "Privileged motion for consideration of revenue and appropriation bills",
+      "Dilatory motions",
+      "Precedence of privileged motions",
+      "Motion reduced to writing and entered on the journal",
+      "Full Rule for: XVI. ON MOTIONS, THEIR PRECEDENCE, ETC"
+   ],
+   "XVII. DECORUM AND DEBATE":[
+      "Obtaining the floor for debate; and relevancy and decorum therein",
+      "Speaker's power of recognition",
+      "The hour rule in debate",
+      "The opening and closing of general debate",
+      "The call to order for words spoken in debate",
+      "Member to speak but once to the same question; right to close controlled debate",
+      "Decorum of Members in the Hall",
+      "Gallery occupants not to be introduced",
+      "Revisions of remark in debate",
+      "Standard of conduct",
+      "Full Rule for: XVII. DECORUM AND DEBATE"
+   ],
+   "XVII. PREVIOUS QUESTION":[
+      "The previous question",
+      "Relation of previous question to failure of a quorum",
+      "Questions of order pending the motion for the previous question",
+      "Full Rule for: XVII. PREVIOUS QUESTION"
+   ],
+   "XVIII. RECONSIDERATION":[
+      "The motion to reconsider",
+      "Application of motion to reconsider to bills in committees",
+      "Requirement that reports of committee be in writing and be printed",
+      "Full Rule for: XVIII. RECONSIDERATION"
+   ],
+   "XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION":[
+      "Selection of Chairman Committee of the Whole; and his power to preserve order",
+      "Speaker's declaration into Committee of the Whole pursuant to special order",
+      "Failure of a quorum in Committee of the Whole",
+      "Five-minute votes on amendments in sequence",
+      "Subjects requiring consideration in Committee to the Whole",
+      "Order of business in Committee of the Whole",
+      "General debate and amendment under the five-minute rule in Committee of the Whole",
+      "Motion to dispense with reading",
+      "Unfunded mandates",
+      "Closing the five-minute debate in Committee of the Whole",
+      "The motion to strike out the enacting words of a bill",
+      "Reading concurrent resolution on budget for amendment",
+      "Selection of Chairman of Committee of the Whole; and his power to preserve order",
+      "Subjects requiring consideration in Committee of the Whole",
+      "Application of rules of the House to the Committee of the Whole",
+      "Full Rule for: XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION"
+   ],
+   "XX.OF AMENDMENTS OF THE SENATE":[
+      "Consideration of senate amendments in committee of the whole; motion for conference",
+      "Conferees may not agree to certain senate amendments",
+      "Consideration of senate amendments in committee of the whole",
+      "Full Rule for: XX.OF AMENDMENTS OF THE SENATE"
+   ],
+   "XXI. ON BILLS":[
+      "Reading, engrossment, and passage of bills",
+      "Unauthorized appropriations in reported general appropriation bills or amendments thereto",
+      "Legislation in reported general appropriation bills; exceptions",
+      "Legislation or limitations in amendments to general appropriation bills",
+      "Motion to rise and report as preferential to limitation or retrenchment amendments",
+      "Designated emergencies in reported appropriation bills",
+      "Offsetting amendments en bloc to appropriation bills",
+      "Content of reports on appropriation bills",
+      "Restriction on the reference of claims",
+      "Restriction of power to report appropriations",
+      "Restriction on bills and amendments carrying taxes or tariffs",
+      "Three-fifths vote to increase income tax rates",
+      "Prohibition against retroactive income tax rate increase",
+      "Reappropriations prohibited",
+      "Printed hearings and reports on appropriation bills",
+      "Reservation of points of order",
+      "Unauthorized appropriation in reported general appropriation bills or amendments thereto",
+      " motion to rise and report as preferential to limitation or retrenchment amendments",
+      "Restriction of power to report appropriation",
+      "Unauthorized appropriations and legislation on general appropriation bills",
+      "Reading,engrossment and passage of bills",
+      "Unauthorized appropriations and legislation on general appropriation bills ",
+      "Restriction of the reference of claims",
+      "Restriction on bills and amendments carrying taxes ans tariffs",
+      "Reappropiations prohibited",
+      "Printed hearings and reports on appropriatioin bills",
+      "Reading, engrossment, and passage of bills. ",
+      "Full Rule for: XXI. ON BILLS"
+   ],
+   "XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS":[
+      "Introduction and reference of petitions, memorials, and private bills",
+      "Certain private and commemorative bills prohibited",
+      "Correction of errors in reference; and relation to jurisdiction",
+      "Introduction, reference, and change of reference of public bills, memorials, and resolutions",
+      "Resolution of inquiry",
+      "Introduction of bills, resolutions, or memorials by request",
+      "Certain private bills prohibited",
+      "Full Rule for: XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS"
+   ],
+   "XXIII. OF COMMITTEES OF THE WHOLE HOUSE":[
+      "Selection of chairman of committee of the whole; and his power to preserve order",
+      "Speaker's declaration into committee of the whole pursuant to special order",
+      "Failure of a quorum in committee of the whole",
+      "Five-minute votes on amendments in sequence",
+      "De novo votes where delegates decisive",
+      "Subjects requiring consideration in committee of the whole",
+      "Order of business in committee of the whole",
+      "General debate and amendment under the five-minute rule in committee of the whole",
+      "Motion to dispense with reading",
+      "Closing the five-minute debate in committee of the whole",
+      "Reading concurrent resolution on budget for amendment",
+      "Application of rules of the house to the committee of the whole",
+      "Speakers declaration into committee of the whole persuant to special order",
+      "The motion to strike out the enacting words of the bill",
+      "Failure of a quorum in the committee of the whole",
+      "Full Rule for: XXIII. OF COMMITTEES OF THE WHOLE HOUSE"
+   ],
+   "XXIV. ORDER OF BUSINESS":[
+      "The rule for the order of business in the house",
+      "Disposal of business on the speaker's table",
+      "Unfinished business",
+      "The morning hour for the call of committees",
+      "Interruption of the call of committees by motion to go into committee of the whole house on the state of the union",
+      "Interruption of the regular order on tuesdays for consideration of the private calendar",
+      "Calendar wednesday business",
+      "District of columbia",
+      "The rule for the order of business in the house. ",
+      "Full Rule for: XXIV. ORDER OF BUSINESS"
+   ],
+   "XXIX. SECRET SESSION":[
+      "Secret session of the House",
+      "Full Rule for: XXIX. SECRET SESSION"
+   ],
+   "XXV. PRIORITY OF BUSINESS":[
+      "Decision of questions as to priority of business without debate",
+      "Full Rule for: XXV. PRIORITY OF BUSINESS"
+   ],
+   "XXV.PRIORITY OF BUSINESS":[
+      "Decision  of Questions as to Priority of Business Without Debate",
+      "Full Rule for: XXV.PRIORITY OF BUSINESS"
+   ],
+   "XXVI. UNFINISHED BUSINESS OF THE SESSION":[
+      "Resumption of business of a preceding session",
+      "Full Rule for: XXVI. UNFINISHED BUSINESS OF THE SESSION"
+   ],
+   "XXVII. CHANGE OR SUSPENSION OF RULES":[
+      "Motions to suspend the rules",
+      "The forty minutes of debate on motion to suspend the rules",
+      "Motion to discharge a committee",
+      "The second of the motion to suspend the rules",
+      "Full Rule for: XXVII. CHANGE OR SUSPENSION OF RULES"
+   ],
+   "XXVIII. CONFERENCE REPORTS":[
+      "High privilege of conference reports; and form of accompanying statement",
+      "Time for debate on motions to instruct",
+      "Motions privileged after 20 calendar days of conference",
+      "The statement accompanying a conference report",
+      "Consideration of conference reports",
+      "Consideration of amendments in disagreement",
+      "Certain motions to insist as preferential",
+      "Certain conference reports considered as read",
+      "Conferees may report germane modification of amendment in nature of substitute",
+      "Nongermane matter in conference agreements",
+      "Nongermane matter in amendments in disagreement",
+      "Open conference meetings",
+      "Time for debate",
+      "Printing of conference reports and statements in the record",
+      "Open conference meeting",
+      "Printing of conference reports and statement in the record",
+      "Full Rule for: XXVIII. CONFERENCE REPORTS"
+   ],
+   "XXX. READING OF PAPERS":[
+      "Objection to Reading of Papers",
+      "Full Rule for: XXX. READING OF PAPERS"
+   ],
+   "XXX. USE OF EXHIBITS":[
+      "Objections to use of exhibits",
+      "Full Rule for: XXX. USE OF EXHIBITS"
+   ],
+   "XXXI. HALL OF THE HOUSE":[
+      "Use of the Hall of the House",
+      "Full Rule for: XXXI. HALL OF THE HOUSE"
+   ],
+   "XXXII. OF ADMISSION TO THE FLOOR":[
+      "Persons and officials admitted to the floor during sessions of the House",
+      "Admission to the floor when the House is not sitting",
+      "Former Members and officers",
+      "Members' staff",
+      "Prohibition on distribution of campaign contributions",
+      "Full Rule for: XXXII. OF ADMISSION TO THE FLOOR"
+   ],
+   "XXXIII. OF ADMISSION TO THE GALLERIES":[
+      "The various galleries and admission thereto",
+      "Full Rule for: XXXIII. OF ADMISSION TO THE GALLERIES"
+   ],
+   "XXXIV. OFFICIAL AND OTHER REPORTERS":[
+      "Reporters of debates and committee stenographers",
+      "Unofficial reporters in the press gallery and on the floor",
+      "Unofficial reporters in the radio gallery and on the floor",
+      "Full Rule for: XXXIV. OFFICIAL AND OTHER REPORTERS"
+   ],
+   "XXXIX. MESSAGES":[
+      "Entry of messages in the Journal and Record",
+      "Full Rule for: XXXIX. MESSAGES"
+   ],
+   "XXXV. PAY OF WITNESSES":[
+      "Fees of witnesses before the House or committees",
+      "Full Rule for: XXXV. PAY OF WITNESSES"
+   ],
+   "XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE":[
+      "Duties of Clerk and committees as to custody of papers before committees",
+      "Full Rule for: XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE"
+   ],
+   "XXXVII. WITHDRAWAL OF PAPERS":[
+      "Custody of papers in the files of the House",
+      "Full Rule for: XXXVII. WITHDRAWAL OF PAPERS"
+   ],
+   "XXXVIII. BALLOT":[
+      "Elections by ballot",
+      "Full Rule for: XXXVIII. BALLOT"
+   ]
+}
 
 
     // For post 105th rules
     const select_nested = document.createElement("select");
     select_nested.setAttribute('id', 'rule_selector');
     select_nested.setAttribute( "onchange", "checkDiff()" );
+
+    let default_option = document.createElement("option");
+    default_option.setAttribute("disabled", "")
+    default_option.setAttribute("selected", "")
+    default_option.innerHTML = "-- select an option --"
+    select_nested.appendChild(default_option)
 
     // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules) {
@@ -476,6 +1078,14 @@
         option.value = nested_rules[groupName][i];
         option.text = nested_rules[groupName][i];
         optgroup.appendChild(option);
+        if(i == nested_rules[groupName].length - 1){
+            option.value = nested_rules[groupName][i];
+            option.text = groupName;
+        } else {
+            option.value = nested_rules[groupName][i];
+            option.text = nested_rules[groupName][i];
+            option.setAttribute('class', 'hidden-option hidden')
+        }
     }
 
     // add the optgroup to the <select> element
@@ -486,7 +1096,7 @@
     select_nested_older.setAttribute('id', 'rule_selector');
     select_nested_older.setAttribute( "onchange", "checkDiff()" );
 
-
+    
 
     // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules_older) {
@@ -500,6 +1110,15 @@
         option.value = nested_rules_older[groupName][i];
         option.text = nested_rules_older[groupName][i];
         optgroup.appendChild(option);
+        if(i == nested_rules_older[groupName].length - 1){
+            option.value = nested_rules_older[groupName][i];
+            option.text = groupName;
+        } else {
+            option.value = nested_rules_older[groupName][i];
+            option.text = nested_rules_older[groupName][i];
+            option.setAttribute('class', 'hidden-option hidden')
+        }
+        
     }
 
     // add the optgroup to the <select> element
@@ -538,65 +1157,126 @@
 
         }
     }
+
+    // Hide/Reveal rules
+    document.addEventListener("DOMContentLoaded", function() {
+        const toggleButton = document.getElementById('title_button');
+        
+
+      
+        toggleButton.addEventListener('click', function() {
+            const hiddenOptions = document.querySelectorAll('.hidden-option');
+            
+            if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
+                toggleButton.innerHTML = "Disable selecting specific titles"
+                toggleButton.style.background = "teal"
+            } else {
+                toggleButton.innerHTML = "Enable selecting specific titles"
+                toggleButton.style.background = "#CA5252"
+                
+            }
+
+            hiddenOptions.forEach(option => {
+                if (option.classList.contains('hidden')) {
+                    option.classList.remove('hidden');
+                } else {
+                    option.classList.add('hidden');
+                }
+            });
+        });
+
+        const gpt_button = document.getElementById('gpt_button');
+        gpt_button.addEventListener('click', function() {
+            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
+            console.log(gpt_hidden_elements)
+            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
+                gpt_button.innerHTML = "Disable GPT"
+                gpt_button.style.background = "teal"
+            } else {
+                gpt_button.innerHTML = "Enable GPT"
+                gpt_button.style.background = "#CA5252"
+                
+            }
+
+            gpt_hidden_elements.forEach(option => {
+                if (option.classList.contains('gpt-hide')) {
+                    option.classList.remove('gpt-hide');
+                } else {
+                    option.classList.add('gpt-hide');
+                }
+            });
+
+        });
+
+    });
+
+    // GPT button
+
             
     function changeInCongress(){
 
         const congresses_with_party = [
-        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy"},
-        {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan"},
-        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan"},
-        {Congress: "113th", Party: "Republican", Speaker: "John Boehner"},
-        {Congress: "112th", Party: "Republican", Speaker: "John Boehner"},
-        {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi"},
-        {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert"},
-        {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich"},
-        {Congress: "104th", Party: "Republican", Speaker: "Newt Gingrich"},
-        {Congress: "103rd", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "102nd", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "101st", Party: "Democratic", Speaker: "Tom Foley"},
-        {Congress: "100th", Party: "Democratic", Speaker: "Jim Wright"},
-        {Congress: "99th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "98th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "97th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "96th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "95th", Party: "Democratic", Speaker: "Tip O'Neill"},
-        {Congress: "94th", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "93rd", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "92nd", Party: "Democratic", Speaker: "Carl Albert"},
-        {Congress: "91st", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "90th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "89th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "88th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "87th", Party: "Democratic", Speaker: "John W. McCormack"},
-        {Congress: "86th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "85th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "84th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "83rd", Party: "Republican", Speaker: "Joseph W. Martin Jr"},
-        {Congress: "82nd", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "81st", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "80th", Party: "Republican", Speaker: "Joseph W. Martin Jr"},
-        {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn"},
-        {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn"},
+        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy", Minority_Leader: "Hakeem Jeffries", Years: "2023–2025", Democratic_Seats: "212", Republican_Seats: "222"},
+        {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "2021–2023", Democratic_Seats: "222", Republican_Seats: "211"},
+        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "2019–2021", Democratic_Seats: "235", Republican_Seats: "199"},
+        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "2017–2019", Democratic_Seats: "194", Republican_Seats: "241"},
+        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "2015–2017", Democratic_Seats: "188", Republican_Seats: "247"},
+        {Congress: "113th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "2013–2015", Democratic_Seats: "200", Republican_Seats: "233"},
+        {Congress: "112th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "2011-2013", Democratic_Seats: "193", Republican_Seats: "242"},
+        {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "2009–2011", Democratic_Seats: "235", Republican_Seats: "198"},
+        {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "2007–2009", Democratic_Seats: "233", Republican_Seats: "202"},
+        {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Nancy Pelosi", Years: "2005–2007", Democratic_Seats: "201", Republican_Seats: "232"},
+        {Congress: "108th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Nancy Pelosi", Years: "2003–2005", Democratic_Seats: "204", Republican_Seats: "223"},
+        {Congress: "107th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Richard Andrew Gephardt", Years: "2001–2003", Democratic_Seats: "211", Republican_Seats: "221"},
+        {Congress: "106th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Richard Andrew Gephardt", Years: "1999–2001", Democratic_Seats: "211", Republican_Seats: "223"},
+        {Congress: "105th", Party: "Republican", Speaker: "Newt Gingrich", Minority_Leader: "Richard Andrew Gephardt", Years: "1997–1999", Democratic_Seats: "207", Republican_Seats: "226"},
+        {Congress: "104th", Party: "Republican", Speaker: "Newt Gingrich", Minority_Leader: "Richard Andrew Gephardt", Years: "1995–1997", Democratic_Seats: "204", Republican_Seats: "230"},
+        {Congress: "103rd", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "1993–1995", Democratic_Seats: "258", Republican_Seats: "176"},
+        {Congress: "102nd", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "1991–1993", Democratic_Seats: "267", Republican_Seats: "167"},
+        {Congress: "101st", Party: "Democratic", Speaker: "Tom Foley", Minority_Leader: "Robert Henry Michel", Years: "1989–1991", Democratic_Seats: "259", Republican_Seats: "174"},
+        {Congress: "100th", Party: "Democratic", Speaker: "Jim Wright", Minority_Leader: "Robert Henry Michel", Years: "1987–1989", Democratic_Seats: "258", Republican_Seats: "177"},
+        {Congress: "99th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "1985–1987", Democratic_Seats: "252", Republican_Seats: "181"},
+        {Congress: "98th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "1983–1985", Democratic_Seats: "269", Republican_Seats: "164"},
+        {Congress: "97th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "Robert Henry Michel", Years: "1981–1983", Democratic_Seats: "243", Republican_Seats: "191"},
+        {Congress: "96th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "John Jacob Rhodes", Years: "1979–1981", Democratic_Seats: "276", Republican_Seats: "156"},
+        {Congress: "95th", Party: "Democratic", Speaker: "Tip O'Neill", Minority_Leader: "John Jacob Rhodes", Years: "1977–1979", Democratic_Seats: "292", Republican_Seats: "143"},
+        {Congress: "94th", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "John Jacob Rhodes", Years: "1975–1977", Democratic_Seats: "291", Republican_Seats: "144"},
+        {Congress: "93rd", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "Gerald Ford", Years: "1973–1975", Democratic_Seats: "241", Republican_Seats: "192"},
+        {Congress: "92nd", Party: "Democratic", Speaker: "Carl Albert", Minority_Leader: "Gerald Ford", Years: "1971–1973", Democratic_Seats: "254", Republican_Seats: "180"},
+        {Congress: "91st", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "1969–1971", Democratic_Seats: "243", Republican_Seats: "192"},
+        {Congress: "90th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "1967–1969", Democratic_Seats: "248", Republican_Seats: "187"},
+        {Congress: "89th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Gerald Ford", Years: "1965–1967", Democratic_Seats: "295", Republican_Seats: "140"},
+        {Congress: "88th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Charles Abraham Halleck", Years: "1963–1965", Democratic_Seats: "258", Republican_Seats: "176"},
+        {Congress: "87th", Party: "Democratic", Speaker: "John W. McCormack" , Minority_Leader: "Charles Abraham Halleck", Years: "1961–1963", Democratic_Seats: "263", Republican_Seats: "174"},
+        {Congress: "86th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Charles Abraham Halleck", Years: "1959–1961", Democratic_Seats: "282", Republican_Seats: "153"},
+        {Congress: "85th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1957–1959", Democratic_Seats: "233", Republican_Seats: "200"},
+        {Congress: "84th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1955–1957", Democratic_Seats: "231", Republican_Seats: "203"},
+        {Congress: "83rd", Party: "Republican", Speaker: "Joseph W. Martin Jr", Minority_Leader: "Sam Rayburn", Years: "1953–1955", Democratic_Seats: "211", Republican_Seats: "221"},
+        {Congress: "82nd", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1951–1953", Democratic_Seats: "235", Republican_Seats: "168"},
+        {Congress: "81st", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1949–1951", Democratic_Seats: "262", Republican_Seats: "171"},
+        {Congress: "80th", Party: "Republican", Speaker: "Joseph W. Martin Jr", Minority_Leader: "Sam Rayburn", Years: "1947–1949", Democratic_Seats: "245", Republican_Seats: "187"},
+        {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1945–1947", Democratic_Seats: "242", Republican_Seats: "190"},
+        {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn", Minority_Leader: "Joseph W. Martin Jr", Years: "1943–1945", Democratic_Seats: "254", Republican_Seats: "165"},
             ]
 
         first_year = document.getElementById('congress_1')
         second_year = document.getElementById('congress_2')
+        let congress_first = {}
+        let congress_second = {}
+        if(first_year.value === ''){
+            congress_first = congresses_with_party[0]
+        } else {
+            congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
+        }
 
 
-        let congress_first = congresses_with_party.filter(d => d.Congress == first_year.value)[0]
-        let congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
-        console.log(`${congress_first.Party} to ${congress_second.Party}` )
-
-        let congress_first_int = parseInt(congress_first.Congress.replace("th", ""))
-        let congress_second_int = parseInt(congress_second.Congress.replace("th", ""))
-
+        if(second_year.value === ''){
+            congress_second = congresses_with_party[1]
+        } else {
+            congress_second = congresses_with_party.filter(d => d.Congress == second_year.value)[0]
+        }
         
+
         let speaker_now_element = document.getElementById("speaker_now")
         let speaker_then_element = document.getElementById("speaker_then")
 
@@ -618,25 +1298,44 @@
 
         // Updating the first cell
 
-        document.getElementById("current_party").innerHTML = congress_first.Party
-
+        //document.getElementById("current_party").innerHTML = congress_first.Party
         // Updating the second cell
+        //document.getElementById("previous_party").innerHTML = congress_second.Party
 
-        console.log(congress_second)
-        document.getElementById("previous_party").innerHTML = congress_second.Party
+        // Minority
+        let house_minority_now = document.getElementById("minority_leader_current")
+        let house_minority_then = document.getElementById("minority_leader_previous")
 
+        house_minority_now.innerHTML = congress_first.Minority_Leader
+        house_minority_then.innerHTML = congress_second.Minority_Leader
+
+        // Years
+
+        let house_year_now = document.getElementById("current_years")
+        let house_year_then = document.getElementById("previous_years")
+
+        house_year_now.innerHTML = congress_first.Years
+        house_year_then.innerHTML = congress_second.Years
+
+        // Democratic Seats
+        let dem_seats_now = document.getElementById("current_seats_d")
+        let dem_seats_then = document.getElementById("previous_seats_d")
+
+        dem_seats_now.innerHTML = congress_first.Democratic_Seats
+        dem_seats_then.innerHTML = congress_second.Democratic_Seats
+
+        // Republican Seats
+
+        let rep_seats_now = document.getElementById("current_seats_r")
+        let rep_seats_then = document.getElementById("previous_seats_r")
+
+        rep_seats_now.innerHTML = congress_first.Republican_Seats
+        rep_seats_then.innerHTML = congress_second.Republican_Seats
 
     }
     
         async function generateDiff(){
-                
-
-                // document.getElementById("new_text").innerHTML = ""
-                // document.getElementById("old_text").innerHTML = ""
-                // document.getElementById("gpt_text").innerHTML = ""
-
-                const loadingDiv = document.getElementById('loading');
-                loadingDiv.style.display = 'block';
+                const gpt_button = document.getElementById("gpt_button")                
 
                 first_year = document.getElementById('congress_2')
                 second_year = document.getElementById('congress_1')
@@ -659,15 +1358,6 @@
 
                         document.getElementById("new_text").innerHTML = obj_1.Result
                         document.getElementById("old_text").innerHTML = obj_2.Result
-
-                        gpt_comparer_res = await fetch(`/api/openai?rule_1=${obj_1.Result}&rule_2=${obj_2.Result}&congress_1=${first_year.value}&congress_2=${second_year.value}&rule_title=${first_rule_new}`)       
-
-                        // gpt_text
-                        gpt_comparer = await gpt_comparer_res.json()
-                        document.getElementById("gpt_text").innerHTML = gpt_comparer.Result
-
-                        loadingDiv.style.display = 'none';
-
 
                         const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
                         console.log(diff)
@@ -699,12 +1389,23 @@
                         });
 
                         display.appendChild(fragment);
+                        console.log(gpt_button.innerHTML)
+
+                        if(gpt_button.innerHTML === "Disable GPT"){
+                            const loadingDiv = document.getElementById('loading');
+                            loadingDiv.style.display = 'block';
+
+                            gpt_comparer_res = await fetch(`/api/openai?rule_1=${obj_1.Result}&rule_2=${obj_2.Result}&congress_1=${first_year.value}&congress_2=${second_year.value}&rule_title=${first_rule_new}`)
+                            gpt_comparer = await gpt_comparer_res.json()
+                            document.getElementById("gpt_text").innerHTML = gpt_comparer.Result
+
+                            loadingDiv.style.display = 'none';
+                        }
+                        
                 } else {
                     alert("Rule does not exist in both years. Try different years")
                 }
-            } else {
-                alert("Congresses are the same years. Pick a different Congresses.")
-            }
+            } 
 
         }
 

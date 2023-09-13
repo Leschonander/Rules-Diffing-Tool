@@ -21,6 +21,14 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+.hidden {
+    display: none;
+}
+
+.gpt-hide {
+  display: none;
+}
+
 /* Displays for media that requires diff sizes */
 
 
