@@ -47,25 +47,18 @@ def api_route():
     
     return jsonify(result)
 
-@app.route('/api/openai')
+@app.route('/api/openai', methods = ['POST', 'GET'])
 def openapi_api_route():
-    old_rule = request.args.get('rule_1')
-    new_rule = request.args.get('rule_2')
 
-    congress_1 = request.args.get('congress_1')
-    congress_2 = request.args.get('congress_2')
+    data = request.json
 
-    rule_title = request.args.get('rule_title')
+    old_rule = data.get("old_rule")
+    new_rule = data.get("new_rule")
 
-    '''
-    print(congress_1)
-    print(old_rule)
-    print("---")
-    print(congress_2)
-    print(new_rule)
-    print("---")
-    print(rule_title)
-    '''
+    congress_1 = data.get("congress_1")
+    congress_2 = data.get("congress_2")
+
+    rule_title = data.get("rule_title")
 
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo-16k-0613",

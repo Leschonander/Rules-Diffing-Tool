@@ -1395,7 +1395,23 @@
                             const loadingDiv = document.getElementById('loading');
                             loadingDiv.style.display = 'block';
 
-                            gpt_comparer_res = await fetch(`/api/openai?rule_1=${obj_1.Result}&rule_2=${obj_2.Result}&congress_1=${first_year.value}&congress_2=${second_year.value}&rule_title=${first_rule_new}`)
+                            const data = {
+                                old_rule: obj_1.Result,
+                                new_rule: obj_2.Result,
+
+                                congress_1: first_year.value,
+                                congress_2: second_year.value,
+
+                                rule_title: first_rule_new,
+                            }
+
+                            gpt_comparer_res = await fetch(`/api/openai`,
+                                {   method: 'POST', 
+                                    headers: {
+                                    'Content-Type': 'application/json',
+                                    // Add any other headers if required
+                                }, body: JSON.stringify(data)}
+                            )
                             gpt_comparer = await gpt_comparer_res.json()
                             document.getElementById("gpt_text").innerHTML = gpt_comparer.Result
 
