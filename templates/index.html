@@ -1219,11 +1219,11 @@
         const congresses_with_party = [
         {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy", Minority_Leader: "Hakeem Jeffries", Years: "(2023–2025)", Democratic_Seats: "212", Republican_Seats: "222"},
         {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "(2021–2023)", Democratic_Seats: "222", Republican_Seats: "211"},
-        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "(2017–2019)", Democratic_Seats: "235", Republican_Seats: "199"},
-        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2015–2017)", Democratic_Seats: "194", Republican_Seats: "241"},
-        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2013–2015)", Democratic_Seats: "188", Republican_Seats: "247"},
-        {Congress: "113th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "(2011–2013)", Democratic_Seats: "200", Republican_Seats: "233"},
-        {Congress: "112th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "(2009-2011)", Democratic_Seats: "193", Republican_Seats: "242"},
+        {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "Kevin McCarthy", Years: "(2019–2021)", Democratic_Seats: "235", Republican_Seats: "199"},
+        {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2017–2019)", Democratic_Seats: "194", Republican_Seats: "241"},
+        {Congress: "114th", Party: "Republican", Speaker: "Paul Ryan", Minority_Leader: "Nancy Pelosi", Years: "(2015–2017)", Democratic_Seats: "188", Republican_Seats: "247"},
+        {Congress: "113th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "(2013–2015)", Democratic_Seats: "200", Republican_Seats: "233"},
+        {Congress: "112th", Party: "Republican", Speaker: "John Boehner", Minority_Leader: "Nancy Pelosi", Years: "2011-2013)", Democratic_Seats: "193", Republican_Seats: "242"},
         {Congress: "111th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "(2009–2011)", Democratic_Seats: "235", Republican_Seats: "198"},
         {Congress: "110th", Party: "Democratic", Speaker: "Nancy Pelosi", Minority_Leader: "John Boehner", Years: "(2007–2009)", Democratic_Seats: "233", Republican_Seats: "202"},
         {Congress: "109th", Party: "Republican", Speaker: "John Dennis Hastert", Minority_Leader: "Nancy Pelosi", Years: "(2005–2007)", Democratic_Seats: "201", Republican_Seats: "232"},
@@ -1316,7 +1316,7 @@
         let house_year_then = document.getElementById("previous_years")
 
         house_year_now.innerHTML = congress_first.Years
-        house_minority_then.innerHTML = congress_second.Years
+        house_year_then.innerHTML = congress_second.Years
 
         // Democratic Seats
         let dem_seats_now = document.getElementById("current_seats_d")
