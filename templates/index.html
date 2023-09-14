@@ -59,11 +59,15 @@
 
                 </div>
 
+            
+
         
             </div>
 
             <div class = "text_box_padding rules_box">
                 <h3>Select rule to compare</h3>
+                
+                
 
                 <div id = "explain_box">
                     <strong>RulesCompare</strong> allows you to cross-compare the text of specific rules across House rules packages.  To use the tool, select the Congresses you’d like to compare. Then, in the drop-down menu, select the specific rule you’d like to  study. Click “Compare,” and the comparison will appear below.
@@ -81,8 +85,8 @@
                 </div>
                 <p>Experimental Features</p>
 
-                <button id="rule_flip" class="button_smaller" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
-                <button id="title_button" class="button_smaller" >Enable selecting specific titles</button>
+                <button id="rule_flip" class="button_smaller rule_flip_button_click" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
+                <button id="title_button" class="button_smaller rule_flip_button_click" >Enable selecting specific titles</button>
                 <button id="gpt_button" class="button_smaller" >Enable GPT</button>
                 
             </div>
@@ -91,12 +95,13 @@
         </article>
 
         <article class = "grid-container-other-article">
-
+         
             <button class="button" id="compare_button">Compare</button>
             <div id="loading" class="loading"></div>
         </article>
         <article class = "grid-container-other-article">
             <h3>The difference between the rules</h3>
+            
             <p id="diff_text"></p>
 
 
@@ -470,7 +475,9 @@
       "GENERAL PROVISIONS",
       "Full Rule for: GENERAL PROVISIONS"
    ]
-}   
+}
+
+   const nested_rules_short = {'RULE I. THE SPEAKER': ['Full Rule for: THE SPEAKER'], 'II. OTHER OFFICERS AND OFFICIALS': ['Full Rule for: OTHER OFFICERS AND OFFICIALS'], 'III. THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO': ['Full Rule for: THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO'], 'IV. HALL OF THE HOUSE.': ['Full Rule for: HALL OF THE HOUSE.'], 'V. BROADCASTING THE HOUSE': ['Full Rule for: BROADCASTING THE HOUSE'], 'VI. OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES': ['Full Rule for: OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES'], 'VII. RECORDS OF THE HOUSE': ['Full Rule for: RECORDS OF THE HOUSE'], 'VIII. RESPONSE TO SUBPOENAS': ['Full Rule for: RESPONSE TO SUBPOENAS'], 'IX. QUESTIONS OF PRIVILEGE': ['Full Rule for: QUESTIONS OF PRIVILEGE'], 'X. ORGANIZATION OF COMMITTEES': ['Full Rule for: ORGANIZATION OF COMMITTEES'], 'XI. PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS': ['Full Rule for: PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS'], 'XII. RECEIPT AND REFERRAL OF MEASURES AND MATTERS': ['Full Rule for: RECEIPT AND REFERRAL OF MEASURES AND MATTERS'], 'XIII. CALENDARS AND COMMITTEE REPORTS': ['Full Rule for: CALENDARS AND COMMITTEE REPORTS'], 'XIV. ORDER AND PRIORITY OF BUSINESS': ['Full Rule for: ORDER AND PRIORITY OF BUSINESS'], 'XV. BUSINESS IN ORDER ON SPECIAL DAYS': ['Full Rule for: BUSINESS IN ORDER ON SPECIAL DAYS'], 'XVI. MOTIONS AND AMENDMENTS': ['Full Rule for: MOTIONS AND AMENDMENTS'], 'XVII. DECORUM AND DEBATE': ['Full Rule for: DECORUM AND DEBATE'], 'XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION': ['Full Rule for: THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION'], 'XIX. MOTIONS FOLLOWING THE AMENDMENT STAGE': ['Full Rule for: MOTIONS FOLLOWING THE AMENDMENT STAGE'], 'XX. VOTING AND QUORUM CALLS': ['Full Rule for: VOTING AND QUORUM CALLS'], 'XXI. RESTRICTIONS ON CERTAIN BILLS': ['Full Rule for: RESTRICTIONS ON CERTAIN BILLS'], 'XXII. HOUSE AND SENATE RELATIONS': ['Full Rule for: HOUSE AND SENATE RELATIONS'], 'XXIII. CODE OF OFFICIAL CONDUCT': ['Full Rule for: CODE OF OFFICIAL CONDUCT'], 'XXIV. LIMITATIONS ON USE OF OFFICIAL FUNDS': ['Full Rule for: LIMITATIONS ON USE OF OFFICIAL FUNDS'], 'XXV. LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS': ['Full Rule for: LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS'], 'XXVI. FINANCIAL DISCLOSURE': ['Full Rule for: FINANCIAL DISCLOSURE'], 'XXVII. DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS': ['Full Rule for: DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS'], 'XXVIII. STATUTORY LIMIT ON THE PUBLIC DEBT': ['Full Rule for: STATUTORY LIMIT ON THE PUBLIC DEBT'], 'XXIX. GENERAL PROVISIONS': ['Full Rule for: GENERAL PROVISIONS']}
 
     const nested_rules_older = {
    "I. DUTIES OF THE SPEAKER":[
@@ -1054,9 +1061,11 @@
    ]
 }
 
+   const nested_rules_older_short = {'I. DUTIES OF THE SPEAKER': ['Full Rule for: I. DUTIES OF THE SPEAKER'], 'II. ELECTION OF OFFICERS': ['Full Rule for: II. ELECTION OF OFFICERS'], 'III. DUTIES OF THE CLERK': ['Full Rule for: III. DUTIES OF THE CLERK'], 'IV. DUTIES OF THE SERGEANT-AT-ARMS': ['Full Rule for: IV. DUTIES OF THE SERGEANT-AT-ARMS'], 'IX. QUESTIONS OF PRIVILEGE': ['Full Rule for: IX. QUESTIONS OF PRIVILEGE'], 'L. PROCEDURE FOR RESPONSE TO SUBPOENAS': ['Full Rule for: L. PROCEDURE FOR RESPONSE TO SUBPOENAS'], 'LI. EMPLOYMENT PRACTICES': ['Full Rule for: LI. EMPLOYMENT PRACTICES'], 'LII. APPLICATION OF CERTAIN LAWS': ['Full Rule for: LII. APPLICATION OF CERTAIN LAWS'], 'OFFICE OF INSPECTOR GENERAL': ['Full Rule for: OFFICE OF INSPECTOR GENERAL'], 'V. DUTIES OF THE DOORKEEPER': ['Full Rule for: V. DUTIES OF THE DOORKEEPER'], 'VI. ADMINISTRATIVE OFFICIALS': ['Full Rule for: VI. ADMINISTRATIVE OFFICIALS'], 'VI. DUTIES OF THE POSTMASTER': ['Full Rule for: VI. DUTIES OF THE POSTMASTER'], 'VII. DUTIES OF THE CHAPLAIN': ['Full Rule for: VII. DUTIES OF THE CHAPLAIN'], 'VIII. DUTIES OF THE MEMBERS': ['Full Rule for: VIII. DUTIES OF THE MEMBERS'], 'X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES': ['Full Rule for: X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES'], 'XI. RULES OF PROCEDURES FOR COMMITTEES': ['Full Rule for: XI. RULES OF PROCEDURES FOR COMMITTEES'], 'XII. RESIDENT COMMISSIONER AND DELEGATES.': ['Full Rule for: XII. RESIDENT COMMISSIONER AND DELEGATES.'], 'XIII. CALENDARS AND COMMITTEE REPORTS': ['Full Rule for: XIII. CALENDARS AND COMMITTEE REPORTS'], 'XIV. OF DECORUM AND DEBATE': ['Full Rule for: XIV. OF DECORUM AND DEBATE'], 'XIX. OF AMENDMENTS': ['Full Rule for: XIX. OF AMENDMENTS'], 'XL. EXECUTIVE COMMUNICATIONS': ['Full Rule for: XL. EXECUTIVE COMMUNICATIONS'], 'XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES': ['Full Rule for: XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES'], 'XLII. GENERAL PROVISIONS': ['Full Rule for: XLII. GENERAL PROVISIONS'], 'XLIII. CODE OF OFFICIAL CONDUCT': ['Full Rule for: XLIII. CODE OF OFFICIAL CONDUCT'], 'XLIV. FINANCIAL DISCLOSURE': ['Full Rule for: XLIV. FINANCIAL DISCLOSURE'], 'XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT': ['Full Rule for: XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT'], 'XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME': ['Full Rule for: XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME'], 'XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE': ['Full Rule for: XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE'], 'XV. ON CALLS OF THE ROLL AND HOUSE': ['Full Rule for: XV. ON CALLS OF THE ROLL AND HOUSE'], 'XVI. ON MOTIONS, THEIR PRECEDENCE, ETC': ['Full Rule for: XVI. ON MOTIONS, THEIR PRECEDENCE, ETC'], 'XVII. DECORUM AND DEBATE': ['Full Rule for: XVII. DECORUM AND DEBATE'], 'XVII. PREVIOUS QUESTION': ['Full Rule for: XVII. PREVIOUS QUESTION'], 'XVIII. RECONSIDERATION': ['Full Rule for: XVIII. RECONSIDERATION'], 'XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION': ['Full Rule for: XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION'], 'XX.OF AMENDMENTS OF THE SENATE': ['Full Rule for: XX.OF AMENDMENTS OF THE SENATE'], 'XXI. ON BILLS': ['Full Rule for: XXI. ON BILLS'], 'XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS': ['Full Rule for: XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS'], 'XXIII. OF COMMITTEES OF THE WHOLE HOUSE': ['Full Rule for: XXIII. OF COMMITTEES OF THE WHOLE HOUSE'], 'XXIV. ORDER OF BUSINESS': ['Full Rule for: XXIV. ORDER OF BUSINESS'], 'XXIX. SECRET SESSION': ['Full Rule for: XXIX. SECRET SESSION'], 'XXV. PRIORITY OF BUSINESS': ['Full Rule for: XXV. PRIORITY OF BUSINESS'], 'XXV.PRIORITY OF BUSINESS': ['Full Rule for: XXV.PRIORITY OF BUSINESS'], 'XXVI. UNFINISHED BUSINESS OF THE SESSION': ['Full Rule for: XXVI. UNFINISHED BUSINESS OF THE SESSION'], 'XXVII. CHANGE OR SUSPENSION OF RULES': ['Full Rule for: XXVII. CHANGE OR SUSPENSION OF RULES'], 'XXVIII. CONFERENCE REPORTS': ['Full Rule for: XXVIII. CONFERENCE REPORTS'], 'XXX. READING OF PAPERS': ['Full Rule for: XXX. READING OF PAPERS'], 'XXX. USE OF EXHIBITS': ['Full Rule for: XXX. USE OF EXHIBITS'], 'XXXI. HALL OF THE HOUSE': ['Full Rule for: XXXI. HALL OF THE HOUSE'], 'XXXII. OF ADMISSION TO THE FLOOR': ['Full Rule for: XXXII. OF ADMISSION TO THE FLOOR'], 'XXXIII. OF ADMISSION TO THE GALLERIES': ['Full Rule for: XXXIII. OF ADMISSION TO THE GALLERIES'], 'XXXIV. OFFICIAL AND OTHER REPORTERS': ['Full Rule for: XXXIV. OFFICIAL AND OTHER REPORTERS'], 'XXXIX. MESSAGES': ['Full Rule for: XXXIX. MESSAGES'], 'XXXV. PAY OF WITNESSES': ['Full Rule for: XXXV. PAY OF WITNESSES'], 'XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE': ['Full Rule for: XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE'], 'XXXVII. WITHDRAWAL OF PAPERS': ['Full Rule for: XXXVII. WITHDRAWAL OF PAPERS'], 'XXXVIII. BALLOT': ['Full Rule for: XXXVIII. BALLOT']}
 
-    // For post 105th rules
-    const select_nested = document.createElement("select");
+
+   // For post 105th rules - large
+   const select_nested = document.createElement("select");
     select_nested.setAttribute('id', 'rule_selector');
     select_nested.setAttribute( "onchange", "checkDiff()" );
 
@@ -1066,13 +1075,10 @@
     default_option.innerHTML = "-- select an option --"
     select_nested.appendChild(default_option)
 
-    // loop through the optgroups and add them to the <select> element
     for (var groupName in nested_rules) {
-    // create the optgroup
     var optgroup = document.createElement("optgroup");
     optgroup.label = groupName;
 
-    // loop through the options in the optgroup and add them to the optgroup
     for (var i = 0; i < nested_rules[groupName].length; i++) {
         var option = document.createElement("option");
         option.value = nested_rules[groupName][i];
@@ -1088,13 +1094,51 @@
         }
     }
 
-    // add the optgroup to the <select> element
         select_nested.appendChild(optgroup);
     }
-    // for pre 105th rules
+
+    // for post 105th rules - small
+    const select_nested_shorter = document.createElement("select");
+    select_nested_shorter.setAttribute('id', 'rule_selector');
+    select_nested_shorter.setAttribute( "onchange", "checkDiff()" );
+
+    let default_option_short = document.createElement("option");
+    default_option_short.setAttribute("disabled", "")
+    default_option_short.setAttribute("selected", "")
+    default_option_short.innerHTML = "-- select an option --"
+    select_nested_shorter.appendChild(default_option_short)
+
+    for (var groupName in nested_rules_short) {
+      var optgroup = document.createElement("optgroup");
+      optgroup.label = groupName;
+
+      for (var i = 0; i < nested_rules_short[groupName].length; i++) {
+         var option = document.createElement("option");
+         option.value = nested_rules_short[groupName][i];
+         option.text = nested_rules_short[groupName][i];
+         optgroup.appendChild(option);
+         if(i == nested_rules_short[groupName].length - 1){
+               option.value = nested_rules_short[groupName][i];
+               option.text = groupName;
+         } else {
+               option.value = nested_rules_short[groupName][i];
+               option.text = nested_rules_short[groupName][i];
+               option.setAttribute('class', 'hidden-option hidden')
+         }
+      }
+
+      select_nested_shorter.appendChild(optgroup);
+    }
+
+    // for pre 105th rules - large
     const select_nested_older = document.createElement("select");
     select_nested_older.setAttribute('id', 'rule_selector');
     select_nested_older.setAttribute( "onchange", "checkDiff()" );
+    let default_option_older_long = document.createElement("option");
+    default_option_older_long.setAttribute("disabled", "")
+    default_option_older_long.setAttribute("selected", "")
+    default_option_older_long.innerHTML = "-- select an option --"
+    select_nested_older.appendChild(default_option_older_long)
 
     
 
@@ -1121,14 +1165,58 @@
         
     }
 
-    // add the optgroup to the <select> element
         select_nested_older.appendChild(optgroup);
     }
+    // for pre-105th rules - small
+    const select_nested_older_shorter = document.createElement("select");
+    select_nested_older_shorter.setAttribute('id', 'rule_selector');
+    select_nested_older_shorter.setAttribute( "onchange", "checkDiff()" );
+    let default_option_older_shorter = document.createElement("option");
+    default_option_older_shorter.setAttribute("disabled", "")
+    default_option_older_shorter.setAttribute("selected", "")
+    default_option_older_shorter.innerHTML = "-- select an option --"
+    select_nested_older_shorter.appendChild(default_option_older_shorter)
+
     
-    document.querySelector(".rules_box").appendChild(select_nested)
+
+    // loop through the optgroups and add them to the <select> element
+    for (var groupName in nested_rules_older_short) {
+    // create the optgroup
+    var optgroup = document.createElement("optgroup");
+    optgroup.label = groupName;
+
+    // loop through the options in the optgroup and add them to the optgroup
+    for (var i = 0; i < nested_rules_older_short[groupName].length; i++) {
+        var option = document.createElement("option");
+        option.value = nested_rules_older_short[groupName][i];
+        option.text = nested_rules_older_short[groupName][i];
+        optgroup.appendChild(option);
+        if(i == nested_rules_older_short[groupName].length - 1){
+            option.value = nested_rules_older_short[groupName][i];
+            option.text = groupName;
+        } else {
+            option.value = nested_rules_older_short[groupName][i];
+            option.text = nested_rules_older_short[groupName][i];
+            option.setAttribute('class', 'hidden-option hidden')
+        }
+        
+    }
+
+      select_nested_older_shorter.appendChild(optgroup);
+    }
+    // console.log(select_nested)
+    // console.log(select_nested_shorter)
+    // console.log(select_nested_older)
+    // console.log(select_nested_older_shorter)
+
+    // rules box 
+    document.querySelector(".rules_box").appendChild(select_nested_shorter)
     const status_span = document.createElement("span");
     status_span.setAttribute('id', 'status_span');
     document.querySelector(".rules_box").appendChild(status_span)
+
+   let long = 0;
+   let rule_age = 0;
     
     // Flip between old and new ones    
     function flip_rules(){
@@ -1137,42 +1225,39 @@
 
         console.log(rule_flip_button.innerHTML)
         if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
+            rule_age = 1
 
             // remove element here
-            document.getElementById("rule_selector").remove()
+            // document.getElementById("rule_selector").remove()
             rule_flip_button.style.background = "teal"
 
 
             rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
-            document.querySelector(".rules_box").appendChild(select_nested_older)
+            // document.querySelector(".rules_box").appendChild(select_nested_older)
 
         } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
-
+            rule_age = 0
             // remove element here
-            document.getElementById("rule_selector").remove()
+            // document.getElementById("rule_selector").remove()
             rule_flip_button.style.background = "#CA5252"
 
             rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
-            document.querySelector(".rules_box").appendChild(select_nested)
+            // document.querySelector(".rules_box").appendChild(select_nested)
 
         }
     }
-
-    // Hide/Reveal rules
-    document.addEventListener("DOMContentLoaded", function() {
-        const toggleButton = document.getElementById('title_button');
-        
-
-      
-        toggleButton.addEventListener('click', function() {
+    const toggleButton = document.getElementById('title_button');
+    toggleButton.addEventListener('click', function() {
             const hiddenOptions = document.querySelectorAll('.hidden-option');
             
             if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
                 toggleButton.innerHTML = "Disable selecting specific titles"
                 toggleButton.style.background = "teal"
+                long = 1;
             } else {
                 toggleButton.innerHTML = "Enable selecting specific titles"
                 toggleButton.style.background = "#CA5252"
+                long = 0;
                 
             }
 
@@ -1184,6 +1269,43 @@
                 }
             });
         });
+
+    // Hide/Reveal rules
+    document.addEventListener("DOMContentLoaded", function() {
+
+         [...document.querySelectorAll('.rule_flip_button_click')].forEach(function(item) {
+         item.addEventListener('click', function() {
+            
+            
+
+            if(long === 0 && rule_age === 0){
+               // select_nested_shorter
+               document.getElementById("rule_selector").remove()
+               document.querySelector(".rules_box").appendChild(select_nested_shorter)
+               
+            } else if(long === 1 && rule_age === 0){
+               // select_nested
+               document.getElementById("rule_selector").remove()
+               document.querySelector(".rules_box").appendChild(select_nested)
+
+            } else if(long === 0 && rule_age === 1){
+               // select_nested_older_shorter
+               document.getElementById("rule_selector").remove()
+               document.querySelector(".rules_box").appendChild(select_nested_older_shorter)
+
+            } else if(long === 1 && rule_age === 1){
+               // select_nested_older
+               document.getElementById("rule_selector").remove()
+               document.querySelector(".rules_box").appendChild(select_nested_older)
+            }
+
+            
+         });
+            });
+        
+
+      
+        
 
         const gpt_button = document.getElementById('gpt_button');
         gpt_button.addEventListener('click', function() {
@@ -1295,12 +1417,6 @@
         rule_change_first_congress_element.innerHTML = congress_first.Congress
         rule_change_second_congress_element.innerHTML = congress_second.Congress
 
-
-        // Updating the first cell
-
-        //document.getElementById("current_party").innerHTML = congress_first.Party
-        // Updating the second cell
-        //document.getElementById("previous_party").innerHTML = congress_second.Party
 
         // Minority
         let house_minority_now = document.getElementById("minority_leader_current")
