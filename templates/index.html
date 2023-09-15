@@ -1109,14 +1109,14 @@
     select_nested_shorter.appendChild(default_option_short)
 
     for (var groupName in nested_rules_short) {
-      var optgroup = document.createElement("optgroup");
-      optgroup.label = groupName;
+      // var optgroup = document.createElement("optgroup");
+      // optgroup.label = groupName;
 
       for (var i = 0; i < nested_rules_short[groupName].length; i++) {
          var option = document.createElement("option");
          option.value = nested_rules_short[groupName][i];
          option.text = nested_rules_short[groupName][i];
-         optgroup.appendChild(option);
+         // optgroup.appendChild(option);
          if(i == nested_rules_short[groupName].length - 1){
                option.value = nested_rules_short[groupName][i];
                option.text = groupName;
@@ -1125,9 +1125,11 @@
                option.text = nested_rules_short[groupName][i];
                option.setAttribute('class', 'hidden-option hidden')
          }
+
+         select_nested_shorter.appendChild(option);
       }
 
-      select_nested_shorter.appendChild(optgroup);
+      
     }
 
     // for pre 105th rules - large
@@ -1190,7 +1192,7 @@
         var option = document.createElement("option");
         option.value = nested_rules_older_short[groupName][i];
         option.text = nested_rules_older_short[groupName][i];
-        optgroup.appendChild(option);
+        // optgroup.appendChild(option);
         if(i == nested_rules_older_short[groupName].length - 1){
             option.value = nested_rules_older_short[groupName][i];
             option.text = groupName;
@@ -1199,10 +1201,10 @@
             option.text = nested_rules_older_short[groupName][i];
             option.setAttribute('class', 'hidden-option hidden')
         }
-        
+        select_nested_older_shorter.appendChild(option);
     }
 
-      select_nested_older_shorter.appendChild(optgroup);
+      // select_nested_older_shorter.appendChild(optgroup);
     }
     // console.log(select_nested)
     // console.log(select_nested_shorter)
