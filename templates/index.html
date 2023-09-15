@@ -1111,15 +1111,20 @@
     for (var groupName in nested_rules_short) {
       // var optgroup = document.createElement("optgroup");
       // optgroup.label = groupName;
+      
 
       for (var i = 0; i < nested_rules_short[groupName].length; i++) {
          var option = document.createElement("option");
-         option.value = nested_rules_short[groupName][i];
-         option.text = nested_rules_short[groupName][i];
+         
          // optgroup.appendChild(option);
          if(i == nested_rules_short[groupName].length - 1){
                option.value = nested_rules_short[groupName][i];
-               option.text = groupName;
+               if(groupName === "RULE I. THE SPEAKER"){
+                  option.text = "I. THE SPEAKER";
+               } else {
+                  option.text = groupName;
+               }
+               
          } else {
                option.value = nested_rules_short[groupName][i];
                option.text = nested_rules_short[groupName][i];
@@ -1186,7 +1191,7 @@
     // create the optgroup
     var optgroup = document.createElement("optgroup");
     optgroup.label = groupName;
-
+      
     // loop through the options in the optgroup and add them to the optgroup
     for (var i = 0; i < nested_rules_older_short[groupName].length; i++) {
         var option = document.createElement("option");
@@ -1478,7 +1483,7 @@
                         document.getElementById("old_text").innerHTML = obj_2.Result
 
                         const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
-                        console.log(diff)
+                        // console.log(diff)
                         const display = document.getElementById('diff_text');
                         display.innerHTML = '';
                         const fragment = document.createDocumentFragment();
@@ -1488,8 +1493,8 @@
 
                             // bold for new. Strike out for old
 
-                            console.log(part.added)
-                            console.log(part.removed)
+                            // console.log(part.added)
+                            // console.log(part.removed)
 
                             const size = part.added ? '900' : '400' // style.fontWeight
                             const underline = part.removed ? 'line-through': 'none'  // style.textDecoration
@@ -1507,7 +1512,7 @@
                         });
 
                         display.appendChild(fragment);
-                        console.log(gpt_button.innerHTML)
+                        // console.log(gpt_button.innerHTML)
 
                         if(gpt_button.innerHTML === "Disable GPT"){
                             const loadingDiv = document.getElementById('loading');
