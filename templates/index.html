@@ -88,6 +88,7 @@
                 <button id="rule_flip" class="button_smaller rule_flip_button_click" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
                 <button id="title_button" class="button_smaller rule_flip_button_click" >Enable selecting specific titles</button>
                 <button id="gpt_button" class="button_smaller" >Enable GPT</button>
+                <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
                 
             </div>
             
@@ -99,32 +100,35 @@
             <button class="button" id="compare_button">Compare</button>
             <div id="loading" class="loading"></div>
         </article>
-        <article class = "grid-container-other-article">
-            <h3>The difference between the rules</h3>
-            
-            <p id="diff_text"></p>
 
-
+        <article class = "grid-container-diffs">
+         <div>
             <h3>Legend</h3>
             <p style="color: green; font-weight: 900;">This is text that was added.</p>
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
-            </body>
+         </div>
 
+         <div>
             <h3 class="gpt-exp gpt-hide">GPT 3 Generated Explanation of Changes</h3>
             <p class="gpt-exp gpt-hide" id="gpt_text">
+         </div>
 
-            </p>            
+        </article>
 
-            </p>
+        <article class = "grid-container-diffs">
 
-            <h3>The rule for the <span id="rule_change_first_congress"></span> Congress</h3>
-            <p id="old_text">
-               
-            </p>
-
-            <h3>The rule for the <span id="rule_change_second_congress"></span> Congress</h3>
-            <p id="new_text">
-            </p>
+            <div>
+               <h3>The difference between the rules</h3>
+               <p id="diff_text"></p>
+            </div>
+            <div>
+               <h3>The rule for the <span id="rule_change_first_congress"></span> Congress</h3>
+               <p id="old_text"></p>
+            </div>
+            <div>
+               <h3>The rule for the <span id="rule_change_second_congress"></span> Congress</h3>
+               <p id="new_text"></p>
+            </div>
 
         </article>
 
@@ -1224,6 +1228,7 @@
 
    let long = 0;
    let rule_age = 0;
+   let diff_disabled = 0;
     
     // Flip between old and new ones    
     function flip_rules(){
@@ -1276,7 +1281,21 @@
                 }
             });
         });
+   const diff_button = document.getElementById('diff_disable_button');
+   diff_button.addEventListener('click', function(){
 
+      if(diff_button.style.background === "#CA5252" || diff_button.style.background === "" || diff_button.style.background === 'rgb(202, 82, 82)'){
+               diff_button.innerHTML = "Enable Diff"
+               diff_button.style.background = "teal"
+               diff_disabled = 1;
+            } else {
+               diff_button.innerHTML = "Disable diff"
+               diff_button.style.background = "#CA5252"
+               diff_disabled = 0;
+                
+            }
+
+   })
     // Hide/Reveal rules
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -1476,42 +1495,50 @@
                         obj_1 = await res_1.json();
                         obj_2 = await res_2.json();
                         
-                        console.log(obj_1)
-                        console.log(obj_2)
+                        // console.log(obj_1)
+                        // console.log(obj_2)
 
                         document.getElementById("new_text").innerHTML = obj_1.Result
                         document.getElementById("old_text").innerHTML = obj_2.Result
+                        // console.log(diff_disabled)
+                        if (diff_disabled === 0){
+                           const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
+                           // console.log(diff)
+                           const display = document.getElementById('diff_text');
+                           display.innerHTML = '';
+                           const fragment = document.createDocumentFragment();
+                           diff.forEach((part) => {
+                                 // green for additions, red for deletions
+                                 // grey for common parts
 
-                        const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
-                        // console.log(diff)
-                        const display = document.getElementById('diff_text');
-                        display.innerHTML = '';
-                        const fragment = document.createDocumentFragment();
-                        diff.forEach((part) => {
-                            // green for additions, red for deletions
-                            // grey for common parts
+                                 // bold for new. Strike out for old
 
-                            // bold for new. Strike out for old
+                                 // console.log(part.added)
+                                 // console.log(part.removed)
 
-                            // console.log(part.added)
-                            // console.log(part.removed)
+                                 const size = part.added ? '900' : '400' // style.fontWeight
+                                 const underline = part.removed ? 'line-through': 'none'  // style.textDecoration
 
-                            const size = part.added ? '900' : '400' // style.fontWeight
-                            const underline = part.removed ? 'line-through': 'none'  // style.textDecoration
+                                 const color = part.added ? 'green' :
+                                    part.removed ? 'red' : 'grey';
 
-                            const color = part.added ? 'green' :
-                                part.removed ? 'red' : 'grey';
+                                 span = document.createElement('span');
+                                 span.style.color = color;
+                                 span.style.fontWeight = size;
+                                 span.style.textDecoration = underline;
+                                 span.appendChild(document
+                                    .createTextNode(part.value));
+                                 fragment.appendChild(span);
+                           });
 
-                            span = document.createElement('span');
-                            span.style.color = color;
-                            span.style.fontWeight = size;
-                            span.style.textDecoration = underline;
-                            span.appendChild(document
-                                .createTextNode(part.value));
-                            fragment.appendChild(span);
-                        });
+                           display.appendChild(fragment);
+                        } else {
+                           console.log("")
+                           // document.getElementById("new_text").innerHTML = obj_1.Result
+                           // Hmm what to do instead? But given the text won't generate, perhaps it's fine?
+                        }
 
-                        display.appendChild(fragment);
+                     
                         // console.log(gpt_button.innerHTML)
 
                         if(gpt_button.innerHTML === "Disable GPT"){
@@ -1571,10 +1598,10 @@
                     let status_span = document.getElementById("status_span")
                     if(new_text === old_text){
                         console.log("No change in text")
-                        status_span.innerHTML = "No change in text"
+                        // status_span.innerHTML = "No change in text"
                     } else {
                         console.log("Change in text")
-                        status_span.innerHTML = "Change in text"
+                        // status_span.innerHTML = "Change in text"
                     }
 
                     
