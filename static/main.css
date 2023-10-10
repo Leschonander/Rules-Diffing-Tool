@@ -39,6 +39,12 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 
+  .grid-container-diffs {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   body {
     font-family: 'IBM Plex Serif', serif;
     padding: 50px 120px;
