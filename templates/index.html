@@ -3,6 +3,7 @@
 
         <script type = "text/javascript" 
          src = "{{ url_for('static', filename = 'diff.js') }}" ></script>
+         <script src="{{url_for('static', filename='distance.js')}}"></script>
          <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
          <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
          <meta name="viewport" content="width=320, initial-scale=1" />
@@ -106,6 +107,13 @@
             <h3>Legend</h3>
             <p style="color: green; font-weight: 900;">This is text that was added.</p>
             <p style="color: red; text-decoration: line-through;">This is text that was removed.</p>
+         </div>
+
+         <div>
+            <h3>Diff statistics</h3>
+            <p>Words Added: <span id="words_added"></span></p>
+            <p>Words Removed: <span id = "words_removed"></span></p>
+            <p>Percent Similar: <span id = "words_similar"></span></p>
          </div>
 
          <div>
@@ -1507,6 +1515,8 @@
                            const display = document.getElementById('diff_text');
                            display.innerHTML = '';
                            const fragment = document.createDocumentFragment();
+                           let words_added = 0;
+                           let words_removed = 0;
                            diff.forEach((part) => {
                                  // green for additions, red for deletions
                                  // grey for common parts
@@ -1521,6 +1531,13 @@
 
                                  const color = part.added ? 'green' :
                                     part.removed ? 'red' : 'grey';
+                              
+                                 
+                                 if (part.added === true){
+                                    words_added += part.count;
+                                 } else if (part.removed === true){
+                                    words_removed += part.count; 
+                                 }
 
                                  span = document.createElement('span');
                                  span.style.color = color;
@@ -1530,6 +1547,14 @@
                                     .createTextNode(part.value));
                                  fragment.appendChild(span);
                            });
+
+                           const words_added_id = document.getElementById('words_added');
+                           const words_removed_id = document.getElementById('words_removed');
+                           const words_similar_id = document.getElementById('words_similar');
+                           words_added_id.innerHTML = words_added
+                           words_removed_id.innerHTML = words_removed
+                           words_similar_id.innerHTML = Math.round(similarity(obj_1.Result, obj_2.Result) * 100) + "%";
+                           
 
                            display.appendChild(fragment);
                         } else {
