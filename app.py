@@ -75,5 +75,39 @@ def openapi_api_route():
 
     return jsonify(result) 
 
+@app.route('/api/generate_lists', methods = ['POST', 'GET'])
+def list_generation_route():
+    congress = request.args.get('congress')
+
+    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n')
+    RulesReformSheet = RulesReformSheet.query(f"Congress == @congress")
+
+    nested_json_full = {}
+    nested_json_short = {}
+
+    for index, row in RulesReformSheet.iterrows():
+        rule = row["Rule"]
+        title = row['Title']
+
+        if rule not in nested_json_full:
+            nested_json_full[rule] = []
+        
+        if rule not in nested_json_short:
+            nested_json_short[rule] = []
+        
+        nested_json_full[rule].append(title)
+
+        if "Full Rule" in title:
+            nested_json_short[rule].append(title)
+
+    result = {
+        "short_rules": nested_json_short,
+        "long_rules": nested_json_full
+    }
+
+    return jsonify(result) 
+
+    return 'test'
+
 if __name__ == '__main__':
     app.run(host="localhost", port=3000, debug=True)
