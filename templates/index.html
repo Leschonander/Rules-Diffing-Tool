@@ -87,7 +87,7 @@
                 <p>Experimental Features</p>
 
                 <button id="rule_flip" class="button_smaller rule_flip_button_click" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
-                <button id="title_button" class="button_smaller rule_flip_button_click" >Enable selecting specific titles</button>
+                <button id="title_button" class="button_smaller rule_flip_button_click" onclick="changeInCongress()" >Enable selecting specific titles</button>
                 <button id="gpt_button" class="button_smaller" >Enable GPT</button>
                 <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
                 
@@ -189,143 +189,7 @@
    let rule_age = 0;
    let diff_disabled = 0;
    let first_selected = 0;
-    
-    // Flip between old and new ones    
-    function flip_rules(){
-        console.log("Flipping rules")
-        let rule_flip_button = document.getElementById("rule_flip")
-
-        console.log(rule_flip_button.innerHTML)
-        if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
-            rule_age = 1
-
-            // remove element here
-            // document.getElementById("rule_selector").remove()
-            rule_flip_button.style.background = "teal"
-
-
-            rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
-            // document.querySelector(".rules_box").appendChild(select_nested_older)
-
-        } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
-            rule_age = 0
-            // remove element here
-            // document.getElementById("rule_selector").remove()
-            rule_flip_button.style.background = "#CA5252"
-
-            rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
-            // document.querySelector(".rules_box").appendChild(select_nested)
-
-        }
-    }
-    const toggleButton = document.getElementById('title_button');
-    toggleButton.addEventListener('click', function() {
-            const hiddenOptions = document.querySelectorAll('.hidden-option');
-            
-            if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
-                toggleButton.innerHTML = "Disable selecting specific titles"
-                toggleButton.style.background = "teal"
-                long = 1;
-            } else {
-                toggleButton.innerHTML = "Enable selecting specific titles"
-                toggleButton.style.background = "#CA5252"
-                long = 0;
-                
-            }
-
-            hiddenOptions.forEach(option => {
-                if (option.classList.contains('hidden')) {
-                    option.classList.remove('hidden');
-                } else {
-                    option.classList.add('hidden');
-                }
-            });
-        });
-   const diff_button = document.getElementById('diff_disable_button');
-   diff_button.addEventListener('click', function(){
-
-      if(diff_button.style.background === "#CA5252" || diff_button.style.background === "" || diff_button.style.background === 'rgb(202, 82, 82)'){
-               diff_button.innerHTML = "Enable Diff"
-               diff_button.style.background = "teal"
-               diff_disabled = 1;
-            } else {
-               diff_button.innerHTML = "Disable diff"
-               diff_button.style.background = "#CA5252"
-               diff_disabled = 0;
-                
-            }
-
-   })
-    // Hide/Reveal rules
-    document.addEventListener("DOMContentLoaded", function() {
-
-         /*
-         [...document.querySelectorAll('.rule_flip_button_click')].forEach(function(item) {
-         item.addEventListener('click', function() {
-            
-            
-
-            if(long === 0 && rule_age === 0){
-               // select_nested_shorter
-               //document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_shorter)
-               
-            } else if(long === 1 && rule_age === 0){
-               // select_nested
-               // document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested)
-
-            } else if(long === 0 && rule_age === 1){
-               // select_nested_older_shorter
-               // document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_older_shorter)
-
-            } else if(long === 1 && rule_age === 1){
-               // select_nested_older
-               document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_older)
-            }
-
-            
-         });
-            });
-         */
-        
-
-      
-        
-
-        const gpt_button = document.getElementById('gpt_button');
-        gpt_button.addEventListener('click', function() {
-            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
-            console.log(gpt_hidden_elements)
-            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
-                gpt_button.innerHTML = "Disable GPT"
-                gpt_button.style.background = "teal"
-            } else {
-                gpt_button.innerHTML = "Enable GPT"
-                gpt_button.style.background = "#CA5252"
-                
-            }
-
-            gpt_hidden_elements.forEach(option => {
-                if (option.classList.contains('gpt-hide')) {
-                    option.classList.remove('gpt-hide');
-                } else {
-                    option.classList.add('gpt-hide');
-                }
-            });
-
-        });
-
-    });
-
-    // GPT button
-
-            
-    async function changeInCongress(){
-
-        const congresses_with_party = [
+   const congresses_with_party = [
         {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy (R)", Minority_Leader: "Hakeem Jeffries (D)", Years: "2023–2025", Democratic_Seats: "212", Republican_Seats: "222"},
         {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi (D)", Minority_Leader: "Kevin McCarthy (R)", Years: "2021–2023", Democratic_Seats: "222", Republican_Seats: "211"},
         {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi (D)", Minority_Leader: "Kevin McCarthy (R)", Years: "2019–2021", Democratic_Seats: "235", Republican_Seats: "199"},
@@ -368,6 +232,111 @@
         {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn (D)", Minority_Leader: "Joseph W. Martin Jr (R)", Years: "1945–1947", Democratic_Seats: "242", Republican_Seats: "190"},
         {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn (D)", Minority_Leader: "Joseph W. Martin Jr (R)", Years: "1943–1945", Democratic_Seats: "254", Republican_Seats: "165"},
             ]
+    
+    // Flip between old and new ones    
+    function flip_rules(){
+        console.log("Flipping rules")
+        let rule_flip_button = document.getElementById("rule_flip")
+
+        console.log(rule_flip_button.innerHTML)
+        if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
+            rule_age = 1
+
+            // remove element here
+            // document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "teal"
+
+
+            rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
+            // document.querySelector(".rules_box").appendChild(select_nested_older)
+
+        } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
+            rule_age = 0
+            // remove element here
+            // document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "#CA5252"
+
+            rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
+            // document.querySelector(".rules_box").appendChild(select_nested)
+
+        }
+    }
+    const toggleButton = document.getElementById('title_button');
+    toggleButton.addEventListener('click', async function() {
+            const hiddenOptions = document.querySelectorAll('.hidden-option');
+            
+            if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
+                toggleButton.innerHTML = "Disable selecting specific titles"
+                toggleButton.style.background = "teal"
+                long = 1;
+                
+               // Flip the rules to the long ones
+               
+            } else {
+                toggleButton.innerHTML = "Enable selecting specific titles"
+                toggleButton.style.background = "#CA5252"
+                long = 0;
+                
+            }
+
+            hiddenOptions.forEach(option => {
+                if (option.classList.contains('hidden')) {
+                    option.classList.remove('hidden');
+                } else {
+                    option.classList.add('hidden');
+                }
+            });
+        });
+   const diff_button = document.getElementById('diff_disable_button');
+   diff_button.addEventListener('click', function(){
+
+      if(diff_button.style.background === "#CA5252" || diff_button.style.background === "" || diff_button.style.background === 'rgb(202, 82, 82)'){
+               diff_button.innerHTML = "Enable Diff"
+               diff_button.style.background = "teal"
+               diff_disabled = 1;
+            } else {
+               diff_button.innerHTML = "Disable diff"
+               diff_button.style.background = "#CA5252"
+               diff_disabled = 0;
+                
+            }
+
+   })
+    // Hide/Reveal rules
+    document.addEventListener("DOMContentLoaded", function() {
+
+
+        const gpt_button = document.getElementById('gpt_button');
+        gpt_button.addEventListener('click', function() {
+            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
+            console.log(gpt_hidden_elements)
+            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
+                gpt_button.innerHTML = "Disable GPT"
+                gpt_button.style.background = "teal"
+            } else {
+                gpt_button.innerHTML = "Enable GPT"
+                gpt_button.style.background = "#CA5252"
+                
+            }
+
+            gpt_hidden_elements.forEach(option => {
+                if (option.classList.contains('gpt-hide')) {
+                    option.classList.remove('gpt-hide');
+                } else {
+                    option.classList.add('gpt-hide');
+                }
+            });
+
+        });
+
+    });
+
+    // GPT button
+
+            
+    async function changeInCongress(){
+
+      
 
         first_year = document.getElementById('congress_1')
         second_year = document.getElementById('congress_2')
