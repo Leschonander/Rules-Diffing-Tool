@@ -107,7 +107,5 @@ def list_generation_route():
 
     return jsonify(result) 
 
-    return 'test'
-
 if __name__ == '__main__':
     app.run(host="localhost", port=3000, debug=True)

@@ -33,6 +33,25 @@
                         <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
                 </select>
+                
+               </br>
+               </br>
+
+                <h3>Select the rules</h4>
+                  <select name="congress_rules_1" id="congress_rules_1" class = "selectors">
+                     <option disabled selected value> -- select an option for the first rule -- </option>
+                  </select>
+
+                  <select name="congress_rules_2" id="congress_rules_2" class = "selectors">
+                     <option disabled selected value> -- select an option for the second rule -- </option>
+                  </select>
+
+               </br>
+               </br>
+
+                <button class="button" id="compare_button">Compare</button>
+            <div id="loading" class="loading"></div>
+               
 
             </div>
             <div id="statistics">
@@ -66,7 +85,7 @@
             </div>
 
             <div class = "text_box_padding rules_box">
-                <h3>Select rule to compare</h3>
+
                 
                 
 
@@ -76,30 +95,24 @@
 
              
                 </br>
-                </br>
+                </br>  
+
+                  There are options to disable the diff you just want a side by side of the rules, a option to enable a gpt generated explanation of rules changes, and a option to switch between diffing entire rules to titles within those rules.
+
+               </br>
+               </br>
 
                 <i>
                     *Because of the rules consolidation between the 105th and 106th Congresses, 
-                    it is impossible to compare pre- and post-105th rules. Click the button above to switch between the pre- and post-105th Congress rules.
+                    it is not suggested to compare pre- and post-105th rules. Be wary if you decide to do so.
                 </i>
 
                 </div>
-                <p>Experimental Features</p>
-
-                <button id="rule_flip" class="button_smaller rule_flip_button_click" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
-                <button id="title_button" class="button_smaller rule_flip_button_click" onclick="changeInCongress()" >Enable selecting specific titles</button>
-                <button id="gpt_button" class="button_smaller" >Enable GPT</button>
-                <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
+              
                 
             </div>
             
         
-        </article>
-
-        <article class = "grid-container-other-article">
-         
-            <button class="button" id="compare_button">Compare</button>
-            <div id="loading" class="loading"></div>
         </article>
 
         <article class = "grid-container-diffs">
@@ -117,14 +130,11 @@
          </div>
 
          <div>
-            <h3>Compare</h3>
-            <select name="congress_rules_1" id="congress_rules_1" class = "selectors">
-               <option disabled selected value> -- select an option for the first rule -- </option>
-           </select>
+            <h3>Experimental Features</h3>
 
-           <select name="congress_rules_2" id="congress_rules_2" class = "selectors">
-            <option disabled selected value> -- select an option for the second rule -- </option>
-        </select>
+            <button id="title_button" class="button_smaller rule_flip_button_click" onclick="changeInCongress()" >Enable selecting specific titles</button>
+            <button id="gpt_button" class="button_smaller" >Enable GPT</button>
+            <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
          </div>
 
          <div>
