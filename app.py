@@ -8,7 +8,7 @@ load_dotenv()
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
-RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n') # pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
+RulesReformSheet = pd.read_csv("RulesReformMasterCleaned - TitleCleaned.csv", lineterminator='\n') # pd.read_csv("Rules Reform Scraping Freshsheet - Sheet1 - Combined.csv")
 
 
 ### Look up variables
@@ -34,7 +34,7 @@ def about():
 def api_route():
     title = request.args.get('title')
     congress = request.args.get('congress')
-    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n')
+    RulesReformSheet = pd.read_csv("RulesReformMasterCleaned - TitleCleaned.csv", lineterminator='\n')
 
     RulesReformSheet["Rule"] = RulesReformSheet["Rule"].fillna(method="ffill")
     RulesReformSheet["Title"] = RulesReformSheet["Title"].str.strip() 
@@ -79,7 +79,7 @@ def openapi_api_route():
 def list_generation_route():
     congress = request.args.get('congress')
 
-    RulesReformSheet = pd.read_csv("Rules_combined_df_master.csv", lineterminator='\n')
+    RulesReformSheet = pd.read_csv("RulesReformMasterCleaned - TitleCleaned.csv", lineterminator='\n')
     RulesReformSheet = RulesReformSheet.query(f"Congress == @congress")
 
     nested_json_full = {}
