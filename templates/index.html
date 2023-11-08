@@ -33,6 +33,25 @@
                         <option value={{c}}>{{c + " Congress"}}</option>
                     {% endfor %}
                 </select>
+                
+               </br>
+               </br>
+
+                <h3>Select the rules</h4>
+                  <select name="congress_rules_1" id="congress_rules_1" class = "selectors">
+                     <option disabled selected value> -- select an option for the first rule -- </option>
+                  </select>
+
+                  <select name="congress_rules_2" id="congress_rules_2" class = "selectors">
+                     <option disabled selected value> -- select an option for the second rule -- </option>
+                  </select>
+
+               </br>
+               </br>
+
+                <button class="button" id="compare_button">Compare</button>
+            <div id="loading" class="loading"></div>
+               
 
             </div>
             <div id="statistics">
@@ -66,7 +85,7 @@
             </div>
 
             <div class = "text_box_padding rules_box">
-                <h3>Select rule to compare</h3>
+
                 
                 
 
@@ -76,30 +95,24 @@
 
              
                 </br>
-                </br>
+                </br>  
+
+                  There are options to disable the diff you just want a side by side of the rules, a option to enable a gpt generated explanation of rules changes, and a option to switch between diffing entire rules to titles within those rules.
+
+               </br>
+               </br>
 
                 <i>
                     *Because of the rules consolidation between the 105th and 106th Congresses, 
-                    it is impossible to compare pre- and post-105th rules. Click the button above to switch between the pre- and post-105th Congress rules.
+                    it is not suggested to compare pre- and post-105th rules. Be wary if you decide to do so.
                 </i>
 
                 </div>
-                <p>Experimental Features</p>
-
-                <button id="rule_flip" class="button_smaller rule_flip_button_click" onclick="flip_rules()">Switch to pre-105th Congress Rules</button>
-                <button id="title_button" class="button_smaller rule_flip_button_click" >Enable selecting specific titles</button>
-                <button id="gpt_button" class="button_smaller" >Enable GPT</button>
-                <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
+              
                 
             </div>
             
         
-        </article>
-
-        <article class = "grid-container-other-article">
-         
-            <button class="button" id="compare_button">Compare</button>
-            <div id="loading" class="loading"></div>
         </article>
 
         <article class = "grid-container-diffs">
@@ -114,6 +127,14 @@
             <p>Words Added: <span id="words_added"></span></p>
             <p>Words Removed: <span id = "words_removed"></span></p>
             <p>Percent Similar: <span id = "words_similar"></span></p>
+         </div>
+
+         <div>
+            <h3>Experimental Features</h3>
+
+            <button id="title_button" class="button_smaller rule_flip_button_click" onclick="changeInCongress()" >Enable selecting specific titles</button>
+            <button id="gpt_button" class="button_smaller" >Enable GPT</button>
+            <button id="diff_disable_button" class="button_smaller" >Disable diff</button>
          </div>
 
          <div>
@@ -171,1208 +192,15 @@
         }
         
         /* rules */
-        const nested_rules = {
-                "RULE I. THE SPEAKER":[
-      "Approval of the Journal",
-      "Preservation of order",
-      "Control of Capitol facilities",
-      "Signature of documents",
-      "Questions of order",
-      "Form of a question",
-      "Discretion to vote",
-      "Speaker pro tempore",
-      "Other responsibilities",
-      "Designation of travel",
-      "Committee appointment",
-      "Recess and Convening Authorities",
-      "Term limit",
-      "Declaration of recess",
-      "Journal; Speaker's approval.",
-      "Speaker preserves order on floor in galleries and lobby",
-      "Speaker's control of the Hall, corridors, and rooms",
-      "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions of order subject to appeal",
-      "Putting of the question by the Speaker.",
-      "Voting viva voce, by division, by electronic device",
-      "Postponing rollcall votes on passage.",
-      "Speaker pro tempore.",
-      "Four-term limit.",
-      "Travel authority.",
-      "Broadcasting of House proceedings.",
-      "Office of the Historian.",
-      "Office of General Counsel.",
-      "Authority to declare recesses.",
-      "Drug testing in the House.",
-      "Full Rule for: THE SPEAKER"
-   ],
-   "II. OTHER OFFICERS AND OFFICIALS":[
-      "Elections",
-      "Clerk",
-      "Sergeant-at-Arms",
-      "Chief Administrative Officer",
-      "Chaplain",
-      "Office of Inspector General",
-      "Office of the Historian",
-      "Office of General Counsel",
-      "Office of Diversity and Inclusion",
-      "Office of the Whistleblower Ombuds",
-      "Full Rule for: OTHER OFFICERS AND OFFICIALS"
-   ],
-   "III. THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO":[
-      "Voting",
-      "Delegates and the Resident Commissioner",
-      "Full Rule for: THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO"
-   ],
-   "IV. HALL OF THE HOUSE.":[
-      "Use of the Hall of the House.",
-      "Full Rule for: HALL OF THE HOUSE."
-   ],
-   "V. BROADCASTING THE HOUSE":[
-      "BROADCASTING THE HOUSE",
-      "Full Rule for: BROADCASTING THE HOUSE"
-   ],
-   "VI. OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES":[
-      "Official reporters",
-      "News media galleries",
-      "Full Rule for: OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES"
-   ],
-   "VII. RECORDS OF THE HOUSE":[
-      "Archiving",
-      "Public availability",
-      "Definition of record",
-      "Withdrawal of papers",
-      "Full Rule for: RECORDS OF THE HOUSE"
-   ],
-   "VIII. RESPONSE TO SUBPOENAS":[
-      "RESPONSE TO SUBPOENAS",
-      "Full Rule for: RESPONSE TO SUBPOENAS"
-   ],
-   "IX. QUESTIONS OF PRIVILEGE":[
-      "QUESTIONS OF PRIVILEGE",
-      "Definition of questions of privilege.",
-      "Precedence of questions of privilege.",
-      "Full Rule for: QUESTIONS OF PRIVILEGE"
-   ],
-   "X. ORGANIZATION OF COMMITTEES":[
-      "Committees and their legislative jurisdictions",
-      "Committee on Agriculture",
-      "Committee on Appropriations",
-      "Committee on Armed Services",
-      "Committee on the Budget",
-      "Committee on Education and Labor",
-      "Committee on Energy and Commerce",
-      "Committee on Ethics",
-      "Committee on Financial Services",
-      "Committee on Foreign Affairs",
-      "Committee on Homeland Security",
-      "Committee on House Administration",
-      "Committee on Natural Resources",
-      "Committee on Oversight and Reform",
-      "Committee on Rules",
-      "Committee on Science, Space, and Technology",
-      "Committee on Small Business",
-      "Committee on Transportation and Infrastructure",
-      "Committee on Veterans’ Affairs",
-      "Committee on Ways and Means",
-      "General oversight responsibilities",
-      "Special oversight functions",
-      "Additional functions of committees",
-      "Budget Act responsibilities",
-      "Election and membership of standing committees",
-      "Expense resolutions",
-      "Interim funding",
-      "Travel",
-      "Committee staffs",
-      "Select and joint committees",
-      "Permanent Select Committee on Intelligence",
-      "Committee on the Judiciary",
-      "Committee on Standards of Official Conduct",
-      "Committees and their legislative jurisdiction",
-      "Full Rule for: ORGANIZATION OF COMMITTEES"
-   ],
-   "XI. PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS":[
-      "In general",
-      "Adoption of written rules",
-      "Regular meeting days",
-      "Additional and special meetings",
-      "Temporary absence of chair",
-      "Committee records",
-      "Prohibition against proxy voting",
-      "Open meetings and hearings",
-      "Quorum requirements",
-      "Limitation on committee sittings",
-      "Calling and questioning of witnesses",
-      "Hearing procedures",
-      "Supplemental, minority, additional, or dissenting views",
-      "Power to sit and act; subpoena power",
-      "Committee on Ethics",
-      "Committee agendas",
-      "Committee staff",
-      "Meetings and hearings",
-      "Public disclosure",
-      "Requirements to constitute a complaint",
-      "Duties of chair and ranking minority member regarding properly filed complaints",
-      "Duties of chair and ranking minority member regarding information not constituting a complaint",
-      "Investigative and adjudicatory subcommittees",
-      "Standard of proof for adoption of statement of alleged violation",
-      "Subcommittee powers",
-      "Due process rights of respondents",
-      "Committee reporting requirements",
-      "Audio and visual coverage of committee proceedings",
-      "Pay of witnesses",
-      "Unfinished business of the session",
-      "Supplemental, minority, or additional views",
-      "Committee on Standards of Official Conduct",
-      "Temporary absence of chairman",
-      "Duties of chairman and ranking minority member regarding properly filed complaints",
-      "Duties of chairman and ranking minority member regarding information not constituting a complaint",
-      "Due process rights of respondents and witnesses",
-      "Committee reporting requirement",
-      "Investigative hearing procedures",
-      "Full Rule for: PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS"
-   ],
-   "XII. RECEIPT AND REFERRAL OF MEASURES AND MATTERS":[
-      "Messages",
-      "Referral",
-      "Petitions, memorials, and private bills",
-      "Prohibition on commemorations",
-      "Excluded matters",
-      "Sponsorship",
-      "Executive communications",
-      "Petitions, memorials, and private bill",
-      "Full Rule for: RECEIPT AND REFERRAL OF MEASURES AND MATTERS"
-   ],
-   "XIII. CALENDARS AND COMMITTEE REPORTS":[
-      "Calendars",
-      "Filing and printing of reports",
-      "Content of reports",
-      "Availability of reports",
-      "Privileged reports, generally",
-      "Privileged reports by the Committee on Rules",
-      "Resolutions of inquiry",
-      "Estimates of major legislation",
-      "Full Rule for: CALENDARS AND COMMITTEE REPORTS"
-   ],
-   "XIV. ORDER AND PRIORITY OF BUSINESS":[
-      "ORDER AND PRIORITY OF BUSINESS",
-      "Full Rule for: ORDER AND PRIORITY OF BUSINESS"
-   ],
-   "XV. BUSINESS IN ORDER ON SPECIAL DAYS":[
-      "Suspensions",
-      "Discharge motions",
-      "Adverse report by the Committee on Rules, second and fourth Mondays",
-      "Private Calendar",
-      "Calendar Call of Committees, Wednesdays",
-      "Consensus Calendar",
-      "District of Columbia business, second and fourth Mondays",
-      "Discharge motions, second and fourth Mondays",
-      "Private Calendar, first and third Tuesdays",
-      "Suspensions, Mondays and Tuesdays",
-      "Corrections Calendar, second and fourth Tuesdays",
-      "Full Rule for: BUSINESS IN ORDER ON SPECIAL DAYS"
-   ],
-   "XVI. MOTIONS AND AMENDMENTS":[
-      "Motions",
-      "Withdrawal",
-      "Question of consideration",
-      "Precedence of motions",
-      "Divisibility",
-      "Amendments",
-      "Germaneness",
-      "Readings",
-      "Full Rule for: MOTIONS AND AMENDMENTS"
-   ],
-   "XVII. DECORUM AND DEBATE":[
-      "Decorum",
-      "Recognition",
-      "Managing debate",
-      "Call to order",
-      "Comportment",
-      "Exhibits",
-      "Galleries",
-      "Congressional Record",
-      "Legislative Proceedings",
-      "Secret sessions",
-      "Full Rule for: DECORUM AND DEBATE"
-   ],
-   "XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION":[
-      "Resolving into the Committee of the Whole",
-      "Measures requiring initial consideration in the Committee of the Whole",
-      "Order of business",
-      "Reading for amendment",
-      "Quorum and voting",
-      "Dispensing with the reading of an amendment",
-      "Closing debate",
-      "Striking the enacting clause",
-      "Concurrent resolution on the budget",
-      "Applicability of Rules of the House",
-      "Unfunded mandates",
-      "Full Rule for: THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION"
-   ],
-   "XIX. MOTIONS FOLLOWING THE AMENDMENT STAGE":[
-      "Previous question",
-      "Recommit",
-      "Reconsideration",
-      "Full Rule for: MOTIONS FOLLOWING THE AMENDMENT STAGE"
-   ],
-   "XX. VOTING AND QUORUM CALLS":[
-      "VOTING AND QUORUM CALLS",
-      "Postponement of proceedings",
-      "Five-minute votes",
-      "Automatic yeas and nays",
-      "Ballot votes",
-      "Postponement of proceeding",
-      "Full Rule for: VOTING AND QUORUM CALLS"
-   ],
-   "XXI. RESTRICTIONS ON CERTAIN BILLS":[
-      "Reservation of certain points of order",
-      "General appropriation bills and amendments",
-      "Appropriations on legislative bills",
-      "Tax and tariff measures and amendments",
-      "Consideration of retroactive tax rate increases",
-      "Designation of public works",
-      "Passage of tax rate increases",
-      "Transportation obligation limitations",
-      "Full Rule for: RESTRICTIONS ON CERTAIN BILLS"
-   ],
-   "XXII. HOUSE AND SENATE RELATIONS":[
-      "Senate amendments",
-      "Conference reports; amendments reported in disagreement",
-      "Full Rule for: HOUSE AND SENATE RELATIONS"
-   ],
-   "XXIII. CODE OF OFFICIAL CONDUCT":[
-      "CODE OF OFFICIAL CONDUCT",
-      "Full Rule for: CODE OF OFFICIAL CONDUCT"
-   ],
-   "XXIV. LIMITATIONS ON USE OF OFFICIAL FUNDS":[
-      "Limitations on use of official and unofficial accounts",
-      "Limitations on use of the frank",
-      "Prohibition on use of funds by Members not elected to succeeding Congress",
-      "Full Rule for: LIMITATIONS ON USE OF OFFICIAL FUNDS"
-   ],
-   "XXV. LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS":[
-      "Outside earned income; honoraria",
-      "Copyright royalties",
-      "Definitions",
-      "Gifts",
-      "Claims against the Government",
-      "Full Rule for: LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS"
-   ],
-   "XXVI. FINANCIAL DISCLOSURE":[
-      "FINANCIAL DISCLOSURE",
-      "Persons Required to File",
-      "Contents of Reports",
-      "Filing of Reports",
-      "Failure to File or Filing False Reports",
-      "Custody of and Public Access to Reports",
-      "Review of Reports",
-      "Confidential Reports and Other Additional Requirements",
-      "Authority of Comptroller General",
-      "Definitions",
-      "Notice of Actions Taken to Comply with Ethics Agreements",
-      "Administration of Provisions",
-      "Custody of and Public",
-      "Administration of Provision",
-      "Financial report disclosing certain financial interests.",
-      "Full Rule for: FINANCIAL DISCLOSURE"
-   ],
-   "XXVII. DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS":[
-      "DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS",
-      "Full Rule for: DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS"
-   ],
-   "XXVIII. STATUTORY LIMIT ON THE PUBLIC DEBT":[
-      "STATUTORY LIMIT ON THE PUBLIC DEBT",
-      "Full Rule for: STATUTORY LIMIT ON THE PUBLIC DEBT"
-   ],
-   "XXIX. GENERAL PROVISIONS":[
-      "GENERAL PROVISIONS",
-      "Full Rule for: GENERAL PROVISIONS"
-   ]
-}
-
-   const nested_rules_short = {'RULE I. THE SPEAKER': ['Full Rule for: THE SPEAKER'], 'II. OTHER OFFICERS AND OFFICIALS': ['Full Rule for: OTHER OFFICERS AND OFFICIALS'], 'III. THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO': ['Full Rule for: THE MEMBERS, DELEGATES, AND RESIDENT COMMISSIONER OF PUERTO RICO'], 'IV. HALL OF THE HOUSE.': ['Full Rule for: HALL OF THE HOUSE.'], 'V. BROADCASTING THE HOUSE': ['Full Rule for: BROADCASTING THE HOUSE'], 'VI. OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES': ['Full Rule for: OFFICIAL REPORTERS AND NEWS MEDIA GALLERIES'], 'VII. RECORDS OF THE HOUSE': ['Full Rule for: RECORDS OF THE HOUSE'], 'VIII. RESPONSE TO SUBPOENAS': ['Full Rule for: RESPONSE TO SUBPOENAS'], 'IX. QUESTIONS OF PRIVILEGE': ['Full Rule for: QUESTIONS OF PRIVILEGE'], 'X. ORGANIZATION OF COMMITTEES': ['Full Rule for: ORGANIZATION OF COMMITTEES'], 'XI. PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS': ['Full Rule for: PROCEDURES OF COMMITTEES AND UNFINISHED BUSINESS'], 'XII. RECEIPT AND REFERRAL OF MEASURES AND MATTERS': ['Full Rule for: RECEIPT AND REFERRAL OF MEASURES AND MATTERS'], 'XIII. CALENDARS AND COMMITTEE REPORTS': ['Full Rule for: CALENDARS AND COMMITTEE REPORTS'], 'XIV. ORDER AND PRIORITY OF BUSINESS': ['Full Rule for: ORDER AND PRIORITY OF BUSINESS'], 'XV. BUSINESS IN ORDER ON SPECIAL DAYS': ['Full Rule for: BUSINESS IN ORDER ON SPECIAL DAYS'], 'XVI. MOTIONS AND AMENDMENTS': ['Full Rule for: MOTIONS AND AMENDMENTS'], 'XVII. DECORUM AND DEBATE': ['Full Rule for: DECORUM AND DEBATE'], 'XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION': ['Full Rule for: THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION'], 'XIX. MOTIONS FOLLOWING THE AMENDMENT STAGE': ['Full Rule for: MOTIONS FOLLOWING THE AMENDMENT STAGE'], 'XX. VOTING AND QUORUM CALLS': ['Full Rule for: VOTING AND QUORUM CALLS'], 'XXI. RESTRICTIONS ON CERTAIN BILLS': ['Full Rule for: RESTRICTIONS ON CERTAIN BILLS'], 'XXII. HOUSE AND SENATE RELATIONS': ['Full Rule for: HOUSE AND SENATE RELATIONS'], 'XXIII. CODE OF OFFICIAL CONDUCT': ['Full Rule for: CODE OF OFFICIAL CONDUCT'], 'XXIV. LIMITATIONS ON USE OF OFFICIAL FUNDS': ['Full Rule for: LIMITATIONS ON USE OF OFFICIAL FUNDS'], 'XXV. LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS': ['Full Rule for: LIMITATIONS ON OUTSIDE EARNED INCOME AND ACCEPTANCE OF GIFTS'], 'XXVI. FINANCIAL DISCLOSURE': ['Full Rule for: FINANCIAL DISCLOSURE'], 'XXVII. DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS': ['Full Rule for: DISCLOSURE BY MEMBERS AND STAFF OF EMPLOYMENT NEGOTIATIONS'], 'XXVIII. STATUTORY LIMIT ON THE PUBLIC DEBT': ['Full Rule for: STATUTORY LIMIT ON THE PUBLIC DEBT'], 'XXIX. GENERAL PROVISIONS': ['Full Rule for: GENERAL PROVISIONS']}
-
-    const nested_rules_older = {
-   "I. DUTIES OF THE SPEAKER":[
-      "Journal; speaker's approval",
-      "Speaker's control of the hall, corridors, and rooms",
-      "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions order subject to appeal",
-      "Putting of the question by the speaker",
-      "Postponing rollcall votes on passage",
-      "Speaker pro tempore",
-      "Four-term limit",
-      "Travel authority",
-      "Broadcasting of house proceedings",
-      "Office of the historian",
-      "Office of general counsel",
-      "Authority to declare recesses",
-      "Drug testing in the house",
-      "Speaker preserves order on floor and in galleries and lobby",
-      "Journal speaker's approval",
-      "Speaker's signature to acts, warrants, subpoenas, etc.; and decision of questions of order subject to appeal",
-      "The speaker's vote. tie vote",
-      "Speakers signature to acts,warrants, subpoenas, etc.; and decisions of questions of order subject to appeal",
-      "The speakers vote. tie vote",
-      "Journal speakers approval",
-      "Speaker preserves order on floor and  in galleries and lobby",
-      "Speakers control over the hall, corridors and rooms",
-      "Speakers signature to acts, warrants, subpoenas, etc.. and decision of questions of order subject to appeal",
-      "Putting off the question by the speaker",
-      "Full Rule for: I. DUTIES OF THE SPEAKER"
-   ],
-   "II. ELECTION OF OFFICERS":[
-      "Election, oath, and removal of officers",
-      "Election of officers",
-      "Full Rule for: II. ELECTION OF OFFICERS"
-   ],
-   "III. DUTIES OF THE CLERK":[
-      "Clerks duties at organization",
-      "Clerk furnishes a list of reports",
-      "Clerks duty as to Journal and documents",
-      "Official to act as Clerk upon designation",
-      "Authority to receive messages",
-      "Administration of vacant Member's office",
-      "Semi-annual reports",
-      "Cooperation with others",
-      "Clerk",
-      "Administration of vacant member's office",
-      "Clerk furnished a list of reports",
-      "Clerk's duty as to journal and documents. ",
-      "Full Rule for: III. DUTIES OF THE CLERK"
-   ],
-   "IV. DUTIES OF THE SERGEANT-AT-ARMS":[
-      "Sergeant-at-Arms enforces authority of House",
-      "The mace the symbol of the Sergeant-at-Arms' office",
-      "Doorkeeping",
-      "Semi-annual reports",
-      "Cooperation with others",
-      "Full Rule for: IV. DUTIES OF THE SERGEANT-AT-ARMS"
-   ],
-   "IX. QUESTIONS OF PRIVILEGE":[
-      "Definition of questions of privilege",
-      "Precedence of questions of privilege",
-      "Definition and Precedence of Questions of Privilege",
-      "Full Rule for: IX. QUESTIONS OF PRIVILEGE"
-   ],
-   "L. PROCEDURE FOR RESPONSE TO SUBPOENAS":[
-      "Response to Subpoenas",
-      "Full Rule for: L. PROCEDURE FOR RESPONSE TO SUBPOENAS"
-   ],
-   "LI. EMPLOYMENT PRACTICES":[
-      "Gift rule",
-      "Employment Practices",
-      "\"Ramseyer Rule.\"",
-      "Full Rule for: LI. EMPLOYMENT PRACTICES"
-   ],
-   "LII. APPLICATION OF CERTAIN LAWS":[
-      "Office of Compliance",
-      "Full Rule for: LII. APPLICATION OF CERTAIN LAWS"
-   ],
-   "OFFICE OF INSPECTOR GENERAL":[
-      "Inspector General",
-      "Full Rule for: OFFICE OF INSPECTOR GENERAL"
-   ],
-   "V. DUTIES OF THE DOORKEEPER":[
-      "Duties",
-      "Semi-annual reports",
-      "Cooperation with others",
-      "General duties of the Doorkeeper",
-      "The Doorkeeper clears the floor of unauthorized persons",
-      "Full Rule for: V. DUTIES OF THE DOORKEEPER"
-   ],
-   "VI. ADMINISTRATIVE OFFICIALS":[
-      "Inspector General",
-      "Duties",
-      "Semi-annual reports",
-      "Cooperation with others",
-      "Administrative Officials",
-      "Full Rule for: VI. ADMINISTRATIVE OFFICIALS"
-   ],
-   "VI. DUTIES OF THE POSTMASTER":[
-      "The Postmaster superintends the House post office",
-      "Full Rule for: VI. DUTIES OF THE POSTMASTER"
-   ],
-   "VII. DUTIES OF THE CHAPLAIN":[
-      "Duties of the Chaplain",
-      "Full Rule for: VII. DUTIES OF THE CHAPLAIN"
-   ],
-   "VIII. DUTIES OF THE MEMBERS":[
-      "Members required to be present and vote",
-      "Pairs",
-      "Voting",
-      "Members Required to be present and vote",
-      "Full Rule for: VIII. DUTIES OF THE MEMBERS"
-   ],
-   "X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES":[
-      "Number and jurisdiction of standing committees",
-      "Agriculture",
-      "Appropriations",
-      "Banking and Financial Services",
-      "Budget Composition of",
-      "Jurisdiction and duties",
-      "Commerce",
-      "Education and Labor",
-      "Government Reform and Oversight",
-      "House Oversight",
-      "International Relations",
-      "Judiciary",
-      "Internal Security",
-      "National Security",
-      "Resources",
-      "Rules",
-      "Science, Space, and Technology",
-      "Small Business",
-      "Standards of Official Conduct",
-      "Transportation and Infrastructure",
-      "Veteran's Affairs",
-      "Ways and Means",
-      "Committee on Appropriations; budget hearings",
-      "Procedure for budget hearings",
-      "Budget Act; 15-day referral to Appropriations",
-      "Budget",
-      "Enrolled bills",
-      "Direction of officers",
-      "Acceptance of gifts",
-      "Approval of certain settlements",
-      "Standard Official Conduct; additional duties",
-      "Annual appropriations",
-      "Concurrent resolution on Budget",
-      "Reconciliation process",
-      "Referral procedures",
-      "Electing committees",
-      "Party membership as basis for election",
-      "Committee chairmen",
-      "Requirement for subcommittees",
-      "Select and conference committees",
-      "Party membership as basis for appointment",
-      "Delegates and Resident Commissioner",
-      "General oversight",
-      "Special oversight",
-      "Appropriations Committee; Budget Hearings",
-      "Procedure for Budget Hearings",
-      "Budget Act; 15-day Referral to Appropriations",
-      "Direction of Officers",
-      "Standards of Official Conduct; additional duties",
-      "Armed Services",
-      "Budget, Composition of",
-      "District of Columbia",
-      "Government Operations",
-      "House Administration",
-      "Merchant Marine and Fisheries",
-      "Natural Resources",
-      "Post Office and Civil Service",
-      "Public Works and Transportation",
-      "Veterans' Affairs",
-      "Number and jurisdiction of Standing Committees",
-      "Interior and Insular Affairs",
-      "General Oversight",
-      "Special Oversight",
-      "Appropriations Committee, Budget Hearings",
-      "Procedure for Budget Hearing",
-      "Budget Act; 15-Day Refferal to Appropriation",
-      "Enrolled Bills",
-      "Travel of Members",
-      "Scheduling Service",
-      "Standards of Official Conduct; Additional Duties",
-      "Annual Appropriations",
-      "Concurrent Resolution on Budget",
-      "Reconciliation Process",
-      "Referral Procedures",
-      "Electing Committees",
-      "Party Membership as Basis for Election",
-      "Committee Chariman",
-      "Requirement for Subcommittees",
-      "Select and Conference Committees",
-      "Party Membership as Basis for Appointment",
-      "Deligates and Resident Commissioner",
-      "Aging",
-      "Budget, composition of",
-      "Jurisdiction and Duties",
-      "Government Operation",
-      "Merchant, Marine and Fisheries. ",
-      "Post Office and Civi Service",
-      "Veteran's Affair",
-      "Budget Hearings",
-      "Budget Act procedures",
-      "Referral Procedures. ",
-      "Committee Chairmen",
-      "Requirement for subcommittees\\",
-      "Full Rule for: X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES"
-   ],
-   "XI. RULES OF PROCEDURES FOR COMMITTEES":[
-      "Committee procedure",
-      "Investigative authority",
-      "Printing and binding",
-      "Activity reports",
-      "Committee rules",
-      "Commitee meetings",
-      "Required records",
-      "Public availability",
-      "Committee files",
-      "Ban on proxies",
-      "Quorum of two; of one-third",
-      "Committees not to sit",
-      "Chairman's duty",
-      "Filing by majority of committee",
-      "Requirement of quorum",
-      "Vote on reporting",
-      "Content of reports",
-      "Constitutional authority",
-      "Minority views",
-      "Three-day layover",
-      "Administration of oaths to witnesses",
-      "Committee travel",
-      "Travel reports",
-      "Media coverage",
-      "When permitted",
-      "Press photographers",
-      "Accreditation",
-      "Reports from committee on rules",
-      "Filing reports",
-      "Comparative print",
-      "Specifying waivers",
-      "Primary expense solution",
-      "Additional expense resolution",
-      "Exception for certain initial funding",
-      "Funds for committee staffs; expense resolutions",
-      "Travel by members not reelected",
-      "Interim funding",
-      "Thirty professional staff",
-      "Minority",
-      "Staff duties",
-      "\"associate\" or \"shared\" staff",
-      "Pay",
-      "Staff, committees on appropriations",
-      "Non-partisan staff",
-      "Inflationary impact",
-      "Primary expense resolution",
-      "Availability of report",
-      "Exception for cetain initial funding",
-      "Votes in committees",
-      "Use of proxies",
-      "Eighteen professional staff",
-      "Clerical staff",
-      "Staff committees on appropriations, and budget",
-      "Committees permited to sit without leave",
-      "Funds for committee staffs; expense resolution",
-      "Investigative authorithy",
-      "Filing reports. ",
-      "Travel by members not relected",
-      "Professional staff",
-      "Full Rule for: XI. RULES OF PROCEDURES FOR COMMITTEES"
-   ],
-   "XII. RESIDENT COMMISSIONER AND DELEGATES.":[
-      "Delegates and the Resident Commissioner",
-      "Powers and Privileges of Resident Commissioner and Delegates as to committee service",
-      "Full Rule for: XII. RESIDENT COMMISSIONER AND DELEGATES."
-   ],
-   "XIII. CALENDARS AND COMMITTEE REPORTS":[
-      "Calendar for reports of committees",
-      "Nonprivileged reports filed with the clerk",
-      "Ramseyer rule",
-      "Corrections calendar",
-      "Motion to discharge",
-      "Calendars printed",
-      "Estimate of cost",
-      "Consent calendar",
-      "Full Rule for: XIII. CALENDARS AND COMMITTEE REPORTS"
-   ],
-   "XIV. OF DECORUM AND DEBATE":[
-      "Obtaining the floor for debate; and relevancy and decorum therein",
-      "Speaker's power of recognition",
-      "The hour rule in debate",
-      "The opening and closing of general debate",
-      "The call to order",
-      "Words taken down",
-      "Member to speak but once to the same question; right to close controlled debate",
-      "Decorum of members in the hall",
-      "Gallery occupants not to be introduced",
-      "Revisions of remarks in debate",
-      "Standard of conduct",
-      "The opening and closing of debate",
-      "Member to speak but once to the same question",
-      "Full Rule for: XIV. OF DECORUM AND DEBATE"
-   ],
-   "XIX. OF AMENDMENTS":[
-      "Amendments to Text and Title",
-      "Full Rule for: XIX. OF AMENDMENTS"
-   ],
-   "XL. EXECUTIVE COMMUNICATIONS":[
-      "Reception and reference of executive communications, including estimates",
-      "Reception and reference of executive communications including estimates",
-      "Full Rule for: XL. EXECUTIVE COMMUNICATIONS"
-   ],
-   "XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES":[
-      "Officers and employees not to be agents of claims",
-      "Full Rule for: XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES"
-   ],
-   "XLII. GENERAL PROVISIONS":[
-      "Relations of Jefferson's Manual and Legislative Reorganization Act of 1946 to the rules of the House",
-      "Full Rule for: XLII. GENERAL PROVISIONS"
-   ],
-   "XLIII. CODE OF OFFICIAL CONDUCT":[
-      "Official Conduct of Members, Officers or Employees of the House",
-      "Full Rule for: XLIII. CODE OF OFFICIAL CONDUCT"
-   ],
-   "XLIV. FINANCIAL DISCLOSURE":[
-      "Financial report disclosing certain financial interests",
-      "Full Rule for: XLIV. FINANCIAL DISCLOSURE"
-   ],
-   "XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT":[
-      "Public Debt Limit",
-      "Full Rule for: XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT"
-   ],
-   "XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME":[
-      "Income limitations",
-      "Full Rule for: XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME"
-   ],
-   "XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE":[
-      "Permanent Select Committee on Intelligence",
-      "Full Rule for: XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE"
-   ],
-   "XV. ON CALLS OF THE ROLL AND HOUSE":[
-      "Call of the roll for the yea-and-nay vote",
-      "The call of the house",
-      "Quorum call by clerks",
-      "Count of those not voting to make a quorum of record on a roll call",
-      "The call of the house in the new form",
-      "Use of electronic equipment in recording roll calls",
-      "\"15-and-5\" voting",
-      "Quorum; when not required",
-      "Speaker's discretion to recognize for motion for call of house",
-      "Yeas and nays ordered on certain questions",
-      "Call of the roll for the \"yea-and-nay\"  vote",
-      "Quorum calls by clerk",
-      "Full Rule for: XV. ON CALLS OF THE ROLL AND HOUSE"
-   ],
-   "XVI. ON MOTIONS, THEIR PRECEDENCE, ETC":[
-      "Motions reduced to writing and entered on the journal",
-      "Stating and withdrawing of motions",
-      "The question of consideration",
-      "Precedence of priveleged motions",
-      "Entry of hour of adjournment on the journal",
-      "Division of the question",
-      "Motion to strike out and insert not divisible",
-      "Germane amendments",
-      "Dilatory motions pending motions to suspend rules",
-      "Privileged motion for consideration of revenue and appropriation bills",
-      "Dilatory motions",
-      "Precedence of privileged motions",
-      "Motion reduced to writing and entered on the journal",
-      "Full Rule for: XVI. ON MOTIONS, THEIR PRECEDENCE, ETC"
-   ],
-   "XVII. DECORUM AND DEBATE":[
-      "Obtaining the floor for debate; and relevancy and decorum therein",
-      "Speaker's power of recognition",
-      "The hour rule in debate",
-      "The opening and closing of general debate",
-      "The call to order for words spoken in debate",
-      "Member to speak but once to the same question; right to close controlled debate",
-      "Decorum of Members in the Hall",
-      "Gallery occupants not to be introduced",
-      "Revisions of remark in debate",
-      "Standard of conduct",
-      "Full Rule for: XVII. DECORUM AND DEBATE"
-   ],
-   "XVII. PREVIOUS QUESTION":[
-      "The previous question",
-      "Relation of previous question to failure of a quorum",
-      "Questions of order pending the motion for the previous question",
-      "Full Rule for: XVII. PREVIOUS QUESTION"
-   ],
-   "XVIII. RECONSIDERATION":[
-      "The motion to reconsider",
-      "Application of motion to reconsider to bills in committees",
-      "Requirement that reports of committee be in writing and be printed",
-      "Full Rule for: XVIII. RECONSIDERATION"
-   ],
-   "XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION":[
-      "Selection of Chairman Committee of the Whole; and his power to preserve order",
-      "Speaker's declaration into Committee of the Whole pursuant to special order",
-      "Failure of a quorum in Committee of the Whole",
-      "Five-minute votes on amendments in sequence",
-      "Subjects requiring consideration in Committee to the Whole",
-      "Order of business in Committee of the Whole",
-      "General debate and amendment under the five-minute rule in Committee of the Whole",
-      "Motion to dispense with reading",
-      "Unfunded mandates",
-      "Closing the five-minute debate in Committee of the Whole",
-      "The motion to strike out the enacting words of a bill",
-      "Reading concurrent resolution on budget for amendment",
-      "Selection of Chairman of Committee of the Whole; and his power to preserve order",
-      "Subjects requiring consideration in Committee of the Whole",
-      "Application of rules of the House to the Committee of the Whole",
-      "Full Rule for: XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION"
-   ],
-   "XX.OF AMENDMENTS OF THE SENATE":[
-      "Consideration of senate amendments in committee of the whole; motion for conference",
-      "Conferees may not agree to certain senate amendments",
-      "Consideration of senate amendments in committee of the whole",
-      "Full Rule for: XX.OF AMENDMENTS OF THE SENATE"
-   ],
-   "XXI. ON BILLS":[
-      "Reading, engrossment, and passage of bills",
-      "Unauthorized appropriations in reported general appropriation bills or amendments thereto",
-      "Legislation in reported general appropriation bills; exceptions",
-      "Legislation or limitations in amendments to general appropriation bills",
-      "Motion to rise and report as preferential to limitation or retrenchment amendments",
-      "Designated emergencies in reported appropriation bills",
-      "Offsetting amendments en bloc to appropriation bills",
-      "Content of reports on appropriation bills",
-      "Restriction on the reference of claims",
-      "Restriction of power to report appropriations",
-      "Restriction on bills and amendments carrying taxes or tariffs",
-      "Three-fifths vote to increase income tax rates",
-      "Prohibition against retroactive income tax rate increase",
-      "Reappropriations prohibited",
-      "Printed hearings and reports on appropriation bills",
-      "Reservation of points of order",
-      "Unauthorized appropriation in reported general appropriation bills or amendments thereto",
-      " motion to rise and report as preferential to limitation or retrenchment amendments",
-      "Restriction of power to report appropriation",
-      "Unauthorized appropriations and legislation on general appropriation bills",
-      "Reading,engrossment and passage of bills",
-      "Unauthorized appropriations and legislation on general appropriation bills ",
-      "Restriction of the reference of claims",
-      "Restriction on bills and amendments carrying taxes ans tariffs",
-      "Reappropiations prohibited",
-      "Printed hearings and reports on appropriatioin bills",
-      "Reading, engrossment, and passage of bills. ",
-      "Full Rule for: XXI. ON BILLS"
-   ],
-   "XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS":[
-      "Introduction and reference of petitions, memorials, and private bills",
-      "Certain private and commemorative bills prohibited",
-      "Correction of errors in reference; and relation to jurisdiction",
-      "Introduction, reference, and change of reference of public bills, memorials, and resolutions",
-      "Resolution of inquiry",
-      "Introduction of bills, resolutions, or memorials by request",
-      "Certain private bills prohibited",
-      "Full Rule for: XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS"
-   ],
-   "XXIII. OF COMMITTEES OF THE WHOLE HOUSE":[
-      "Selection of chairman of committee of the whole; and his power to preserve order",
-      "Speaker's declaration into committee of the whole pursuant to special order",
-      "Failure of a quorum in committee of the whole",
-      "Five-minute votes on amendments in sequence",
-      "De novo votes where delegates decisive",
-      "Subjects requiring consideration in committee of the whole",
-      "Order of business in committee of the whole",
-      "General debate and amendment under the five-minute rule in committee of the whole",
-      "Motion to dispense with reading",
-      "Closing the five-minute debate in committee of the whole",
-      "Reading concurrent resolution on budget for amendment",
-      "Application of rules of the house to the committee of the whole",
-      "Speakers declaration into committee of the whole persuant to special order",
-      "The motion to strike out the enacting words of the bill",
-      "Failure of a quorum in the committee of the whole",
-      "Full Rule for: XXIII. OF COMMITTEES OF THE WHOLE HOUSE"
-   ],
-   "XXIV. ORDER OF BUSINESS":[
-      "The rule for the order of business in the house",
-      "Disposal of business on the speaker's table",
-      "Unfinished business",
-      "The morning hour for the call of committees",
-      "Interruption of the call of committees by motion to go into committee of the whole house on the state of the union",
-      "Interruption of the regular order on tuesdays for consideration of the private calendar",
-      "Calendar wednesday business",
-      "District of columbia",
-      "The rule for the order of business in the house. ",
-      "Full Rule for: XXIV. ORDER OF BUSINESS"
-   ],
-   "XXIX. SECRET SESSION":[
-      "Secret session of the House",
-      "Full Rule for: XXIX. SECRET SESSION"
-   ],
-   "XXV. PRIORITY OF BUSINESS":[
-      "Decision of questions as to priority of business without debate",
-      "Full Rule for: XXV. PRIORITY OF BUSINESS"
-   ],
-   "XXV.PRIORITY OF BUSINESS":[
-      "Decision  of Questions as to Priority of Business Without Debate",
-      "Full Rule for: XXV.PRIORITY OF BUSINESS"
-   ],
-   "XXVI. UNFINISHED BUSINESS OF THE SESSION":[
-      "Resumption of business of a preceding session",
-      "Full Rule for: XXVI. UNFINISHED BUSINESS OF THE SESSION"
-   ],
-   "XXVII. CHANGE OR SUSPENSION OF RULES":[
-      "Motions to suspend the rules",
-      "The forty minutes of debate on motion to suspend the rules",
-      "Motion to discharge a committee",
-      "The second of the motion to suspend the rules",
-      "Full Rule for: XXVII. CHANGE OR SUSPENSION OF RULES"
-   ],
-   "XXVIII. CONFERENCE REPORTS":[
-      "High privilege of conference reports; and form of accompanying statement",
-      "Time for debate on motions to instruct",
-      "Motions privileged after 20 calendar days of conference",
-      "The statement accompanying a conference report",
-      "Consideration of conference reports",
-      "Consideration of amendments in disagreement",
-      "Certain motions to insist as preferential",
-      "Certain conference reports considered as read",
-      "Conferees may report germane modification of amendment in nature of substitute",
-      "Nongermane matter in conference agreements",
-      "Nongermane matter in amendments in disagreement",
-      "Open conference meetings",
-      "Time for debate",
-      "Printing of conference reports and statements in the record",
-      "Open conference meeting",
-      "Printing of conference reports and statement in the record",
-      "Full Rule for: XXVIII. CONFERENCE REPORTS"
-   ],
-   "XXX. READING OF PAPERS":[
-      "Objection to Reading of Papers",
-      "Full Rule for: XXX. READING OF PAPERS"
-   ],
-   "XXX. USE OF EXHIBITS":[
-      "Objections to use of exhibits",
-      "Full Rule for: XXX. USE OF EXHIBITS"
-   ],
-   "XXXI. HALL OF THE HOUSE":[
-      "Use of the Hall of the House",
-      "Full Rule for: XXXI. HALL OF THE HOUSE"
-   ],
-   "XXXII. OF ADMISSION TO THE FLOOR":[
-      "Persons and officials admitted to the floor during sessions of the House",
-      "Admission to the floor when the House is not sitting",
-      "Former Members and officers",
-      "Members' staff",
-      "Prohibition on distribution of campaign contributions",
-      "Full Rule for: XXXII. OF ADMISSION TO THE FLOOR"
-   ],
-   "XXXIII. OF ADMISSION TO THE GALLERIES":[
-      "The various galleries and admission thereto",
-      "Full Rule for: XXXIII. OF ADMISSION TO THE GALLERIES"
-   ],
-   "XXXIV. OFFICIAL AND OTHER REPORTERS":[
-      "Reporters of debates and committee stenographers",
-      "Unofficial reporters in the press gallery and on the floor",
-      "Unofficial reporters in the radio gallery and on the floor",
-      "Full Rule for: XXXIV. OFFICIAL AND OTHER REPORTERS"
-   ],
-   "XXXIX. MESSAGES":[
-      "Entry of messages in the Journal and Record",
-      "Full Rule for: XXXIX. MESSAGES"
-   ],
-   "XXXV. PAY OF WITNESSES":[
-      "Fees of witnesses before the House or committees",
-      "Full Rule for: XXXV. PAY OF WITNESSES"
-   ],
-   "XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE":[
-      "Duties of Clerk and committees as to custody of papers before committees",
-      "Full Rule for: XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE"
-   ],
-   "XXXVII. WITHDRAWAL OF PAPERS":[
-      "Custody of papers in the files of the House",
-      "Full Rule for: XXXVII. WITHDRAWAL OF PAPERS"
-   ],
-   "XXXVIII. BALLOT":[
-      "Elections by ballot",
-      "Full Rule for: XXXVIII. BALLOT"
-   ]
-}
-
-   const nested_rules_older_short = {'I. DUTIES OF THE SPEAKER': ['Full Rule for: I. DUTIES OF THE SPEAKER'], 'II. ELECTION OF OFFICERS': ['Full Rule for: II. ELECTION OF OFFICERS'], 'III. DUTIES OF THE CLERK': ['Full Rule for: III. DUTIES OF THE CLERK'], 'IV. DUTIES OF THE SERGEANT-AT-ARMS': ['Full Rule for: IV. DUTIES OF THE SERGEANT-AT-ARMS'], 'IX. QUESTIONS OF PRIVILEGE': ['Full Rule for: IX. QUESTIONS OF PRIVILEGE'], 'L. PROCEDURE FOR RESPONSE TO SUBPOENAS': ['Full Rule for: L. PROCEDURE FOR RESPONSE TO SUBPOENAS'], 'LI. EMPLOYMENT PRACTICES': ['Full Rule for: LI. EMPLOYMENT PRACTICES'], 'LII. APPLICATION OF CERTAIN LAWS': ['Full Rule for: LII. APPLICATION OF CERTAIN LAWS'], 'OFFICE OF INSPECTOR GENERAL': ['Full Rule for: OFFICE OF INSPECTOR GENERAL'], 'V. DUTIES OF THE DOORKEEPER': ['Full Rule for: V. DUTIES OF THE DOORKEEPER'], 'VI. ADMINISTRATIVE OFFICIALS': ['Full Rule for: VI. ADMINISTRATIVE OFFICIALS'], 'VI. DUTIES OF THE POSTMASTER': ['Full Rule for: VI. DUTIES OF THE POSTMASTER'], 'VII. DUTIES OF THE CHAPLAIN': ['Full Rule for: VII. DUTIES OF THE CHAPLAIN'], 'VIII. DUTIES OF THE MEMBERS': ['Full Rule for: VIII. DUTIES OF THE MEMBERS'], 'X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES': ['Full Rule for: X. ESTABLISHMENT AND JURISDICTION OF STANDING COMMITTEES'], 'XI. RULES OF PROCEDURES FOR COMMITTEES': ['Full Rule for: XI. RULES OF PROCEDURES FOR COMMITTEES'], 'XII. RESIDENT COMMISSIONER AND DELEGATES.': ['Full Rule for: XII. RESIDENT COMMISSIONER AND DELEGATES.'], 'XIII. CALENDARS AND COMMITTEE REPORTS': ['Full Rule for: XIII. CALENDARS AND COMMITTEE REPORTS'], 'XIV. OF DECORUM AND DEBATE': ['Full Rule for: XIV. OF DECORUM AND DEBATE'], 'XIX. OF AMENDMENTS': ['Full Rule for: XIX. OF AMENDMENTS'], 'XL. EXECUTIVE COMMUNICATIONS': ['Full Rule for: XL. EXECUTIVE COMMUNICATIONS'], 'XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES': ['Full Rule for: XLI. QUALIFICATIONS OF OFFICERS AND EMPLOYEES'], 'XLII. GENERAL PROVISIONS': ['Full Rule for: XLII. GENERAL PROVISIONS'], 'XLIII. CODE OF OFFICIAL CONDUCT': ['Full Rule for: XLIII. CODE OF OFFICIAL CONDUCT'], 'XLIV. FINANCIAL DISCLOSURE': ['Full Rule for: XLIV. FINANCIAL DISCLOSURE'], 'XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT': ['Full Rule for: XLIX. ESTABLISHMENT OF STATUTORY LIMIT ON THE PUBLIC DEBT'], 'XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME': ['Full Rule for: XLVII. LIMITATIONS ON OUTSIDE EMPLOYMENT AND EARNED INCOME'], 'XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE': ['Full Rule for: XLVIII. PERMANENT SELECT COMMITTEE ON INTELLIGENCE'], 'XV. ON CALLS OF THE ROLL AND HOUSE': ['Full Rule for: XV. ON CALLS OF THE ROLL AND HOUSE'], 'XVI. ON MOTIONS, THEIR PRECEDENCE, ETC': ['Full Rule for: XVI. ON MOTIONS, THEIR PRECEDENCE, ETC'], 'XVII. DECORUM AND DEBATE': ['Full Rule for: XVII. DECORUM AND DEBATE'], 'XVII. PREVIOUS QUESTION': ['Full Rule for: XVII. PREVIOUS QUESTION'], 'XVIII. RECONSIDERATION': ['Full Rule for: XVIII. RECONSIDERATION'], 'XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION': ['Full Rule for: XVIII. THE COMMITTEE OF THE WHOLE HOUSE ON THE STATE OF THE UNION'], 'XX.OF AMENDMENTS OF THE SENATE': ['Full Rule for: XX.OF AMENDMENTS OF THE SENATE'], 'XXI. ON BILLS': ['Full Rule for: XXI. ON BILLS'], 'XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS': ['Full Rule for: XXII. OF PETITIONS, MEMORIALS, BILLS, AND RESOLUTIONS'], 'XXIII. OF COMMITTEES OF THE WHOLE HOUSE': ['Full Rule for: XXIII. OF COMMITTEES OF THE WHOLE HOUSE'], 'XXIV. ORDER OF BUSINESS': ['Full Rule for: XXIV. ORDER OF BUSINESS'], 'XXIX. SECRET SESSION': ['Full Rule for: XXIX. SECRET SESSION'], 'XXV. PRIORITY OF BUSINESS': ['Full Rule for: XXV. PRIORITY OF BUSINESS'], 'XXV.PRIORITY OF BUSINESS': ['Full Rule for: XXV.PRIORITY OF BUSINESS'], 'XXVI. UNFINISHED BUSINESS OF THE SESSION': ['Full Rule for: XXVI. UNFINISHED BUSINESS OF THE SESSION'], 'XXVII. CHANGE OR SUSPENSION OF RULES': ['Full Rule for: XXVII. CHANGE OR SUSPENSION OF RULES'], 'XXVIII. CONFERENCE REPORTS': ['Full Rule for: XXVIII. CONFERENCE REPORTS'], 'XXX. READING OF PAPERS': ['Full Rule for: XXX. READING OF PAPERS'], 'XXX. USE OF EXHIBITS': ['Full Rule for: XXX. USE OF EXHIBITS'], 'XXXI. HALL OF THE HOUSE': ['Full Rule for: XXXI. HALL OF THE HOUSE'], 'XXXII. OF ADMISSION TO THE FLOOR': ['Full Rule for: XXXII. OF ADMISSION TO THE FLOOR'], 'XXXIII. OF ADMISSION TO THE GALLERIES': ['Full Rule for: XXXIII. OF ADMISSION TO THE GALLERIES'], 'XXXIV. OFFICIAL AND OTHER REPORTERS': ['Full Rule for: XXXIV. OFFICIAL AND OTHER REPORTERS'], 'XXXIX. MESSAGES': ['Full Rule for: XXXIX. MESSAGES'], 'XXXV. PAY OF WITNESSES': ['Full Rule for: XXXV. PAY OF WITNESSES'], 'XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE': ['Full Rule for: XXXVI. PRESERVATION AND AVAILABILITY OF NONCURRENT RECORDS OF THE HOUSE'], 'XXXVII. WITHDRAWAL OF PAPERS': ['Full Rule for: XXXVII. WITHDRAWAL OF PAPERS'], 'XXXVIII. BALLOT': ['Full Rule for: XXXVIII. BALLOT']}
-
-
-   // For post 105th rules - large
-   const select_nested = document.createElement("select");
-    select_nested.setAttribute('id', 'rule_selector');
-    select_nested.setAttribute( "onchange", "checkDiff()" );
-
-    let default_option = document.createElement("option");
-    default_option.setAttribute("disabled", "")
-    default_option.setAttribute("selected", "")
-    default_option.innerHTML = "-- select an option --"
-    select_nested.appendChild(default_option)
-
-    for (var groupName in nested_rules) {
-    var optgroup = document.createElement("optgroup");
-    optgroup.label = groupName;
-
-    for (var i = 0; i < nested_rules[groupName].length; i++) {
-        var option = document.createElement("option");
-        option.value = nested_rules[groupName][i];
-        option.text = nested_rules[groupName][i];
-        optgroup.appendChild(option);
-        if(i == nested_rules[groupName].length - 1){
-            option.value = nested_rules[groupName][i];
-            option.text = groupName;
-        } else {
-            option.value = nested_rules[groupName][i];
-            option.text = nested_rules[groupName][i];
-            option.setAttribute('class', 'hidden-option hidden')
-        }
-    }
-
-        select_nested.appendChild(optgroup);
-    }
-
-    // for post 105th rules - small
-    const select_nested_shorter = document.createElement("select");
-    select_nested_shorter.setAttribute('id', 'rule_selector');
-    select_nested_shorter.setAttribute( "onchange", "checkDiff()" );
-
-    let default_option_short = document.createElement("option");
-    default_option_short.setAttribute("disabled", "")
-    default_option_short.setAttribute("selected", "")
-    default_option_short.innerHTML = "-- select an option --"
-    select_nested_shorter.appendChild(default_option_short)
-
-    for (var groupName in nested_rules_short) {
-      // var optgroup = document.createElement("optgroup");
-      // optgroup.label = groupName;
-      
-
-      for (var i = 0; i < nested_rules_short[groupName].length; i++) {
-         var option = document.createElement("option");
-         
-         // optgroup.appendChild(option);
-         if(i == nested_rules_short[groupName].length - 1){
-               option.value = nested_rules_short[groupName][i];
-               if(groupName === "RULE I. THE SPEAKER"){
-                  option.text = "I. THE SPEAKER";
-               } else {
-                  option.text = groupName;
-               }
-               
-         } else {
-               option.value = nested_rules_short[groupName][i];
-               option.text = nested_rules_short[groupName][i];
-               option.setAttribute('class', 'hidden-option hidden')
-         }
-
-         select_nested_shorter.appendChild(option);
-      }
-
-      
-    }
-
-    // for pre 105th rules - large
-    const select_nested_older = document.createElement("select");
-    select_nested_older.setAttribute('id', 'rule_selector');
-    select_nested_older.setAttribute( "onchange", "checkDiff()" );
-    let default_option_older_long = document.createElement("option");
-    default_option_older_long.setAttribute("disabled", "")
-    default_option_older_long.setAttribute("selected", "")
-    default_option_older_long.innerHTML = "-- select an option --"
-    select_nested_older.appendChild(default_option_older_long)
-
-    
-
-    // loop through the optgroups and add them to the <select> element
-    for (var groupName in nested_rules_older) {
-    // create the optgroup
-    var optgroup = document.createElement("optgroup");
-    optgroup.label = groupName;
-
-    // loop through the options in the optgroup and add them to the optgroup
-    for (var i = 0; i < nested_rules_older[groupName].length; i++) {
-        var option = document.createElement("option");
-        option.value = nested_rules_older[groupName][i];
-        option.text = nested_rules_older[groupName][i];
-        optgroup.appendChild(option);
-        if(i == nested_rules_older[groupName].length - 1){
-            option.value = nested_rules_older[groupName][i];
-            option.text = groupName;
-        } else {
-            option.value = nested_rules_older[groupName][i];
-            option.text = nested_rules_older[groupName][i];
-            option.setAttribute('class', 'hidden-option hidden')
-        }
         
-    }
-
-        select_nested_older.appendChild(optgroup);
-    }
-    // for pre-105th rules - small
-    const select_nested_older_shorter = document.createElement("select");
-    select_nested_older_shorter.setAttribute('id', 'rule_selector');
-    select_nested_older_shorter.setAttribute( "onchange", "checkDiff()" );
-    let default_option_older_shorter = document.createElement("option");
-    default_option_older_shorter.setAttribute("disabled", "")
-    default_option_older_shorter.setAttribute("selected", "")
-    default_option_older_shorter.innerHTML = "-- select an option --"
-    select_nested_older_shorter.appendChild(default_option_older_shorter)
-
-    
-
-    // loop through the optgroups and add them to the <select> element
-    for (var groupName in nested_rules_older_short) {
-    // create the optgroup
-    var optgroup = document.createElement("optgroup");
-    optgroup.label = groupName;
-      
-    // loop through the options in the optgroup and add them to the optgroup
-    for (var i = 0; i < nested_rules_older_short[groupName].length; i++) {
-        var option = document.createElement("option");
-        option.value = nested_rules_older_short[groupName][i];
-        option.text = nested_rules_older_short[groupName][i];
-        // optgroup.appendChild(option);
-        if(i == nested_rules_older_short[groupName].length - 1){
-            option.value = nested_rules_older_short[groupName][i];
-            option.text = groupName;
-        } else {
-            option.value = nested_rules_older_short[groupName][i];
-            option.text = nested_rules_older_short[groupName][i];
-            option.setAttribute('class', 'hidden-option hidden')
-        }
-        select_nested_older_shorter.appendChild(option);
-    }
-
-      // select_nested_older_shorter.appendChild(optgroup);
-    }
-    // console.log(select_nested)
-    // console.log(select_nested_shorter)
-    // console.log(select_nested_older)
-    // console.log(select_nested_older_shorter)
-
-    // rules box 
-    document.querySelector(".rules_box").appendChild(select_nested_shorter)
-    const status_span = document.createElement("span");
-    status_span.setAttribute('id', 'status_span');
-    document.querySelector(".rules_box").appendChild(status_span)
+   
 
    let long = 0;
    let rule_age = 0;
    let diff_disabled = 0;
-    
-    // Flip between old and new ones    
-    function flip_rules(){
-        console.log("Flipping rules")
-        let rule_flip_button = document.getElementById("rule_flip")
-
-        console.log(rule_flip_button.innerHTML)
-        if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
-            rule_age = 1
-
-            // remove element here
-            // document.getElementById("rule_selector").remove()
-            rule_flip_button.style.background = "teal"
-
-
-            rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
-            // document.querySelector(".rules_box").appendChild(select_nested_older)
-
-        } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
-            rule_age = 0
-            // remove element here
-            // document.getElementById("rule_selector").remove()
-            rule_flip_button.style.background = "#CA5252"
-
-            rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
-            // document.querySelector(".rules_box").appendChild(select_nested)
-
-        }
-    }
-    const toggleButton = document.getElementById('title_button');
-    toggleButton.addEventListener('click', function() {
-            const hiddenOptions = document.querySelectorAll('.hidden-option');
-            
-            if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
-                toggleButton.innerHTML = "Disable selecting specific titles"
-                toggleButton.style.background = "teal"
-                long = 1;
-            } else {
-                toggleButton.innerHTML = "Enable selecting specific titles"
-                toggleButton.style.background = "#CA5252"
-                long = 0;
-                
-            }
-
-            hiddenOptions.forEach(option => {
-                if (option.classList.contains('hidden')) {
-                    option.classList.remove('hidden');
-                } else {
-                    option.classList.add('hidden');
-                }
-            });
-        });
-   const diff_button = document.getElementById('diff_disable_button');
-   diff_button.addEventListener('click', function(){
-
-      if(diff_button.style.background === "#CA5252" || diff_button.style.background === "" || diff_button.style.background === 'rgb(202, 82, 82)'){
-               diff_button.innerHTML = "Enable Diff"
-               diff_button.style.background = "teal"
-               diff_disabled = 1;
-            } else {
-               diff_button.innerHTML = "Disable diff"
-               diff_button.style.background = "#CA5252"
-               diff_disabled = 0;
-                
-            }
-
-   })
-    // Hide/Reveal rules
-    document.addEventListener("DOMContentLoaded", function() {
-
-         [...document.querySelectorAll('.rule_flip_button_click')].forEach(function(item) {
-         item.addEventListener('click', function() {
-            
-            
-
-            if(long === 0 && rule_age === 0){
-               // select_nested_shorter
-               document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_shorter)
-               
-            } else if(long === 1 && rule_age === 0){
-               // select_nested
-               document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested)
-
-            } else if(long === 0 && rule_age === 1){
-               // select_nested_older_shorter
-               document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_older_shorter)
-
-            } else if(long === 1 && rule_age === 1){
-               // select_nested_older
-               document.getElementById("rule_selector").remove()
-               document.querySelector(".rules_box").appendChild(select_nested_older)
-            }
-
-            
-         });
-            });
-        
-
-      
-        
-
-        const gpt_button = document.getElementById('gpt_button');
-        gpt_button.addEventListener('click', function() {
-            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
-            console.log(gpt_hidden_elements)
-            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
-                gpt_button.innerHTML = "Disable GPT"
-                gpt_button.style.background = "teal"
-            } else {
-                gpt_button.innerHTML = "Enable GPT"
-                gpt_button.style.background = "#CA5252"
-                
-            }
-
-            gpt_hidden_elements.forEach(option => {
-                if (option.classList.contains('gpt-hide')) {
-                    option.classList.remove('gpt-hide');
-                } else {
-                    option.classList.add('gpt-hide');
-                }
-            });
-
-        });
-
-    });
-
-    // GPT button
-
-            
-    function changeInCongress(){
-
-        const congresses_with_party = [
-        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy (R)", Minority_Leader: "Hakeem Jeffries (D)", Years: "2023–2025", Democratic_Seats: "212", Republican_Seats: "222"},
+   let first_selected = 0;
+   const congresses_with_party = [
+        {Congress: "118th", Party: "Republican", Speaker: "Kevin McCarthy (R) / Patrick McHenry (R) (pro tempore) / Mike Johnson (R)", Minority_Leader: "Hakeem Jeffries (D)", Years: "2023–2025", Democratic_Seats: "212", Republican_Seats: "222"},
         {Congress: "117th", Party: "Democratic", Speaker: "Nancy Pelosi (D)", Minority_Leader: "Kevin McCarthy (R)", Years: "2021–2023", Democratic_Seats: "222", Republican_Seats: "211"},
         {Congress: "116th", Party: "Democratic", Speaker: "Nancy Pelosi (D)", Minority_Leader: "Kevin McCarthy (R)", Years: "2019–2021", Democratic_Seats: "235", Republican_Seats: "199"},
         {Congress: "115th", Party: "Republican", Speaker: "Paul Ryan (R)", Minority_Leader: "Nancy Pelosi (D)", Years: "2017–2019", Democratic_Seats: "194", Republican_Seats: "241"},
@@ -1414,6 +242,111 @@
         {Congress: "79th", Party: "Democratic", Speaker: "Sam Rayburn (D)", Minority_Leader: "Joseph W. Martin Jr (R)", Years: "1945–1947", Democratic_Seats: "242", Republican_Seats: "190"},
         {Congress: "78th", Party: "Democratic", Speaker: "Sam Rayburn (D)", Minority_Leader: "Joseph W. Martin Jr (R)", Years: "1943–1945", Democratic_Seats: "254", Republican_Seats: "165"},
             ]
+    
+    // Flip between old and new ones    
+    function flip_rules(){
+        console.log("Flipping rules")
+        let rule_flip_button = document.getElementById("rule_flip")
+
+        console.log(rule_flip_button.innerHTML)
+        if(rule_flip_button.innerHTML === "Switch to pre-105th Congress Rules"){
+            rule_age = 1
+
+            // remove element here
+            // document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "teal"
+
+
+            rule_flip_button.innerHTML = "Switch to post-105th Congress Rules"
+            // document.querySelector(".rules_box").appendChild(select_nested_older)
+
+        } else if(rule_flip_button.innerHTML === "Switch to post-105th Congress Rules"){
+            rule_age = 0
+            // remove element here
+            // document.getElementById("rule_selector").remove()
+            rule_flip_button.style.background = "#CA5252"
+
+            rule_flip_button.innerHTML = "Switch to pre-105th Congress Rules"
+            // document.querySelector(".rules_box").appendChild(select_nested)
+
+        }
+    }
+    const toggleButton = document.getElementById('title_button');
+    toggleButton.addEventListener('click', async function() {
+            const hiddenOptions = document.querySelectorAll('.hidden-option');
+            
+            if(toggleButton.style.background === "#CA5252" || toggleButton.style.background === "" || toggleButton.style.background === 'rgb(202, 82, 82)'){
+                toggleButton.innerHTML = "Disable selecting specific titles"
+                toggleButton.style.background = "teal"
+                long = 1;
+                
+               // Flip the rules to the long ones
+               
+            } else {
+                toggleButton.innerHTML = "Enable selecting specific titles"
+                toggleButton.style.background = "#CA5252"
+                long = 0;
+                
+            }
+
+            hiddenOptions.forEach(option => {
+                if (option.classList.contains('hidden')) {
+                    option.classList.remove('hidden');
+                } else {
+                    option.classList.add('hidden');
+                }
+            });
+        });
+   const diff_button = document.getElementById('diff_disable_button');
+   diff_button.addEventListener('click', function(){
+
+      if(diff_button.style.background === "#CA5252" || diff_button.style.background === "" || diff_button.style.background === 'rgb(202, 82, 82)'){
+               diff_button.innerHTML = "Enable Diff"
+               diff_button.style.background = "teal"
+               diff_disabled = 1;
+            } else {
+               diff_button.innerHTML = "Disable diff"
+               diff_button.style.background = "#CA5252"
+               diff_disabled = 0;
+                
+            }
+
+   })
+    // Hide/Reveal rules
+    document.addEventListener("DOMContentLoaded", function() {
+
+
+        const gpt_button = document.getElementById('gpt_button');
+        gpt_button.addEventListener('click', function() {
+            const gpt_hidden_elements = document.querySelectorAll('.gpt-exp');
+            console.log(gpt_hidden_elements)
+            if(gpt_button.style.background === "#CA5252" || gpt_button.style.background === "" || gpt_button.style.background === 'rgb(202, 82, 82)'){
+                gpt_button.innerHTML = "Disable GPT"
+                gpt_button.style.background = "teal"
+            } else {
+                gpt_button.innerHTML = "Enable GPT"
+                gpt_button.style.background = "#CA5252"
+                
+            }
+
+            gpt_hidden_elements.forEach(option => {
+                if (option.classList.contains('gpt-hide')) {
+                    option.classList.remove('gpt-hide');
+                } else {
+                    option.classList.add('gpt-hide');
+                }
+            });
+
+        });
+
+    });
+
+    // GPT button
+
+            
+    async function changeInCongress(){
+
+      
 
         first_year = document.getElementById('congress_1')
         second_year = document.getElementById('congress_2')
@@ -1482,7 +415,203 @@
         rep_seats_now.innerHTML = congress_first.Republican_Seats
         rep_seats_then.innerHTML = congress_second.Republican_Seats
 
+        // Updating the lists
+
+        let congressional_rules_first = await fetch(`/api/generate_lists?congress=${congress_first.Congress}`)  
+        let congressional_rules_second = await fetch(`/api/generate_lists?congress=${congress_second.Congress}`)          
+        
+        obj_1 = await congressional_rules_first.json();
+        obj_2 = await congressional_rules_second.json();
+        // console.log(obj_1)
+        // console.log(long)
+
+        // Use the "long" function to generate the lists to be compared...
+        // Hmm, how to set up the schema...
+        const rule_select_one = document.getElementById('congress_rules_1');
+        const rule_select_two = document.getElementById('congress_rules_2');
+        
+        rule_select_one.innerHTML = "-- select an option for the first rule --"
+        rule_select_two.innerHTML = "-- select an option for the first rule --"
+
+
+        if (long === 0){
+
+         let short_rules_one = obj_1.short_rules
+
+         for (let groupName in short_rules_one) {
+            var optgroup = document.createElement("optgroup");
+            optgroup.label = groupName;
+            
+            for (var i = 0; i < short_rules_one[groupName].length; i++) {
+               var option = document.createElement("option");
+               option.value = short_rules_one[groupName][i];
+               option.text = short_rules_one[groupName][i];
+               optgroup.appendChild(option);
+               if(i == short_rules_one[groupName].length - 1){
+                     option.value = short_rules_one[groupName][i];
+                     option.text = groupName;
+               } else {
+                     option.value = short_rules_one[groupName][i];
+                     option.text = short_rules_one[groupName][i];
+                     option.setAttribute('class', 'hidden-option hidden')
+               }
+               
+            }
+            rule_select_one.appendChild(optgroup);
+         }
+
+         // For the second set of rules
+         let short_rules_two = obj_2.short_rules
+
+         for (let groupName in short_rules_two) {
+            var optgroup = document.createElement("optgroup");
+            optgroup.label = groupName;
+            
+            for (var i = 0; i < short_rules_two[groupName].length; i++) {
+               var option = document.createElement("option");
+               option.value = short_rules_two[groupName][i];
+               option.text = short_rules_two[groupName][i];
+               optgroup.appendChild(option);
+               if(i == short_rules_two[groupName].length - 1){
+                     option.value = short_rules_two[groupName][i];
+                     option.text = groupName;
+               } else {
+                     option.value = short_rules_two[groupName][i];
+                     option.text = short_rules_two[groupName][i];
+                     option.setAttribute('class', 'hidden-option hidden')
+               }
+               
+            }
+            rule_select_two.appendChild(optgroup);
+         }
+
+         if(first_selected === 0){
+            first_selected = 1; 
+            let newOption = document.createElement("option");
+            newOption.text = "-- select an option for the first rule --"
+            newOption.value = "-- select an option for the first rule --"
+            newOption.disabled = true;
+            rule_select_one.add(newOption);
+            newOption.selected = true;
+
+            let newOption_2 = document.createElement("option");
+            newOption_2.text = "-- select an option for the first rule --"
+            newOption_2.value = "-- select an option for the first rule --"
+            newOption_2.disabled = true;
+            rule_select_two.add(newOption_2);
+            newOption_2.selected = true;
+         }
+        
+        } else {
+         // Long rules when long === 1
+         let long_rules_one = obj_1.long_rules
+         for (let groupName in long_rules_one) {
+            var optgroup = document.createElement("optgroup");
+            optgroup.label = groupName;
+            
+            for (var i = 0; i < long_rules_one[groupName].length; i++) {
+               var option = document.createElement("option");
+               option.value = long_rules_one[groupName][i];
+               option.text = long_rules_one[groupName][i];
+               optgroup.appendChild(option);
+               if(i == long_rules_one[groupName].length - 1){
+                     option.value = long_rules_one[groupName][i];
+                     option.text = groupName;
+               } else {
+                  option.value = long_rules_one[groupName][i];
+                  option.text = long_rules_one[groupName][i];
+                  option.setAttribute('class', 'hidden-option hidden')
+               }
+      
+            }
+            rule_select_one.appendChild(optgroup);
+
+         }
+
+         // For the second set of rules
+         let long_rules_two = obj_2.long_rules
+         for (let groupName in long_rules_two) {
+            var optgroup = document.createElement("optgroup");
+            optgroup.label = groupName;
+            
+            for (var i = 0; i < long_rules_two[groupName].length; i++) {
+               var option = document.createElement("option");
+               option.value = long_rules_two[groupName][i];
+               option.text = long_rules_two[groupName][i];
+               optgroup.appendChild(option);
+               if(i == long_rules_two[groupName].length - 1){
+                     option.value = long_rules_two[groupName][i];
+                     option.text = groupName;
+               } else {
+                  option.value = long_rules_two[groupName][i];
+                  option.text = long_rules_two[groupName][i];
+                  option.setAttribute('class', 'hidden-option hidden')
+               }
+      
+            }
+            rule_select_two.appendChild(optgroup);
+
+         }
+
+         if(first_selected === 0){
+            first_selected = 1; 
+            let newOption = document.createElement("option");
+            newOption.text = "-- select an option for the first rule --"
+            newOption.value = "-- select an option for the first rule --"
+            newOption.disabled = true;
+            rule_select_one.add(newOption);
+            newOption.selected = true;
+
+            let newOption_2 = document.createElement("option");
+            newOption_2.text = "-- select an option for the first rule --"
+            newOption_2.value = "-- select an option for the first rule --"
+            newOption_2.disabled = true;
+            rule_select_two.add(newOption_2);
+            newOption_2.selected = true;
+         }
+
+        }
+      
+      // This is now where the text for the diff will bee added...
+      // console.log(rule_select_one.value)
+      // console.log(rule_select_two.value)
+
+      /*
+      No need to do this!
+      res_1 = await fetch(`/api?congress=${congress_first.Congress}&title=${rule_select_one.value}`)          
+      res_2 = await fetch(`/api?congress=${congress_second.Congress}&title=${rule_select_two.value}`)
+
+      obj_1 = await res_1.json();
+      obj_2 = await res_2.json();
+
+      document.getElementById("new_text").innerHTML = obj_1.Result
+      document.getElementById("old_text").innerHTML = obj_2.Result
+      */
+
     }
+    // Need a event handler for the selects as well
+    // So that changing the individual ones also ... works
+   const rule_select_one = document.getElementById('congress_rules_1');
+   const rule_select_two = document.getElementById('congress_rules_2');
+
+   rule_select_one.addEventListener('change', async function(){
+      document.getElementById("old_text").innerHTML = ''
+      first_year = document.getElementById('congress_1')
+      const rule_select_one = document.getElementById('congress_rules_1');
+      res_1 = await fetch(`/api?congress=${first_year.value}&title=${rule_select_one.value}`)   
+      obj_1 = await res_1.json();       
+      document.getElementById("old_text").innerHTML = obj_1.Result
+   })
+
+   rule_select_two.addEventListener('change', async function(){
+      document.getElementById("new_text").innerHTML = ''
+      second_year = document.getElementById('congress_2')
+      const rule_select_two = document.getElementById('congress_rules_2');
+      console.log(first_year.value)
+      res_2 = await fetch(`/api?congress=${second_year.value}&title=${rule_select_two.value}`)   
+      obj_2 = await res_2.json();       
+      document.getElementById("new_text").innerHTML = obj_2.Result
+   })
     
         async function generateDiff(){
                 const gpt_button = document.getElementById("gpt_button")                
@@ -1491,20 +620,21 @@
                 second_year = document.getElementById('congress_1')
                 
                 first_rule = document.getElementById('rules_1')
-                first_rule_new = document.getElementById("rule_selector").value
+                // first_rule_new = document.getElementById("rule_selector").value
+
+                const rule_select_one = document.getElementById('congress_rules_1');
+                const rule_select_two = document.getElementById('congress_rules_2');
+                
 
                 if (first_year.value !== second_year.value){
                 
-                    res_1 = await fetch(`/api?congress=${first_year.value}&title=${first_rule_new}`)          
-                    res_2 = await fetch(`/api?congress=${second_year.value}&title=${first_rule_new}`)
+                    res_1 = await fetch(`/api?congress=${first_year.value}&title=${rule_select_one.value}`)          
+                    res_2 = await fetch(`/api?congress=${second_year.value}&title=${rule_select_two.value}`)
 
                     if (res_1.status === 200 && res_2.status === 200){
 
                         obj_1 = await res_1.json();
                         obj_2 = await res_2.json();
-                        
-                        // console.log(obj_1)
-                        // console.log(obj_2)
 
                         document.getElementById("new_text").innerHTML = obj_1.Result
                         document.getElementById("old_text").innerHTML = obj_2.Result
@@ -1577,7 +707,7 @@
                                 congress_1: first_year.value,
                                 congress_2: second_year.value,
 
-                                rule_title: first_rule_new,
+                                rule_title: rule_select_one.value,
                             }
 
                             gpt_comparer_res = await fetch(`/api/openai`,
@@ -1600,43 +730,7 @@
 
         }
 
-        async function checkDiff() {
-                first_year = document.getElementById('congress_2')
-                second_year = document.getElementById('congress_1')
-                
-                first_rule = document.getElementById('rules_1')
-                first_rule_new = document.getElementById("rule_selector").value
-
-                if (first_year.value !== second_year.value){
-                
-                    res_1 = await fetch(`/api?congress=${first_year.value}&title=${first_rule_new}`)          
-                    res_2 = await fetch(`/api?congress=${second_year.value}&title=${first_rule_new}`)
-
-                    if (res_1.status === 200 && res_2.status === 200){
-
-                    obj_1 = await res_1.json();
-                    obj_2 = await res_2.json();
-                    
-                    const new_text = obj_1.Result;
-                    const old_text = obj_2.Result
-
-                    let status_span = document.getElementById("status_span")
-                    if(new_text === old_text){
-                        console.log("No change in text")
-                        // status_span.innerHTML = "No change in text"
-                    } else {
-                        console.log("Change in text")
-                        // status_span.innerHTML = "Change in text"
-                    }
-
-                    
-                } else {
-                    alert("Rule does not exist in both years. Try different years")
-                }
-            } else {
-                alert("Congresses are the same years. Pick a different Congresses.")
-            }
-        }
+        
         compare_button_id = document.getElementById('compare_button')
         compare_button_id.addEventListener("click", generateDiff);
 
