@@ -16,6 +16,9 @@
                 <strong>About</strong>
             </button>
         </nav>
+        <nav>
+          <h2>A Research Tool to Compare Versions of the Rules of the US House of Representatives</h2>
+        </nav>
         <article class="grid-container">
             <div class = "text_box_padding">
                 <h3>Select Congresses to compare</h3>
@@ -64,8 +67,12 @@
                     <p>Years: <span id="current_years">2023-2025</span></p>
 
                     <p>Democratic Seats: <span id="current_seats_d">216</span></p>
-                    <p>Republican Seats: <span id="current_seats_r">222</span></p>
-                </div>
+                    <p>Republican Seats: <span id="current_seats_r">222</span><sup>1</sup></p>
+                     <p style="
+                     font-style: italic;
+                     color: #7d7f7c;"><small><sup>1</sup>Seats reflect the start of the Congress.</small></p>
+               
+                  </div>
                 <div>
                     <h3><span id="speaker_then_header"> 117th </span> Congress</h3>
                     <p>Speaker: <span id="speaker_then">Nancy Pelosi (D)</span></p>
@@ -75,7 +82,11 @@
                     <p>Years: <span id="previous_years">2021-2023</span></p>
 
                     <p>Democratic Seats: <span id="previous_seats_d">222</span></p>
-                    <p>Republican Seats: <span id="previous_seats_r">211</span></p>
+                    <p>Republican Seats: <span id="previous_seats_r">211</span><sup>1</sup></p>
+
+                    <p style="
+                    font-style: italic;
+                    color: #7d7f7c;"><small><sup>1</sup>Seats reflect the start of the Congress.</small></p>
 
                 </div>
 
@@ -439,14 +450,14 @@
          let short_rules_one = obj_1.short_rules
 
          for (let groupName in short_rules_one) {
-            var optgroup = document.createElement("optgroup");
-            optgroup.label = groupName;
+            //var optgroup = document.createElement("optgroup");
+            // optgroup.label = groupName;
             
             for (var i = 0; i < short_rules_one[groupName].length; i++) {
                var option = document.createElement("option");
                option.value = short_rules_one[groupName][i];
                option.text = short_rules_one[groupName][i];
-               optgroup.appendChild(option);
+               // optgroup.appendChild(option);
                if(i == short_rules_one[groupName].length - 1){
                      option.value = short_rules_one[groupName][i];
                      option.text = groupName;
@@ -455,23 +466,23 @@
                      option.text = short_rules_one[groupName][i];
                      option.setAttribute('class', 'hidden-option hidden')
                }
-               
+               rule_select_one.appendChild(option);
             }
-            rule_select_one.appendChild(optgroup);
+            
          }
 
          // For the second set of rules
          let short_rules_two = obj_2.short_rules
 
          for (let groupName in short_rules_two) {
-            var optgroup = document.createElement("optgroup");
-            optgroup.label = groupName;
+            // var optgroup = document.createElement("optgroup");
+            // optgroup.label = groupName;
             
             for (var i = 0; i < short_rules_two[groupName].length; i++) {
                var option = document.createElement("option");
                option.value = short_rules_two[groupName][i];
                option.text = short_rules_two[groupName][i];
-               optgroup.appendChild(option);
+               //optgroup.appendChild(option);
                if(i == short_rules_two[groupName].length - 1){
                      option.value = short_rules_two[groupName][i];
                      option.text = groupName;
@@ -480,9 +491,8 @@
                      option.text = short_rules_two[groupName][i];
                      option.setAttribute('class', 'hidden-option hidden')
                }
-               
+               rule_select_two.appendChild(option);  
             }
-            rule_select_two.appendChild(optgroup);
          }
 
          if(first_selected === 0){
