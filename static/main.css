@@ -4,6 +4,13 @@ body {
   font-family: 'IBM Plex Serif', serif;
 }
 
+#logo {
+  width: 100px;
+  height: 100px;
+  float: left;
+  padding-right: 10px;
+}
+
 /* Loading animation*/
 
 .loading {

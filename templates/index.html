@@ -11,6 +11,7 @@
     </head>
     <body>
         <nav>
+            <img src="{{url_for('static', filename='logo_eagle-clear.png')}}" id="logo">
             <h1 style=font-size:48px>RulesCompare</h1>
             <button onclick="location.href = 'https://capitoldiffer.com/about';" >
                 <strong>About</strong>
@@ -582,22 +583,6 @@
 
         }
       
-      // This is now where the text for the diff will bee added...
-      // console.log(rule_select_one.value)
-      // console.log(rule_select_two.value)
-
-      /*
-      No need to do this!
-      res_1 = await fetch(`/api?congress=${congress_first.Congress}&title=${rule_select_one.value}`)          
-      res_2 = await fetch(`/api?congress=${congress_second.Congress}&title=${rule_select_two.value}`)
-
-      obj_1 = await res_1.json();
-      obj_2 = await res_2.json();
-
-      document.getElementById("new_text").innerHTML = obj_1.Result
-      document.getElementById("old_text").innerHTML = obj_2.Result
-      */
-
     }
     // Need a event handler for the selects as well
     // So that changing the individual ones also ... works
@@ -608,26 +593,35 @@
       document.getElementById("old_text").innerHTML = ''
       first_year = document.getElementById('congress_1')
       const rule_select_one = document.getElementById('congress_rules_1');
+      const rule_select_two = document.getElementById('congress_rules_2');
       res_1 = await fetch(`/api?congress=${first_year.value}&title=${rule_select_one.value}`)   
       obj_1 = await res_1.json();       
-      document.getElementById("old_text").innerHTML = obj_1.Result
+      document.getElementById("old_text").innerHTML = obj_1.Result + "<br>" + "<p>Download rules <a href='https://docs.google.com/spreadsheets/d/1tsAftegH7GbDDhECCSoyAr2o5JNSUhkVwE-sCQEcELs/edit#gid=0'>here</a>.</p>" 
+      console.log(rule_select_one.value)
+      for (var i of rule_select_two) {
+         if (i.value === rule_select_one.value) {
+            i.selected = true;
+            break;
+         }
+      }
+     
    })
 
    rule_select_two.addEventListener('change', async function(){
       document.getElementById("new_text").innerHTML = ''
       second_year = document.getElementById('congress_2')
       const rule_select_two = document.getElementById('congress_rules_2');
-      console.log(first_year.value)
       res_2 = await fetch(`/api?congress=${second_year.value}&title=${rule_select_two.value}`)   
       obj_2 = await res_2.json();       
-      document.getElementById("new_text").innerHTML = obj_2.Result
+      document.getElementById("new_text").innerHTML = obj_2.Result + "<br>" + "<p>Download rules <a href='https://docs.google.com/spreadsheets/d/1tsAftegH7GbDDhECCSoyAr2o5JNSUhkVwE-sCQEcELs/edit#gid=0'>here</a>.</p>" 
    })
-    
+
+
         async function generateDiff(){
                 const gpt_button = document.getElementById("gpt_button")                
 
-                first_year = document.getElementById('congress_2')
-                second_year = document.getElementById('congress_1')
+                first_year = document.getElementById('congress_1')
+                second_year = document.getElementById('congress_2')
                 
                 first_rule = document.getElementById('rules_1')
                 // first_rule_new = document.getElementById("rule_selector").value
@@ -637,7 +631,10 @@
                 
 
                 if (first_year.value !== second_year.value){
-                
+                  console.log(first_year.value)
+                  console.log(second_year.value)
+                  console.log(rule_select_one.value)
+                  console.log(rule_select_two.value)
                     res_1 = await fetch(`/api?congress=${first_year.value}&title=${rule_select_one.value}`)          
                     res_2 = await fetch(`/api?congress=${second_year.value}&title=${rule_select_two.value}`)
 
@@ -646,8 +643,8 @@
                         obj_1 = await res_1.json();
                         obj_2 = await res_2.json();
 
-                        document.getElementById("new_text").innerHTML = obj_1.Result
-                        document.getElementById("old_text").innerHTML = obj_2.Result
+                        document.getElementById("new_text").innerHTML = obj_1.Result + "<br>" + "<p>Download rules <a href='https://docs.google.com/spreadsheets/d/1tsAftegH7GbDDhECCSoyAr2o5JNSUhkVwE-sCQEcELs/edit#gid=0'>here</a>.</p>" 
+                        document.getElementById("old_text").innerHTML = obj_2.Result + "<br>" + "<p>Download rules <a href='https://docs.google.com/spreadsheets/d/1tsAftegH7GbDDhECCSoyAr2o5JNSUhkVwE-sCQEcELs/edit#gid=0'>here</a>.</p>" 
                         // console.log(diff_disabled)
                         if (diff_disabled === 0){
                            const diff = JsDiff.diffWordsWithSpace(obj_1.Result, obj_2.Result)
